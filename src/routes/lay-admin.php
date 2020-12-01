@@ -26,6 +26,7 @@ Route::namespace('Vinlon\Laravel\LayAdmin\Controllers')->prefix('admin')->group(
         Route::get('menuTree', 'MenuController@getMenuTree');
         Route::post('menu', 'MenuController@saveMenu');
         Route::get('menu', 'MenuController@getMenuList');
+        Route::delete('menu', 'MenuController@deleteMenu');
 
         Route::get('role/{roleId}', 'RoleController@getRole');
         Route::get('role', 'RoleController@getRoleList');
