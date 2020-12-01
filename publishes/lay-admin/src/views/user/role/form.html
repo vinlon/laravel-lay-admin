@@ -1,0 +1,105 @@
+<!--开启页面选项卡后，显示为选项卡标题-->
+<title>角色添加/修改</title>
+
+<div class="layui-card layadmin-header">
+  <div class="layui-breadcrumb" lay-filter="breadcrumb">
+    <a><cite>用户</cite></a>
+    <a lay-href="/user/role/" class="layui-table-link"><cite>角色管理</cite></a>
+    <script type="text/html" template>
+      <a><cite> {{ layui.router().search.id ? '修改': '添加' }}角色</cite></a>
+    </script>
+  </div>
+</div>
+
+<div class="layui-fluid">
+  <div class="layui-card">
+    <div class="layui-form" lay-filter="LAY-role-form" style="padding: 20px;">
+      <script type="text/html" template>
+        <div class="layui-form-item">
+          <label class="layui-form-label">角色名称</label>
+          <div class="layui-input-block">
+            <input type="hidden" name="id" value="{{ d.params.id || '' }}"/>
+            <input type="text" name="name" value="{{ d.params.name || '' }}" lay-verify="required"
+                   lay-reqtext="请输入角色名称" placeholder="请输入角色名称" autocomplete="off" class="layui-input">
+          </div>
+        </div>
+        <div class="layui-form-item">
+          <label class="layui-form-label">角色描述</label>
+          <div class="layui-input-block">
+            <textarea name="description" placeholder="请输入角色描述" class="layui-textarea">
+              {{ d.params.description || '' }}
+            </textarea>
+          </div>
+        </div>
+        <div class="layui-form-item">
+          <label class="layui-form-label">菜单权限</label>
+          <div class="layui-input-block">
+            <div id="LAY-role-menu-tree" class="demo-tree-more"></div>
+          </div>
+        </div>
+        <div class="layui-form-item">
+          <label class="layui-form-label"></label>
+          <div class="layui-input-inline">
+            <input type="button" lay-submit lay-filter="LAY-role-submit" value="确认" class="layui-btn">
+            <a lay-href="/user/role/" class="layui-btn">返回</a>
+          </div>
+        </div>
+      </script>
+    </div>
+  </div>
+</div>
+<script>
+  layui.use(['tree', 'admin', 'form'], function () {
+    let tree = layui.tree
+        , admin = layui.admin
+        , form = layui.form
+        , router = layui.router()
+
+    form.render(null, 'LAY-role-form');
+    let roleId = router.search.id;
+    admin.get('admin/menuTree', function (res) {
+      //加载菜单树
+      tree.render({
+        elem: '#LAY-role-menu-tree'
+        , data: res.data
+        , showCheckbox: true  //是否显示复选框
+        , id: 'menu-tree'
+      });
+      //查询角色信息，并加载form
+      if (roleId) {
+        admin.get('./admin/role/' + roleId, function (res) {
+          form.val('LAY-role-form', res.data);
+          tree.setChecked('menu-tree', res.data.sub_menu_ids);
+        })
+      }
+    });
+
+    //提交事件监听
+    form.on('submit(LAY-role-submit)', function (data) {
+      let menus = tree.getChecked('menu-tree'); //获取选中节点的数据
+      if (menus.length === 0) {
+        layer.msg('请设置角色可访问的菜单');
+        return;
+      }
+      let menuIds = [];
+      menus.forEach(function (pMenu) {
+        menuIds.push(pMenu.id);
+        if (pMenu.children) {
+          pMenu.children.forEach(function (menu) {
+            menuIds.push(menu.id);
+          });
+        }
+      });
+      let field = data.field;
+      field.menu_id_list = menuIds;
+      console.log(field);
+      admin.post('admin/role', field, function (res) {
+        location.hash = '/user/role/'
+      })
+    });
+  });
+</script>
+
+
+
+

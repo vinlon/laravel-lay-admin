@@ -1,0 +1,14 @@
+<script>
+  layui.use(['admin'], function () {
+    let admin = layui.admin;
+    admin.get('admin/sidebar', function (res) {
+      res.data.some(function (pMenu) {
+        pMenu.list.some(function (subMenu) {
+          location.hash = '/' + subMenu.jump;
+          return true;
+        });
+        return true;
+      })
+    })
+  });
+</script>

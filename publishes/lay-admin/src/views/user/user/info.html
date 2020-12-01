@@ -1,0 +1,73 @@
+<!--开启页面选项卡后，显示为选项卡标题-->
+<title>基本资料</title>
+
+<div class="layui-card layadmin-header">
+  <div class="layui-breadcrumb" lay-filter="breadcrumb">
+    <a><cite>我的</cite></a>
+    <a><cite>基本资料</cite></a>
+  </div>
+</div>
+
+<div class="layui-fluid">
+  <div class="layui-row layui-col-space15">
+    <div class="layui-col-md12">
+      <div class="layui-card">
+        <div class="layui-card-header">设置我的资料</div>
+        <div class="layui-card-body" pad15>
+          <div class="layui-form" lay-filter="LAY-profile-form">
+            <div class="layui-form-item">
+              <label class="layui-form-label">用户名</label>
+              <div class="layui-input-inline">
+                <input type="text" name="username" value="" class="layui-input">
+              </div>
+            </div>
+            <div class="layui-form-item">
+              <label class="layui-form-label">姓名/昵称</label>
+              <div class="layui-input-inline">
+                <input type="text" name="real_name" value="" autocomplete="off"
+                       placeholder="请输入姓名/昵称" class="layui-input">
+              </div>
+            </div>
+            <div class="layui-form-item">
+              <label class="layui-form-label">手机</label>
+              <div class="layui-input-inline">
+                <input type="text" name="mobile" value="" lay-verify="phone" autocomplete="off"
+                       class="layui-input">
+              </div>
+            </div>
+            <div class="layui-form-item">
+              <label class="layui-form-label">邮箱</label>
+              <div class="layui-input-inline">
+                <input type="text" name="email" value="" lay-verify="email" autocomplete="off"
+                       class="layui-input">
+              </div>
+            </div>
+            <div class="layui-form-item">
+              <div class="layui-input-block">
+                <button class="layui-btn" lay-submit lay-filter="LAY-profile-submit">确认修改</button>
+                <button onclick="history.back()" class="layui-btn layui-btn-primary">返回</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  layui.use(['admin', 'form'], function () {
+    let form = layui.form
+        , admin = layui.admin;
+    form.render(null, 'LAY-profile-form');
+    admin.get('admin/profile', function (res) {
+      form.val('LAY-profile-form', res.data);
+    });
+    form.on('submit(LAY-profile-submit)', function (data) {
+      let field = data.field;
+      admin.post('admin/profile', field, function (res) {
+        layer.msg('更新成功')
+      })
+    })
+  });
+</script>

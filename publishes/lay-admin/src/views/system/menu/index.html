@@ -1,0 +1,50 @@
+<!--开启页面选项卡后，显示为选项卡标题-->
+<title>菜单管理</title>
+
+<div class="layui-card layadmin-header">
+  <div class="layui-breadcrumb" lay-filter="breadcrumb">
+    <a><cite>设置</cite></a>
+    <a lay-href="/system/menu/"> <cite> 菜单管理 </cite> </a>
+    <a>
+      <script type="text/html" template>
+        {{# if (layui.router().search.pid) { }}
+        <cite>{{ decodeURI(layui.router().search.p_title) }}</cite>
+        {{# } else { }}
+        <cite>一级菜单</cite>
+        {{# } }}
+      </script>
+    </a>
+  </div>
+</div>
+
+<div class="layui-fluid">
+  <div class="layui-card">
+    <div class="layui-card-body">
+      <div style="padding-bottom: 10px;">
+        <button id="LAY-menu-add" class="layui-btn" lay-event="add">
+          <script type="text/html" template>
+            {{# if (layui.router().search.pid) { }}
+            添加[{{ decodeURI(layui.router().search.p_title) }}]子菜单
+            {{# } else { }}
+            添加一级菜单
+            {{# } }}
+          </script>
+        </button>
+      </div>
+
+      <table id="LAY-menu-manage" lay-filter="LAY-menu-manage"></table>
+      <script type="text/html" id="LAY-menu-operate">
+        <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit"><i class="layui-icon layui-icon-edit"></i>编辑</a>
+        <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del"><i class="layui-icon layui-icon-delete"></i>删除</a>
+        {{# if(d.pid == 0) { }}
+        <a lay-href="/system/menu/index/pid={{ d.id }}/p_title={{ d.title }}"
+           class="layui-table-link" style="margin-left: 10px;">查看子菜单</a>
+        {{# } }}
+      </script>
+    </div>
+  </div>
+</div>
+
+<script>
+  layui.use('menu', layui.factory('menu'));
+</script>

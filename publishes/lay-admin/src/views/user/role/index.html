@@ -1,0 +1,33 @@
+<!--开启页面选项卡后，显示为选项卡标题-->
+<title>角色管理</title>
+
+<div class="layui-card layadmin-header">
+  <div class="layui-breadcrumb" lay-filter="breadcrumb">
+    <a><cite>用户</cite></a>
+    <a><cite>角色管理</cite></a>
+  </div>
+</div>
+
+<div class="layui-fluid">
+  <div class="layui-card">
+    <div class="layui-card-body">
+      <div style="padding-bottom: 10px;">
+        <a lay-href="user/role/form" class="layui-btn">添加角色</a>
+      </div>
+
+      <table id="LAY-role-manage" lay-filter="LAY-role-manage"></table>
+      <script type="text/html" id="LAY-role-operate">
+        {{# if(!d.is_root){ }}
+        <a lay-href="/user/role/form/id={{ d.id }}" class="layui-btn layui-btn-normal layui-btn-xs">
+          <i class="layui-icon layui-icon-edit"></i>编辑
+        </a>
+        <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del"><i class="layui-icon layui-icon-delete"></i>删除</a>
+        {{# } }}
+      </script>
+    </div>
+  </div>
+</div>
+
+<script>
+  layui.use('role', layui.factory('role'));
+</script>
