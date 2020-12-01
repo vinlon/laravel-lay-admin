@@ -27,7 +27,7 @@ class LayAdminServiceProvider extends ServiceProvider
         $this->loadRoutesFrom(__DIR__ . '/routes/lay-admin.php');
 
         //load migrations
-        $this->loadMigrationsFrom(__DIR__ . '/migrations');
+        $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
 
         // load views
         $this->loadViewsFrom(__DIR__ . '/views', 'lay-admin');
@@ -37,7 +37,7 @@ class LayAdminServiceProvider extends ServiceProvider
         // publish assets
         $this->publishes([
             __DIR__ . '/../publishes/assets' => public_path('assets'),
-            __DIR__ . '/../publishes/lay-admin/src' => public_path('lay-admin'),
+            __DIR__ . '/../publishes/lay-admin' => public_path('lay-admin'),
         ], 'public');
 
 

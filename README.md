@@ -7,10 +7,16 @@
     ```shell script
     composer require vinlon/laravel-lay-admin
     ```
-4. #### 创建数据库表并初始化数据
+2. #### 发布 public 文件
 
     ```
-    # 如果数据库中已经存在 wx_users表，需要先将其 drop
+    php artisan vendor:publish --provider="Vinlon\Laravel\LayAdmin\LayAdminServiceProvider" --tag=public --force
+    ```
+
+2. #### 创建数据库表并初始化数据
+
+    ```
+    # 如果数据库中已经存在对应的数据表，需要先将其 drop
     php artisan migrate
     php artisan db:seed --class=LayAdminSeeder
     ```
@@ -64,11 +70,14 @@
 
 ## 自定义请求方法 
 
-admin.get(url, doneCallback, options)
+    ```
+    admin.get(url, doneCallback, options)
+    
+    admin.post(url, data, doneCallback, options)
+    
+    admin.del(url, id, doneCallback, options)
+    ```
 
-admin.post(url, data, doneCallback, options)
-
-admin.del(url, id, doneCallback, options)
 
 
 

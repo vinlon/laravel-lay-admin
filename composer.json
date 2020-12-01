@@ -14,7 +14,7 @@
       "Vinlon\\Laravel\\LayAdmin\\": "src/"
     },
     "classmap": [
-      "src/seeds"
+      "database/seeds"
     ]
   },
   "extra": {
