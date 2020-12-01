@@ -2,7 +2,7 @@ layui.define(['table', 'form'], function (exports) {
   let $ = layui.$
       , table = layui.table
       , admin = layui.admin
-  let resourceUrl = './admin/role'
+  let resourceUrl = 'admin/roles'
   //角色管理
   table.render({
     elem: '#LAY-role-manage'
@@ -14,7 +14,6 @@ layui.define(['table', 'form'], function (exports) {
       , {field: 'created_at', title: '添加时间', minWidth: 100}
       , {title: '操作', width: 150, align: 'center', fixed: 'right', toolbar: '#LAY-role-operate'}
     ]]
-    , text: '数据加载失败，请联系管理员'
   });
 
   //监听工具条

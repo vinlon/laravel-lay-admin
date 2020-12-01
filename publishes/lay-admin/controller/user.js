@@ -4,7 +4,7 @@ layui.define(['table', 'form'], function (exports) {
       , view = layui.view
       , admin = layui.admin
       , form = layui.form
-  let resourceUrl = './admin/user'
+  let resourceUrl = 'admin/users'
   //用户管理
   table.render({
     elem: '#LAY-user-manage'
@@ -16,12 +16,11 @@ layui.define(['table', 'form'], function (exports) {
       , {field: 'created_at', title: '添加时间', minWidth: 200}
       , {title: '操作', width: 300, align: 'left', fixed: 'right', toolbar: '#LAY-user-operate'}
     ]]
-    , text: '数据加载失败，请联系管理员'
   });
 
   //加载角色数据
   let loadRole = function (callback) {
-    admin.get('admin/role', function (res) {
+    admin.get('admin/roles', function (res) {
       callback(res.data);
     });
   }
@@ -41,7 +40,7 @@ layui.define(['table', 'form'], function (exports) {
             //监听提交
             form.on('submit(LAY-user-submit)', function (data) {
               let field = data.field; //获取提交的字段
-              if (field.password != field.verify_password) {
+              if (field.password !== field.verify_password) {
                 layer.msg('两次输入的密码不一致');
                 return;
               }
@@ -85,7 +84,7 @@ layui.define(['table', 'form'], function (exports) {
                 return;
               }
               //提交 Ajax 成功后，关闭当前弹层并重载表格
-              admin.post('./admin/user/resetPassword', field, function (res) {
+              admin.post(resourceUrl + '/resetPassword', field, function (res) {
                 layer.close(index); //执行关闭
               })
             });

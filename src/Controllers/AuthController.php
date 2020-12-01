@@ -86,15 +86,15 @@ class AuthController extends BaseController
     public function updateProfile()
     {
         $param = request()->validate([
-            'real_name' => 'required',
-            'mobile' => 'required',
-            'email' => 'required'
+            'real_name' => 'nullable',
+            'mobile' => 'nullable',
+            'email' => 'nullable'
         ]);
         /** @var AdminUser $user */
         $user = $this->auth->user();
-        $user->real_name = $param['real_name'];
-        $user->mobile = $param['mobile'];
-        $user->email = $param['email'];
+        $user->real_name = $param['real_name'] ?? '';
+        $user->mobile = $param['mobile'] ?? '';
+        $user->email = $param['email'] ?? '';
         $user->save();
         return $this->successResponse();
     }

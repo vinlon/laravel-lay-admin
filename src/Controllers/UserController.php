@@ -45,10 +45,9 @@ class UserController extends BaseController
     }
 
 
-    public function deleteUser()
+    public function deleteUser($id)
     {
-        $param = request()->validate(['id' => 'required']);
-        $user = AdminUser::query()->find($param['id']);
+        $user = AdminUser::query()->find($id);
         $user->delete();
         return $this->successResponse();
     }

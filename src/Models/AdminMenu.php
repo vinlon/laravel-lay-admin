@@ -5,8 +5,6 @@ namespace Vinlon\Laravel\LayAdmin\Models;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * App\Models\Menu
- *
  * @property int $id
  * @property mixed|null $created_at
  * @property mixed|null $updated_at

@@ -49,7 +49,7 @@ layui.define('view', function (exports) {
         , del: function (url, id, doneCallback, options) {
           options = options || {};
           options.method = 'DELETE';
-          options.url = url + "?id=" + id;
+          options.url = url + "/" + id;
           options.done = doneCallback
           view.req(options)
         }

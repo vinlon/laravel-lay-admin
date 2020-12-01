@@ -5,7 +5,7 @@ layui.define(['table', 'form'], function (exports) {
       , admin = layui.admin
       , form = layui.form
 
-  let resourceUrl = './admin/menu'
+  let resourceUrl = 'admin/menus'
 
   //菜单管理
   table.render({
@@ -21,7 +21,6 @@ layui.define(['table', 'form'], function (exports) {
       , {field: 'created_at', title: '添加时间', minWidth: 100}
       , {title: '操作', width: 300, align: 'left', fixed: 'right', toolbar: '#LAY-menu-operate'}
     ]]
-    , text: '数据加载失败，请联系管理员'
   });
 
   let showAddForm = function (data) {
@@ -33,7 +32,7 @@ layui.define(['table', 'form'], function (exports) {
     data.pid = pid;
     data.p_title = decodeURI(layui.router().search.p_title);
     //查询同级菜单
-    admin.get('admin/menu?pid=' + pid, function (res) {
+    admin.get(resourceUrl + '?pid=' + pid, function (res) {
       data.siblings = res.data;
       admin.popup({
         title: title
@@ -69,31 +68,9 @@ layui.define(['table', 'form'], function (exports) {
           layui.table.reload('LAY-menu-manage'); //重载表格
         })
       });
-    } else if (obj.event === 'reset') {
-      admin.popup({
-        title: '重置密码'
-        , area: ['400px', '300px']
-        , id: 'LAY-popup-menu-reset'
-        , success: function (layero, index) {
-          view(this.id).render('menu/menu/reset', data).done(function () {
-            form.render(null, 'LAY-menu-reset-form');
-            //监听提交
-            form.on('submit(LAY-menu-reset-submit)', function (data) {
-              let field = data.field; //获取提交的字段
-              if (field.password !== field.verify_password) {
-                layer.msg('两次输入的密码不一致');
-                return;
-              }
-              //提交 Ajax 成功后，关闭当前弹层并重载表格
-              admin.post('./admin/menu/resetPassword', field, function (res) {
-                layer.close(index); //执行关闭
-              })
-            });
-          });
-        }
-      });
     }
   });
+
   $('#LAY-menu-add').click(function () {
     showAddForm();
   });

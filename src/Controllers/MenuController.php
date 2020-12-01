@@ -46,12 +46,14 @@ class MenuController extends BaseController
         return $this->successResponse();
     }
 
-    public function deleteMenu()
+    /**
+     * @param $id
+     * @return array
+     * @throws \Exception
+     */
+    public function deleteMenu($id)
     {
-        $param = request()->validate(['id' => 'required']);
-        //先删除所有子菜单
-        AdminMenu::query()->where('pid', $param['id'])->delete();
-        $menu = AdminMenu::query()->find($param['id']);
+        $menu = AdminMenu::query()->find($id);
         $menu->delete();
         return $this->successResponse();
     }

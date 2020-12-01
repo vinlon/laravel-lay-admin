@@ -24,18 +24,18 @@ Route::namespace('Vinlon\Laravel\LayAdmin\Controllers')->prefix('admin')->group(
 
         Route::get('sidebar', 'MenuController@sidebar');
         Route::get('menuTree', 'MenuController@getMenuTree');
-        Route::post('menu', 'MenuController@saveMenu');
-        Route::get('menu', 'MenuController@getMenuList');
-        Route::delete('menu', 'MenuController@deleteMenu');
+        Route::post('menus', 'MenuController@saveMenu');
+        Route::get('menus', 'MenuController@getMenuList');
+        Route::delete('menus/{id}', 'MenuController@deleteMenu');
 
-        Route::get('role/{roleId}', 'RoleController@getRole');
-        Route::get('role', 'RoleController@getRoleList');
-        Route::post('role', 'RoleController@saveRole');
-        Route::delete('role', 'RoleController@deleteRole');
+        Route::get('roles/{id}', 'RoleController@getRole');
+        Route::get('roles', 'RoleController@getRoleList');
+        Route::post('roles', 'RoleController@saveRole');
+        Route::delete('roles/{id}', 'RoleController@deleteRole');
 
-        Route::get('user', 'UserController@getUserList');
-        Route::post('user', 'UserController@saveUser');
-        Route::delete('user', 'UserController@deleteUser');
-        Route::post('user/resetPassword', 'UserController@resetPassword');
+        Route::get('users', 'UserController@getUserList');
+        Route::post('users', 'UserController@saveUser');
+        Route::delete('users/{id}', 'UserController@deleteUser');
+        Route::post('users/resetPassword', 'UserController@resetPassword');
     });
 });

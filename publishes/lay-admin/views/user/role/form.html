@@ -56,6 +56,7 @@
         , router = layui.router()
 
     form.render(null, 'LAY-role-form');
+    let resourceUrl = 'admin/roles';
     let roleId = router.search.id;
     admin.get('admin/menuTree', function (res) {
       //加载菜单树
@@ -67,7 +68,7 @@
       });
       //查询角色信息，并加载form
       if (roleId) {
-        admin.get('./admin/role/' + roleId, function (res) {
+        admin.get(resourceUrl + '/' + roleId, function (res) {
           form.val('LAY-role-form', res.data);
           tree.setChecked('menu-tree', res.data.sub_menu_ids);
         })
@@ -92,8 +93,7 @@
       });
       let field = data.field;
       field.menu_id_list = menuIds;
-      console.log(field);
-      admin.post('admin/role', field, function (res) {
+      admin.post(resourceUrl, field, function (res) {
         location.hash = '/user/role/'
       })
     });

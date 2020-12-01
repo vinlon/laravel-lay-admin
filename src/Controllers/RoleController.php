@@ -8,9 +8,9 @@ use Vinlon\Laravel\LayAdmin\Models\AdminRole;
 
 class RoleController extends BaseController
 {
-    public function getRole($roleId)
+    public function getRole($id)
     {
-        $role = AdminRole::query()->find($roleId);
+        $role = AdminRole::query()->find($id);
         $menuIds = $role->menu_ids;
         $menus = AdminMenu::query()->find($menuIds);
         $subMenuIds = $menus->reject(function (AdminMenu $menu) {
@@ -41,12 +41,10 @@ class RoleController extends BaseController
         return $this->successResponse();
     }
 
-    public function deleteRole()
+    public function deleteRole($id)
     {
-        $param = request()->validate([
-            'id' => 'required'
-        ]);
-        AdminRole::query()->find($param['id'])->delete();
+        $role = AdminRole::query()->find($id);
+        $role->delete();
         return $this->successResponse();
     }
 
