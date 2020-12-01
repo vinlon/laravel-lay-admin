@@ -20,7 +20,7 @@ class CreateAdminMenusTable extends Migration
             $table->string('title', 32)->comment('菜单标题');
             $table->string('icon', 32)->default('')->comment('菜单图标对应的class, 只有一级菜单需要设置');
             $table->string('path', 32)->default('')->comment('菜单跳转链接,父菜单不需要设置');
-            $table->float('sequence')->comment('排序字段');
+            $table->float('sequence')->default(0)->comment('排序字段');
         });
     }
 
