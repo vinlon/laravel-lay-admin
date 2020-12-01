@@ -5,7 +5,7 @@
 1. #### 引入package 
 
     ```shell script
-    composer require vinlon/laravel-wechat-auth
+    composer require vinlon/laravel-lay-admin
     ```
 4. #### 创建数据库表并初始化数据
 

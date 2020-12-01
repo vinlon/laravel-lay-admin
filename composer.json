@@ -1,6 +1,7 @@
 {
   "name": "vinlon/laravel-lay-admin",
   "description": "LayUI Admin Starter for Laravel Project",
+  "license": "MIT",
   "require": {
     "tymon/jwt-auth": "^1.0",
     "lcobucci/jwt": "3.3"
