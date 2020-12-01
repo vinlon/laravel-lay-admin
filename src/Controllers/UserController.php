@@ -36,7 +36,7 @@ class UserController extends BaseController
     {
         $param = request()->validate([
             'id' => 'required',
-            'password' => 'password',
+            'password' => 'required',
         ]);
         $user = AdminUser::query()->find($param['id']);
         $user->password = Hash::make($param['password']);
