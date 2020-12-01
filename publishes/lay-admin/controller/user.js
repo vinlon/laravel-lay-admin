@@ -1,10 +1,10 @@
 layui.define(['table', 'form'], function (exports) {
-  var $ = layui.$
+  let $ = layui.$
       , table = layui.table
       , view = layui.view
       , admin = layui.admin
       , form = layui.form
-  var resourceUrl = './admin/user'
+  let resourceUrl = './admin/user'
   //用户管理
   table.render({
     elem: '#LAY-user-manage'
@@ -20,14 +20,14 @@ layui.define(['table', 'form'], function (exports) {
   });
 
   //加载角色数据
-  var loadRole = function (callback) {
+  let loadRole = function (callback) {
     admin.get('admin/role', function (res) {
       callback(res.data);
     });
   }
 
-  var showAddForm = function (data) {
-    var title = data ? '修改用户' : '添加用户';
+  let showAddForm = function (data) {
+    let title = data ? '修改用户' : '添加用户';
     loadRole(function (roles) {
       data = data || {};
       data.roles = roles;
@@ -40,7 +40,7 @@ layui.define(['table', 'form'], function (exports) {
             form.render(null, 'LAY-user-form');
             //监听提交
             form.on('submit(LAY-user-submit)', function (data) {
-              var field = data.field; //获取提交的字段
+              let field = data.field; //获取提交的字段
               if (field.password != field.verify_password) {
                 layer.msg('两次输入的密码不一致');
                 return;
@@ -59,7 +59,7 @@ layui.define(['table', 'form'], function (exports) {
 
   //监听工具条
   table.on('tool(LAY-user-manage)', function (obj) {
-    var data = obj.data;
+    let data = obj.data;
     if (obj.event === 'edit') {
       showAddForm(data);
     } else if (obj.event === 'del') {
@@ -79,7 +79,7 @@ layui.define(['table', 'form'], function (exports) {
             form.render(null, 'LAY-user-reset-form');
             //监听提交
             form.on('submit(LAY-user-reset-submit)', function (data) {
-              var field = data.field; //获取提交的字段
+              let field = data.field; //获取提交的字段
               if (field.password !== field.verify_password) {
                 layer.msg('两次输入的密码不一致');
                 return;

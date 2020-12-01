@@ -8,7 +8,7 @@
  */
 
 layui.define(function (exports) {
-  var $ = layui.$
+  let $ = layui.$
       , layer = layui.layer
       , laytpl = layui.laytpl
       , setter = layui.setter

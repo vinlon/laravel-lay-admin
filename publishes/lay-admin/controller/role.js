@@ -1,10 +1,8 @@
 layui.define(['table', 'form'], function (exports) {
-  var $ = layui.$
+  let $ = layui.$
       , table = layui.table
-      , view = layui.view
       , admin = layui.admin
-      , form = layui.form
-  var resourceUrl = './admin/role'
+  let resourceUrl = './admin/role'
   //角色管理
   table.render({
     elem: '#LAY-role-manage'
@@ -21,7 +19,7 @@ layui.define(['table', 'form'], function (exports) {
 
   //监听工具条
   table.on('tool(LAY-role-manage)', function (obj) {
-    var data = obj.data;
+    let data = obj.data;
     if (obj.event === 'del') {
       layer.confirm('确认删除该数据?', function (index) {
         admin.del(resourceUrl, data.id, function (res) {
