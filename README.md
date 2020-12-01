@@ -26,8 +26,8 @@
 7. #### 使用auth:lay-admin middleware 对请求的登录状态进行验证
 
     ```
-    Route::group(['middleware' => ['auth:wxapp']], function () {
-        //这里放置你的需要登录的 api 路由
+    Route::group(['middleware' => ['auth:lay-admin']], function () {
+        //这里放置你的需要登录Admin后台API路由
     });
     ```
 
