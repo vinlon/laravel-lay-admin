@@ -4,6 +4,7 @@ namespace Vinlon\Laravel\LayAdmin;
 
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use Vinlon\Laravel\LayAdmin\Commands\CreateAdminUser;
 use Vinlon\Laravel\LayAdmin\Commands\ResetPassword;
@@ -12,34 +13,54 @@ use Vinlon\Laravel\LayAdmin\Models\AdminUser;
 
 class LayAdminServiceProvider extends ServiceProvider
 {
+    const LAY_ADMIN = 'lay-admin';
+
     public function __construct(Application $app)
     {
         parent::__construct($app);
     }
 
+    private function getConfigPath()
+    {
+        return __DIR__ . '/../publishes/config/' . self::LAY_ADMIN . '.php';
+    }
+
     public function register()
     {
+        // publish assets
+        $this->publishes([
+            __DIR__ . '/../publishes/assets' => public_path('assets'),
+            __DIR__ . '/../publishes/lay-admin' => public_path(self::LAY_ADMIN),
+        ], 'public');
+
+        // publish config
+        $this->publishes([
+            $this->getConfigPath() => config_path(self::LAY_ADMIN . '.php'),
+        ], 'config');
     }
 
     public function boot()
     {
-        //load routes
-        $this->loadRoutesFrom(__DIR__ . '/routes/lay-admin.php');
+        // load routes
+        $routePrefix = config(self::LAY_ADMIN . '.route_prefix');
+        Route::namespace('Vinlon\Laravel\LayAdmin\Controllers')
+            ->prefix($routePrefix)
+            ->group(__DIR__ . '/routes/lay-admin-web.php');
+        Route::namespace('Vinlon\Laravel\LayAdmin\Controllers')
+            ->prefix('admin')
+            ->group(__DIR__ . '/routes/lay-admin-api.php');
 
-        //load migrations
+        // load migrations
         $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
 
         // load views
-        $this->loadViewsFrom(__DIR__ . '/views', 'lay-admin');
+        $this->loadViewsFrom(__DIR__ . '/views', self::LAY_ADMIN);
 
+        // merge auth config
         $this->mergeAuthConfig();
 
-        // publish assets
-        $this->publishes([
-            __DIR__ . '/../publishes/assets' => public_path('assets'),
-            __DIR__ . '/../publishes/lay-admin' => public_path('lay-admin'),
-        ], 'public');
-
+        // merge lay-admin config
+        $this->mergeConfigFrom($this->getConfigPath(), self::LAY_ADMIN);
 
         if ($this->app->runningInConsole()) {
             $this->commands([

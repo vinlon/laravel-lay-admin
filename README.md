@@ -12,8 +12,13 @@
     ```
     php artisan vendor:publish --provider="Vinlon\Laravel\LayAdmin\LayAdminServiceProvider" --tag=public --force
     ```
+3. #### 发布 config 文件
 
-3. #### 创建数据库表并初始化数据
+    ```
+    php artisan vendor:publish --provider="Vinlon\Laravel\LayAdmin\LayAdminServiceProvider" --tag=config
+    ```
+
+4. #### 创建数据库表并初始化数据
 
     ```
     # 如果数据库中已经存在对应的数据表，需要先将其 drop
@@ -21,7 +26,7 @@
     php artisan db:seed --class=LayAdminSeeder
     ```
    
-4. #### 生成JWT_SECRET
+5. #### 生成JWT_SECRET
 
     生成JWT_SECRET, 并自动写入根目录下的.env文件
     
