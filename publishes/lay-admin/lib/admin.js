@@ -28,7 +28,7 @@ layui.define('view', function (exports) {
       //通用方法
       , admin = {
         v: '2020 pro'
-
+        , access_token: layui.data(setter.tableName)[setter.request.tokenName] || ''
         //数据的异步请求
         , req: view.req
         , get: function (url, doneCallback, options) {
