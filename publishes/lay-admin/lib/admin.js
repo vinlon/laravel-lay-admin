@@ -28,7 +28,13 @@ layui.define('view', function (exports) {
       //通用方法
       , admin = {
         v: '2020 pro'
-        , access_token: layui.data(setter.tableName)[setter.request.tokenName] || ''
+        , getAccessToken: function (prefix) {
+          let token = layui.data(setter.tableName)[setter.request.tokenName] || '';
+          if (!prefix) {
+            return token
+          }
+          return prefix + ' ' + token;
+        }
         //数据的异步请求
         , req: view.req
         , get: function (url, doneCallback, options) {

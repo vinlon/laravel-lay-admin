@@ -142,7 +142,7 @@ layui.extend({
         // Table Header
         layui.table.set({
           headers: {
-            Authorization: 'Bearer ' + (layui.data(setter.tableName)[setter.request.tokenName] || '')
+            Authorization: admin.getAccessToken('Bearer')
           }
         });
 
