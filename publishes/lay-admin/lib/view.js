@@ -54,7 +54,9 @@ layui.define(['laytpl', 'layer'], function (exports) {
 
   //Ajax请求
   view.req = function (options) {
-    var request = setter.request
+    var success = options.success
+        , error = options.error
+        , request = setter.request
         , response = setter.response
         , debug = function () {
       return setter.debug
@@ -81,9 +83,6 @@ layui.define(['laytpl', 'layer'], function (exports) {
         //只有 response 的 code 一切正常才执行 done
         if (res[response.statusName] == statusCode.ok) {
           typeof options.done === 'function' && options.done(res);
-        } else if (res[response.statusName] == statusCode.logout) {
-          //登录状态失效，清除本地 access_token，并强制跳转到登入页
-          view.exit();
         } else {
           if (typeof options.fail === 'function') {
             options.fail(res);
@@ -97,7 +96,7 @@ layui.define(['laytpl', 'layer'], function (exports) {
           }
         }
         //只要 http 状态码正常，无论 response 的 code 是否正常都执行 success
-        typeof options.success === 'function' && options.success(res);
+        typeof success === 'function' && success(res);
       }
       , error: function (e, code) {
         console.log(e, code);
@@ -106,8 +105,8 @@ layui.define(['laytpl', 'layer'], function (exports) {
           view.exit();
           return;
         }
-        if (typeof options.error === 'function') {
-          options.error(e);
+        if (typeof error === 'function') {
+          error(e);
         } else {
           // 如果未自定义error回调，统一处理error
           var errorText = [
