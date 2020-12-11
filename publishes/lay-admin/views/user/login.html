@@ -60,6 +60,10 @@
         }, function () {
           location.hash = search.redirect ? decodeURIComponent(search.redirect) : '/';
         });
+      }, {
+        fail: function (res) {
+          layer.msg(res.msg);
+        }
       });
     });
   });

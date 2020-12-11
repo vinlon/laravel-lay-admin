@@ -54,10 +54,7 @@ layui.define(['laytpl', 'layer'], function (exports) {
 
   //Ajax请求
   view.req = function (options) {
-    var that = this
-        , success = options.success
-        , error = options.error
-        , request = setter.request
+    var request = setter.request
         , response = setter.response
         , debug = function () {
       return setter.debug
@@ -69,10 +66,6 @@ layui.define(['laytpl', 'layer'], function (exports) {
     options.headers = options.headers || {};
 
     if (request.tokenName) {
-      var sendData = typeof options.data === 'string'
-          ? JSON.parse(options.data)
-          : options.data;
-
       //自动给 Request Headers 传入 jwt token
       options.headers['Authorization'] = "Bearer " + layui.data(setter.tableName)[request.tokenName] || '';
     }
@@ -85,7 +78,6 @@ layui.define(['laytpl', 'layer'], function (exports) {
       , dataType: 'json'
       , success: function (res) {
         var statusCode = response.statusCode;
-
         //只有 response 的 code 一切正常才执行 done
         if (res[response.statusName] == statusCode.ok) {
           typeof options.done === 'function' && options.done(res);
@@ -93,30 +85,37 @@ layui.define(['laytpl', 'layer'], function (exports) {
           //登录状态失效，清除本地 access_token，并强制跳转到登入页
           view.exit();
         } else {
-          //其它异常
-          var errorText = [
-            '<cite>Error：</cite> ' + (res[response.msgName] || '返回状态码异常')
-            , debug()
-          ].join('');
-          view.error(errorText);
+          if (typeof options.fail === 'function') {
+            options.fail(res);
+          } else {
+            //如果未自定义回调，统一处理fail情况
+            var errorText = [
+              '<cite>Error：</cite> ' + (res[response.msgName] || '返回状态码异常')
+              , debug()
+            ].join('');
+            view.error(errorText);
+          }
         }
-
         //只要 http 状态码正常，无论 response 的 code 是否正常都执行 success
-        typeof success === 'function' && success(res);
+        typeof options.success === 'function' && options.success(res);
       }
       , error: function (e, code) {
+        console.log(e, code);
         // 如果http状态码为401,则退出登录
         if (e.status == 401) {
           view.exit();
           return;
         }
-        var errorText = [
-          '请求异常，请重试<br><cite>错误信息：</cite>' + code
-          , debug()
-        ].join('');
-        view.error(errorText);
-
-        typeof error === 'function' && error(res);
+        if (typeof options.error === 'function') {
+          options.error(e);
+        } else {
+          // 如果未自定义error回调，统一处理error
+          var errorText = [
+            '请求异常，请重试<br><cite>错误信息：</cite>' + code
+            , debug()
+          ].join('');
+          view.error(errorText);
+        }
       }
     }, options));
   };
