@@ -48,13 +48,16 @@ class MenuController extends BaseController
 
     /**
      * @param $id
-     * @return array
+     *
      * @throws \Exception
+     *
+     * @return array
      */
     public function deleteMenu($id)
     {
         $menu = AdminMenu::query()->find($id);
         $menu->delete();
+
         return $this->successResponse();
     }
 
@@ -68,10 +71,12 @@ class MenuController extends BaseController
             if ($pMenu) {
                 $arr['p_menu'] = $pMenu->toArray();
             }
+
             return $arr;
         });
+
         return $this->successResponse($result, [
-            'count' => AdminMenu::query()->where('pid', $pid)->count()
+            'count' => AdminMenu::query()->where('pid', $pid)->count(),
         ]);
     }
 
@@ -98,7 +103,7 @@ class MenuController extends BaseController
             $row = [
                 'title' => $pMenu->title,
                 'icon' => $pMenu->icon,
-                'list' => []
+                'list' => [],
             ];
             /** @var AdminMenu $subMenu */
             foreach ($subMenus as $subMenu) {
@@ -109,6 +114,7 @@ class MenuController extends BaseController
             }
             $result[] = $row;
         }
+
         return $this->successResponse($result);
     }
 
@@ -126,7 +132,7 @@ class MenuController extends BaseController
                 'title' => $pMenu->title,
                 'id' => $pMenu->id,
                 'spread' => true,
-                'children' => []
+                'children' => [],
             ];
             /** @var AdminMenu $subMenu */
             foreach ($subMenus as $subMenu) {
@@ -137,6 +143,7 @@ class MenuController extends BaseController
             }
             $result[] = $row;
         }
+
         return $this->successResponse($result);
     }
 }

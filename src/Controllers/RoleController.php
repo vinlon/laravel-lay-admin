@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Vinlon\Laravel\LayAdmin\Controllers;
 
 use Vinlon\Laravel\LayAdmin\Models\AdminMenu;
@@ -14,12 +13,13 @@ class RoleController extends BaseController
         $menuIds = $role->menu_ids;
         $menus = AdminMenu::query()->find($menuIds);
         $subMenuIds = $menus->reject(function (AdminMenu $menu) {
-            return $menu->pid == 0;
+            return 0 == $menu->pid;
         })->map(function (AdminMenu $menu) {
             return $menu->id;
         })->toArray();
         $result = $role->toArray();
         $result['sub_menu_ids'] = $subMenuIds;
+
         return $this->successResponse($result);
     }
 
@@ -38,6 +38,7 @@ class RoleController extends BaseController
         $role->description = $param['description'] ?? '';
         $role->menu_ids = $param['menu_id_list'];
         $role->save();
+
         return $this->successResponse();
     }
 
@@ -45,12 +46,14 @@ class RoleController extends BaseController
     {
         $role = AdminRole::query()->find($id);
         $role->delete();
+
         return $this->successResponse();
     }
 
     public function getRoleList()
     {
         $roles = AdminRole::all();
+
         return $this->successResponse($roles->toArray());
     }
 }

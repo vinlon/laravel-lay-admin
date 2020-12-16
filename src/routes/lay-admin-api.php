@@ -28,4 +28,3 @@ Route::middleware('auth:lay-admin')->group(function () {
     Route::delete('users/{id}', 'UserController@deleteUser');
     Route::post('users/resetPassword', 'UserController@resetPassword');
 });
-

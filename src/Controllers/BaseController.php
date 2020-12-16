@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Vinlon\Laravel\LayAdmin\Controllers;
 
 use Illuminate\Routing\Controller;
@@ -12,9 +11,9 @@ class BaseController extends Controller
         $id = request()->get('id');
         if ($id) {
             return $entityClass::query()->find($id);
-        } else {
-            return new $entityClass();
         }
+
+        return new $entityClass();
     }
 
     protected function successResponse($data = [], array $extra = null)
@@ -26,6 +25,7 @@ class BaseController extends Controller
         if ($extra) {
             $result = array_merge($result, $extra);
         }
+
         return $result;
     }
 
@@ -38,6 +38,7 @@ class BaseController extends Controller
         if ($extra) {
             $result = array_merge($result, $extra);
         }
+
         return $result;
     }
 }

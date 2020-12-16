@@ -27,8 +27,6 @@ class CreateAdminUser extends Command
 
     /**
      * Create a new command instance.
-     *
-     * @return void
      */
     public function __construct()
     {
@@ -46,12 +44,14 @@ class CreateAdminUser extends Command
         $username = $this->input->getArgument('username');
         $user = AdminUser::findByName($username);
         if ($user) {
-            $this->output->error("用户名 [$username] 已存在");
+            $this->output->error("用户名 [{$username}] 已存在");
+
             return 1;
         }
         $role = AdminRole::query()->where('name', AdminRole::ROOT_ROLE_NAME)->first();
         if (!$role) {
-            $this->output->error("尚未初始化角色数据");
+            $this->output->error('尚未初始化角色数据');
+
             return 1;
         }
         $password = Str::random(8);
@@ -63,6 +63,7 @@ class CreateAdminUser extends Command
         $this->output->writeln('=====用户创建成功=====');
         $this->output->writeln('用户名：' . $username);
         $this->output->writeln('密码：' . $password);
+
         return 0;
     }
 }

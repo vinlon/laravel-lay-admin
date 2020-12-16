@@ -6,7 +6,9 @@
     "tymon/jwt-auth": "^1.0"
   },
   "require-dev": {
-    "laravel/framework": "7.*"
+    "laravel/framework": "7.*",
+    "friendsofphp/php-cs-fixer": "^2.17",
+    "brainmaestro/composer-git-hooks": "^2.8"
   },
   "autoload": {
     "psr-4": {
@@ -21,6 +23,27 @@
       "providers": [
         "Vinlon\\Laravel\\LayAdmin\\LayAdminServiceProvider"
       ]
-    }
+    },
+    "hooks": {
+      "pre-push": [
+        "composer check-style"
+      ],
+      "pre-commit": [
+        "composer check-style"
+      ]
+    } 
+  },
+  "scripts":{
+    "post-install-cmd": [
+      "git init",
+      "cghooks add --ignore-lock",
+      "cghooks update"
+    ],
+    "post-update-cmd": [
+      "cghooks update"
+    ],
+    "cghooks": "vendor/bin/cghooks",
+    "check-style": "vendor/bin/php-cs-fixer fix --using-cache=no --diff --dry-run --ansi",
+    "fix-style": "vendor/bin/php-cs-fixer fix --using-cache=no --ansi"
   }
 }

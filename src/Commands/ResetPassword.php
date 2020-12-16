@@ -25,8 +25,6 @@ class ResetPassword extends Command
 
     /**
      * Create a new command instance.
-     *
-     * @return void
      */
     public function __construct()
     {
@@ -46,13 +44,15 @@ class ResetPassword extends Command
         $password = $this->input->getArgument('password');
         $user = AdminUser::findByName($name);
         if (!$user) {
-            $this->output->error("用户 [$name] 未找到");
+            $this->output->error("用户 [{$name}] 未找到");
+
             return 1;
         }
         $user->password = Hash::make($password);
         $user->save();
         $this->output->writeln('=====重置成功=====');
         $this->output->writeln('当前密码为： ' . $password);
+
         return 0;
     }
 }

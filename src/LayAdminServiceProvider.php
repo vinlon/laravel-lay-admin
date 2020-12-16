@@ -20,11 +20,6 @@ class LayAdminServiceProvider extends ServiceProvider
         parent::__construct($app);
     }
 
-    private function getConfigPath()
-    {
-        return __DIR__ . '/../publishes/config/' . self::LAY_ADMIN . '.php';
-    }
-
     public function register()
     {
         // publish assets
@@ -45,10 +40,12 @@ class LayAdminServiceProvider extends ServiceProvider
         $routePrefix = config(self::LAY_ADMIN . '.route_prefix');
         Route::namespace('Vinlon\Laravel\LayAdmin\Controllers')
             ->prefix($routePrefix)
-            ->group(__DIR__ . '/routes/lay-admin-web.php');
+            ->group(__DIR__ . '/routes/lay-admin-web.php')
+        ;
         Route::namespace('Vinlon\Laravel\LayAdmin\Controllers')
             ->prefix('admin')
-            ->group(__DIR__ . '/routes/lay-admin-api.php');
+            ->group(__DIR__ . '/routes/lay-admin-api.php')
+        ;
 
         // load migrations
         $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
@@ -70,6 +67,11 @@ class LayAdminServiceProvider extends ServiceProvider
         }
     }
 
+    private function getConfigPath()
+    {
+        return __DIR__ . '/../publishes/config/' . self::LAY_ADMIN . '.php';
+    }
+
     /**
      * @throws LayAdminException
      * @throws BindingResolutionException
@@ -81,7 +83,7 @@ class LayAdminServiceProvider extends ServiceProvider
         $guardName = 'lay-admin';
         $adminUsersProvider = [
             'driver' => 'eloquent',
-            'model' => AdminUser::class
+            'model' => AdminUser::class,
         ];
         $layAdminGuard = [
             'driver' => 'jwt',
@@ -90,10 +92,10 @@ class LayAdminServiceProvider extends ServiceProvider
         $config = $this->app->make('config');
         $authConfig = $config->get($authConfigKey, []);
         if (array_key_exists($providerName, $authConfig['providers'])) {
-            throw new LayAdminException("the provider name $providerName is used");
+            throw new LayAdminException("the provider name {$providerName} is used");
         }
         if (array_key_exists($guardName, $authConfig['guards'])) {
-            throw new LayAdminException("the guard name $guardName is used");
+            throw new LayAdminException("the guard name {$guardName} is used");
         }
         $authConfig['providers'][$providerName] = $adminUsersProvider;
         $authConfig['guards'][$guardName] = $layAdminGuard;

@@ -5,15 +5,16 @@ namespace Vinlon\Laravel\LayAdmin\Models;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * App\Models\Role
+ * App\Models\Role.
  *
- * @property int $id
- * @property mixed|null $created_at
- * @property mixed|null $updated_at
- * @property string $name 角色名称
- * @property string $description 角色描述
- * @property string[] $menu_ids 角色拥有访问权限的菜单ID列表
- * @property-read bool $is_root
+ * @property int        $id
+ * @property null|mixed $created_at
+ * @property null|mixed $updated_at
+ * @property string     $name        角色名称
+ * @property string     $description 角色描述
+ * @property string[]   $menu_ids    角色拥有访问权限的菜单ID列表
+ * @property bool       $is_root
+ *
  * @method static \Illuminate\Database\Eloquent\Builder|AdminRole newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|AdminRole newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|AdminRole query()
@@ -34,7 +35,7 @@ class AdminRole extends Model
      */
     public function getIsRootAttribute()
     {
-        return $this->name == self::ROOT_ROLE_NAME;
+        return self::ROOT_ROLE_NAME == $this->name;
     }
 
     /**
@@ -45,9 +46,6 @@ class AdminRole extends Model
         return explode(',', $this->attributes['menu_ids']);
     }
 
-    /**
-     * @param array $menuIds
-     */
     public function setMenuIdsAttribute(array $menuIds)
     {
         $this->attributes['menu_ids'] = implode(',', $menuIds);

@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Vinlon\Laravel\LayAdmin\Controllers;
-
 
 use Illuminate\Support\Facades\Hash;
 use Vinlon\Laravel\LayAdmin\Models\AdminUser;
@@ -12,6 +10,7 @@ class UserController extends BaseController
     public function getUserList()
     {
         $users = AdminUser::with('role')->get();
+
         return $this->successResponse($users->toArray());
     }
 
@@ -29,6 +28,7 @@ class UserController extends BaseController
         $user->username = $param['username'];
         $user->role_id = $param['role_id'];
         $user->save();
+
         return $this->successResponse();
     }
 
@@ -41,14 +41,15 @@ class UserController extends BaseController
         $user = AdminUser::query()->find($param['id']);
         $user->password = Hash::make($param['password']);
         $user->save();
+
         return $this->successResponse();
     }
-
 
     public function deleteUser($id)
     {
         $user = AdminUser::query()->find($id);
         $user->delete();
+
         return $this->successResponse();
     }
 }

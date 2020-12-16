@@ -30,6 +30,7 @@ class AuthController extends BaseController
     {
         $title = AdminConfig::get(self::OPT_ADMIN_PREFIX . 'title', '后台管理系统');
         $pageTabSwitch = AdminConfig::get(self::OPT_ADMIN_PREFIX . 'page_tab_switch', 'off');
+
         return view('lay-admin::index', [
             'title' => $title,
             'view_path' => './lay-admin/',
@@ -46,6 +47,7 @@ class AuthController extends BaseController
         ]);
         AdminConfig::set(self::OPT_ADMIN_PREFIX . 'title', $param['title']);
         AdminConfig::set(self::OPT_ADMIN_PREFIX . 'page_tab_switch', $param['page_tab_switch'] ?? 'off');
+
         return $this->successResponse();
     }
 
@@ -53,11 +55,14 @@ class AuthController extends BaseController
     {
         $configs = AdminConfig::query()
             ->where('key', 'like', self::OPT_ADMIN_PREFIX . '%')
-            ->get();
+            ->get()
+        ;
         $values = $configs->mapWithKeys(function (AdminConfig $config) {
             $title = Str::replaceFirst(self::OPT_ADMIN_PREFIX, '', $config->key);
+
             return [$title => $config->value];
         })->toArray();
+
         return $this->successResponse($values);
     }
 
@@ -65,13 +70,15 @@ class AuthController extends BaseController
     {
         $param = request()->validate([
             'username' => 'required',
-            'password' => 'required'
+            'password' => 'required',
         ]);
         $user = AdminUser::findByName($param['username']);
         if ($user && Hash::check($param['password'], $user->password)) {
             $token = $this->auth->login($user);
+
             return $this->successResponse(['access_token' => $token]);
         }
+
         return $this->errorResponse('login_faied', '用户名或密码错误');
     }
 
@@ -80,6 +87,7 @@ class AuthController extends BaseController
         /** @var AdminUser $user */
         $user = $this->auth->user();
         $user->role;
+
         return $this->successResponse($user->toArray());
     }
 
@@ -88,7 +96,7 @@ class AuthController extends BaseController
         $param = request()->validate([
             'real_name' => 'nullable',
             'mobile' => 'nullable',
-            'email' => 'nullable'
+            'email' => 'nullable',
         ]);
         /** @var AdminUser $user */
         $user = $this->auth->user();
@@ -96,15 +104,15 @@ class AuthController extends BaseController
         $user->mobile = $param['mobile'] ?? '';
         $user->email = $param['email'] ?? '';
         $user->save();
+
         return $this->successResponse();
     }
-
 
     public function changePassword()
     {
         $param = request()->validate([
             'old_password' => 'required',
-            'new_password' => 'required'
+            'new_password' => 'required',
         ]);
         /** @var AdminUser $user */
         $user = Auth::user();
@@ -113,6 +121,7 @@ class AuthController extends BaseController
         }
         $user->password = Hash::make($param['new_password']);
         $user->save();
+
         return $this->successResponse();
     }
 }

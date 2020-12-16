@@ -7,8 +7,6 @@ class InitMenuSeeder extends Seeder
 {
     /**
      * Run the database seeds.
-     *
-     * @return void
      */
     public function run()
     {
@@ -39,7 +37,7 @@ class InitMenuSeeder extends Seeder
                     'sequence' => 102,
                     'created_at' => $now,
                     'updated_at' => $now,
-                ]
+                ],
             ]);
 
             $userId = AdminMenu::query()->insertGetId([
@@ -65,7 +63,7 @@ class InitMenuSeeder extends Seeder
                     'sequence' => 202,
                     'created_at' => $now,
                     'updated_at' => $now,
-                ]
+                ],
             ]);
 
             $myId = AdminMenu::query()->insertGetId([
@@ -91,7 +89,7 @@ class InitMenuSeeder extends Seeder
                     'sequence' => 301,
                     'created_at' => $now,
                     'updated_at' => $now,
-                ]
+                ],
             ]);
         });
     }
