@@ -1,0 +1,19 @@
+/vendor
+
+# PHPSTORM
+.idea
+
+# Sublime
+*.sublime-project
+*.sublime-workspace
+
+# php_cs
+.php_cs.cache
+
+
+# MAC OS
+.DS_Store
+
+# Other
+cghooks.lock
+
