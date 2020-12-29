@@ -18,7 +18,7 @@
     , title: '{{ $title }}'
     , debug: '{{ $debug }}'
     , page_tab_switch: '{{ $page_tab_switch }}'
-    , version: '2020.1.24'
+    , version: '{{ $static_version  }}'
   }).use('index');
 </script>
 </body>

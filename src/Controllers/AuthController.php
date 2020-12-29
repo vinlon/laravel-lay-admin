@@ -36,6 +36,7 @@ class AuthController extends BaseController
             'view_path' => './lay-admin/',
             'debug' => config('app.debug') ? 1 : 0,
             'page_tab_switch' => $pageTabSwitch,
+            'static_version' => time(), //不缓存表态资源
         ]);
     }
 
