@@ -26,13 +26,19 @@
     php artisan db:seed --class=LayAdminSeeder
     ```
    
-5. #### 生成JWT_SECRET
+## 配置建议
 
-    生成JWT_SECRET, 并自动写入根目录下的.env文件
-    
-    ```
-    php artisan jwt:secret
-    ```
+```
+# 默认值为admin, 管理后台访问地址为 ${APP_URL}/admin
+LAY_ADMIN_ROUTE_PREFIX=
+
+# 生成JWT Token使用的密钥，可使用 php artisan jwt:secret 命令生成
+JWT_SECRET=
+
+# JWT Token 有效期，单位为‘分’，默认值为 60 分钟
+JWT_TTL=
+
+```
 
 
 ## 命令
