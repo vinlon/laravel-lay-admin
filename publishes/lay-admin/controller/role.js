@@ -8,8 +8,7 @@ layui.define(['table', 'form'], function (exports) {
     elem: '#LAY-role-manage'
     , url: resourceUrl
     , cols: [[
-      {field: 'id', width: 100, title: 'ID'}
-      , {field: 'name', title: '角色名称', minWidth: 100}
+      {field: 'name', title: '角色名称', minWidth: 100}
       , {field: 'description', title: '角色描述', minWidth: 100}
       , {field: 'created_at', title: '添加时间', minWidth: 100}
       , {title: '操作', width: 150, align: 'center', fixed: 'right', toolbar: '#LAY-role-operate'}

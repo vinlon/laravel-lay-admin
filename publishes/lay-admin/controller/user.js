@@ -10,8 +10,7 @@ layui.define(['table', 'form'], function (exports) {
     elem: '#LAY-user-manage'
     , url: resourceUrl
     , cols: [[
-      {field: 'id', width: 50, title: 'ID'}
-      , {field: 'username', title: '登录用户名', width: 100}
+      {field: 'username', title: '登录用户名', width: 100}
       , {title: '角色', width: 100, templet: '<span>{{ d.role.name }}</span>'}
       , {field: 'created_at', title: '添加时间', minWidth: 200}
       , {title: '操作', width: 300, align: 'left', fixed: 'right', toolbar: '#LAY-user-operate'}

@@ -13,8 +13,7 @@ layui.define(['table', 'form'], function (exports) {
     , where: layui.router().search
     , url: resourceUrl
     , cols: [[
-      {field: 'id', width: 50, title: 'ID'}
-      , {field: 'title', title: '菜单名称', width: 100}
+      {field: 'title', title: '菜单名称', width: 100}
       , {title: '父菜单', align: 'center', width: 100, templet: '<span>{{ d.p_menu ? d.p_menu.title : "-" }}</span>'}
       , {field: 'icon', title: '图标', width: 200}
       , {field: 'path', title: '跳转地址', width: 150}
