@@ -81,18 +81,14 @@ layui.define(['laytpl', 'layer'], function (exports) {
       , success: function (res) {
         var statusCode = response.statusCode;
         //只有 response 的 code 一切正常才执行 done
-        if (res[response.statusName] == statusCode.ok) {
+        if (res[response.statusName] === statusCode.ok) {
           typeof options.done === 'function' && options.done(res);
         } else {
           if (typeof options.fail === 'function') {
             options.fail(res);
           } else {
             //如果未自定义回调，统一处理fail情况
-            var errorText = [
-              '<cite>Error：</cite> ' + (res[response.msgName] || '返回状态码异常')
-              , debug()
-            ].join('');
-            view.error(errorText);
+            view.notice(res[response.msgName], '操作失败');
           }
         }
         //只要 http 状态码正常，无论 response 的 code 是否正常都执行 success
@@ -101,7 +97,7 @@ layui.define(['laytpl', 'layer'], function (exports) {
       , error: function (e, code) {
         console.log(e, code);
         // 如果http状态码为401,则退出登录
-        if (e.status == 401) {
+        if (e.status === 401) {
           view.exit();
           return;
         }
@@ -146,7 +142,7 @@ layui.define(['laytpl', 'layer'], function (exports) {
     }, options))
   };
 
-  //异常提示
+  // 错误弹出框
   view.error = function (content, options) {
     return view.popup($.extend({
       content: content
@@ -156,7 +152,15 @@ layui.define(['laytpl', 'layer'], function (exports) {
       , id: 'LAY_adminError'
     }, options))
   };
-
+  // 通知弹出框
+  view.notice = function (content, title) {
+      title = title || '提示信息';
+      layer.alert(content, {
+          icon: 0,
+          shadeClose: true,
+          title: title,
+      });
+  }
 
   //请求模板文件渲染
   Class.prototype.render = function (views, params) {
