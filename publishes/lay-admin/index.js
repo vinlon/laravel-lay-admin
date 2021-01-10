@@ -159,7 +159,7 @@ layui.extend({
         });
 
         //独立页面
-        if (isIndPage || pathURL === '/user/login') { //此处单独判断登入页，是为了兼容旧版（即未在 config.js 配置 indPage 的情况）
+        if (isIndPage || pathURL === '/_base/user/login') { //此处单独判断登入页，是为了兼容旧版（即未在 config.js 配置 indPage 的情况）
           container.render(router.path.join('/')).done(function () {
             admin.pageType = 'alone';
           });
@@ -169,7 +169,7 @@ layui.extend({
           if (setter.interceptor) {
             var local = layui.data(setter.tableName);
             if (!local[setter.request.tokenName]) {
-              return location.hash = '/user/login/redirect=' + encodeURIComponent(pathURL); //跳转到登入页
+              return location.hash = '/_base/user/login/redirect=' + encodeURIComponent(pathURL); //跳转到登入页
             }
           }
 
@@ -177,7 +177,7 @@ layui.extend({
           if (admin.pageType === 'console') { //后台主体页
             renderPage();
           } else { //初始控制台结构
-            container.render('layout').done(function () {
+            container.render('_base/layout').done(function () {
               renderPage();
               layui.element.render();
 
