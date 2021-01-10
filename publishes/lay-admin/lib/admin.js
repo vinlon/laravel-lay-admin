@@ -1,8 +1,10 @@
 /**
+
  @Name：layuiAdmin 核心模块
  @Author：贤心
  @Site：http://www.layui.com/admin/
  @License：LPPL
+
  */
 
 layui.define('view', function (exports) {
@@ -45,8 +47,10 @@ layui.define('view', function (exports) {
       , post: function (url, data, doneCallback, options) {
         options = options || {};
         options.method = 'POST';
+        options.headers = options.headers || {};
+        options.headers['content-type'] = 'application/json';
         options.url = url;
-        options.data = data;
+        options.data = JSON.stringify(data);
         options.done = doneCallback;
         view.req(options)
       }
