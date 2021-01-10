@@ -25,7 +25,7 @@ class InitMenuSeeder extends Seeder
                 [
                     'pid' => $configId,
                     'title' => '系统设置',
-                    'path' => 'system/config',
+                    'path' => '_base/system/config',
                     'sequence' => 101,
                     'created_at' => $now,
                     'updated_at' => $now,
@@ -33,7 +33,7 @@ class InitMenuSeeder extends Seeder
                 [
                     'pid' => $configId,
                     'title' => '菜单设置',
-                    'path' => 'system/menu/',
+                    'path' => '_base/system/menu/',
                     'sequence' => 102,
                     'created_at' => $now,
                     'updated_at' => $now,
@@ -51,7 +51,7 @@ class InitMenuSeeder extends Seeder
                 [
                     'pid' => $userId,
                     'title' => '后台管理员',
-                    'path' => 'user/user/',
+                    'path' => '_base/user/user/',
                     'sequence' => 201,
                     'created_at' => $now,
                     'updated_at' => $now,
@@ -59,7 +59,7 @@ class InitMenuSeeder extends Seeder
                 [
                     'pid' => $userId,
                     'title' => '角色管理',
-                    'path' => 'user/role/',
+                    'path' => '_base/user/role/',
                     'sequence' => 202,
                     'created_at' => $now,
                     'updated_at' => $now,
@@ -77,7 +77,7 @@ class InitMenuSeeder extends Seeder
                 [
                     'pid' => $myId,
                     'title' => '修改密码',
-                    'path' => 'user/user/password',
+                    'path' => '_base/user/user/password',
                     'sequence' => 302,
                     'created_at' => $now,
                     'updated_at' => $now,
@@ -85,7 +85,7 @@ class InitMenuSeeder extends Seeder
                 [
                     'pid' => $myId,
                     'title' => '基本资料',
-                    'path' => 'user/user/info',
+                    'path' => '_base/user/user/info',
                     'sequence' => 301,
                     'created_at' => $now,
                     'updated_at' => $now,
