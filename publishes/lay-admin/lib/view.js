@@ -49,7 +49,7 @@ layui.define(['laytpl', 'layer'], function (exports) {
     });
 
     //跳转到登入页
-    location.hash = '/user/login';
+    location.hash = '/_base/user/login';
   };
 
   //Ajax请求
@@ -162,6 +162,7 @@ layui.define(['laytpl', 'layer'], function (exports) {
       });
   }
 
+
   //请求模板文件渲染
   Class.prototype.render = function (views, params) {
     var that = this, router = layui.router();
@@ -215,9 +216,9 @@ layui.define(['laytpl', 'layer'], function (exports) {
         ;
 
         if (e.status === 404) {
-          that.render('template/tips/404');
+          that.render('_base/template/tips/404');
         } else {
-          that.render('template/tips/error');
+          that.render('_base/template/tips/error');
         }
 
         that.render.isError = true;
