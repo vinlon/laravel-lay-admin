@@ -1,0 +1,70 @@
+<script type="text/html" template>
+  <link rel="stylesheet" href="{{ layui.setter.base }}style/login.css?v={{ layui.admin.v }}-1" media="all">
+</script>
+
+
+<div class="layadmin-user-login layadmin-user-display-show" id="LAY-user-login" style="display: none;">
+
+  <div class="layadmin-user-login-main">
+    <div class="layadmin-user-login-box layadmin-user-login-header">
+      <script type="text/html" template>
+        <h2>{{ layui.cache.title }}</h2>
+      </script>
+    </div>
+    <div class="layadmin-user-login-box layadmin-user-login-body layui-form">
+      <div class="layui-form-item">
+        <label class="layadmin-user-login-icon layui-icon layui-icon-username" for="input_username"></label>
+        <input type="text" name="username" id="input_username" lay-verify="required" lay-reqtext="请输入用户名"
+               placeholder="用户名" autocomplete="off" class="layui-input">
+      </div>
+      <div class="layui-form-item">
+        <label class="layadmin-user-login-icon layui-icon layui-icon-password" for="input_password"></label>
+        <input type="password" name="password" id="input_password" lay-verify="required" lay-reqtext="请输入密码"
+               placeholder="密码" class="layui-input">
+      </div>
+      <div class="layui-form-item" style="margin-bottom: 20px;">
+        <a lay-tips="请联系管理员重置密码" class="layadmin-user-jump-change layadmin-link" style="margin-top: 7px;">忘记密码？</a>
+      </div>
+      <div class="layui-form-item">
+        <button class="layui-btn layui-btn-fluid" lay-submit lay-filter="LAY-user-login-submit">登 入</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  layui.use(['admin', 'form'], function () {
+    var $ = layui.$
+        , setter = layui.setter
+        , admin = layui.admin
+        , form = layui.form
+        , router = layui.router()
+        , search = router.search;
+
+    form.render();
+
+    //提交
+    form.on('submit(LAY-user-login-submit)', function (obj) {
+      //请求登入接口
+      admin.post('admin/password_login', obj.field, function (res) {
+        //请求成功后，写入 access_token
+        layui.data(setter.tableName, {
+          key: setter.request.tokenName
+          , value: res.data.access_token
+        });
+        //登入成功的提示与跳转
+        layer.msg('登入成功', {
+          offset: '15px'
+          , icon: 1
+          , time: 1000
+        }, function () {
+          location.hash = search.redirect ? decodeURIComponent(search.redirect) : '/';
+        });
+      }, {
+        fail: function (res) {
+          layer.msg(res.msg);
+        }
+      });
+    });
+  });
+</script>

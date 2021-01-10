@@ -1,0 +1,66 @@
+<div class="layui-form" lay-filter="LAY-menu-form" style="padding: 20px 20px 0 0;">
+  <script type="text/html" template>
+    <div class="layui-form-item">
+      <label class="layui-form-label">父菜单</label>
+      <input name='pid' type="hidden" value="{{ d.params.pid || 0 }}">
+      <div class="layui-form-mid layui-word-aux">
+        {{ d.params.pid ? d.params.p_title : '-' }}
+      </div>
+      <div class="layui-form-mid layui-word-aux">
+        <i lay-tips="不支持修改父菜单，如果调整请删除当前菜单后重新添加" class="layui-icon layui-icon-about"></i>
+      </div>
+    </div>
+    <div class="layui-form-item">
+      <label class="layui-form-label">菜单位置</label>
+      <div class="layui-input-block">
+        <select name="insert_after" lay-verify="required" lay-reqtext="请选择角色">
+          <option value="0">在最前面</option>
+          {{# layui.each(d.params.siblings, function(index, menu){ }}
+          {{# if (menu.id === d.params.id) { }}
+          <option value="{{ menu.id }}" selected>保持不变</option>
+          {{# } else { }}
+          <option value="{{ menu.id }}">在【{{ menu.title }}】之后</option>
+          {{# } }}
+          {{# }) }}
+        </select>
+      </div>
+    </div>
+    <div class="layui-form-item">
+      <label class="layui-form-label">菜单名称</label>
+      <div class="layui-input-block">
+        <input type="hidden" name="id" value="{{ d.params.id || '' }}"/>
+        <input type="text" name="title" value="{{ d.params.title || '' }}" lay-verify="required"
+               lay-reqtext="请输入菜单名称" placeholder="请输入菜单名称" autocomplete="off" class="layui-input">
+      </div>
+    </div>
+    {{# if(d.params.pid == 0) { }}
+    <div class="layui-form-item">
+      <label class="layui-form-label">菜单图标</label>
+      <div class="layui-input-inline">
+        <input type="text" name="icon" value="{{ d.params.icon || '' }}" lay-verify="required"
+               lay-reqtext="请输入菜单图标对应的class" placeholder="请输入菜单图标对应的class" autocomplete="off" class="layui-input">
+      </div>
+      <div class="layui-form-mid layui-word-aux">
+        <a href="https://www.layui.com/doc/element/icon.html#table" target="_blank" lay-tips="点击查看可用图标">
+          <i class="layui-icon layui-icon-about" style="font-size: 20px;"></i>
+        </a>
+      </div>
+    </div>
+    {{# } else { }}
+    <div class="layui-form-item">
+      <label class="layui-form-label">跳转地址</label>
+      <div class="layui-input-block">
+        <input type="text" name="path" value="{{ d.params.path || '' }}" lay-verify="required"
+               lay-reqtext="请输入菜单跳转地址" placeholder="请输入菜单跳转地址" autocomplete="off" class="layui-input">
+      </div>
+    </div>
+    {{# } }}
+  </script>
+  <div class="layui-form-item">
+    <label class="layui-form-label"></label>
+    <div class="layui-input-inline">
+      <input type="button" lay-submit lay-filter="LAY-menu-submit" value="确认" class="layui-btn">
+    </div>
+  </div>
+</div>
+

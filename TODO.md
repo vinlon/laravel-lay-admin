@@ -12,9 +12,5 @@
 
 - 一级菜单支持配置跳转链接
 
-- 将基础的 view 文件统一移动到 views/base 目录下，和业务逻辑区分开来 
-
 - 设置分为系统设置和用户设置
-
-- admin.post方法的 content-type 设置为 application/json
 

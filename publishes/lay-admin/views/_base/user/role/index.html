@@ -1,0 +1,65 @@
+<!--开启页面选项卡后，显示为选项卡标题-->
+<title>角色管理</title>
+
+<div class="layui-card layadmin-header">
+  <div class="layui-breadcrumb" lay-filter="breadcrumb">
+    <a><cite>用户</cite></a>
+    <a><cite>角色管理</cite></a>
+  </div>
+</div>
+
+<div class="layui-fluid">
+  <div class="layui-card">
+    <div class="layui-card-body">
+      <div style="padding-bottom: 10px;">
+        <a lay-href="_base/user/role/form" class="layui-btn">
+          <i class="layui-icon layui-icon-add-1"></i>
+          添加角色
+        </a>
+      </div>
+
+      <table id="LAY-role-manage" lay-filter="LAY-role-manage"></table>
+      <script type="text/html" id="LAY-role-operate">
+        {{# if(!d.is_root){ }}
+        <a lay-href="/_base/user/role/form/id={{ d.id }}" class="layui-btn layui-btn-normal layui-btn-xs">
+          <i class="layui-icon layui-icon-edit"></i>编辑
+        </a>
+        <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del"><i class="layui-icon layui-icon-delete"></i>删除</a>
+        {{# } }}
+      </script>
+    </div>
+  </div>
+</div>
+
+<script>
+  layui.use(['table', 'form'], function () {
+    let $ = layui.$
+      , table = layui.table
+      , admin = layui.admin
+    let resourceUrl = 'admin/roles'
+    //角色管理
+    table.render({
+      elem: '#LAY-role-manage'
+      , url: resourceUrl
+      , cols: [[
+        {field: 'name', title: '角色名称', minWidth: 100}
+        , {field: 'description', title: '角色描述', minWidth: 100}
+        , {field: 'created_at', title: '添加时间', minWidth: 100}
+        , {title: '操作', width: 150, align: 'center', fixed: 'right', toolbar: '#LAY-role-operate'}
+      ]]
+    });
+
+    //监听工具条
+    table.on('tool(LAY-role-manage)', function (obj) {
+      let data = obj.data;
+      if (obj.event === 'del') {
+        layer.confirm('确认删除该数据?', function (index) {
+          admin.del(resourceUrl, data.id, function (res) {
+            layer.close(index);
+            layui.table.reload('LAY-role-manage'); //重载表格
+          })
+        });
+      }
+    });
+  })
+</script>
