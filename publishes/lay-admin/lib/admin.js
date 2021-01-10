@@ -47,10 +47,8 @@ layui.define('view', function (exports) {
       , post: function (url, data, doneCallback, options) {
         options = options || {};
         options.method = 'POST';
-        options.headers = options.headers || {};
-        options.headers['content-type'] = 'application/json';
         options.url = url;
-        options.data = JSON.stringify(data);
+        options.data = data;
         options.done = doneCallback;
         view.req(options)
       }
@@ -443,7 +441,7 @@ layui.define('view', function (exports) {
       admin.popupRight({
         id: 'LAY_adminPopupTheme'
         , success: function () {
-          view(this.id).render('system/theme')
+          view(this.id).render('_base/system/theme')
         }
       });
     }
