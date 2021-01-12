@@ -13,7 +13,7 @@
     <div class="layui-form-item">
       <label class="layui-form-label">菜单位置</label>
       <div class="layui-input-block">
-        <select name="insert_after" lay-verify="required" lay-reqtext="请选择角色">
+        <select name="insert_after">
           <option value="0">在最前面</option>
           {{# layui.each(d.params.siblings, function(index, menu){ }}
           {{# if (menu.id === d.params.id) { }}

@@ -47,8 +47,10 @@ layui.define('view', function (exports) {
       , post: function (url, data, doneCallback, options) {
         options = options || {};
         options.method = 'POST';
+        options.headers = options.headers || {};
+        options.headers['content-type'] = 'application/json';
+        options.data = JSON.stringify(data);
         options.url = url;
-        options.data = data;
         options.done = doneCallback;
         view.req(options)
       }
