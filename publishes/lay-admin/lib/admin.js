@@ -40,6 +40,8 @@ layui.define('view', function (exports) {
       , get: function (url, doneCallback, options) {
         options = options || {};
         options.method = 'GET';
+        options.headers = options.headers || {};
+        options.headers['Accept'] = 'application/json'; 
         options.url = url;
         options.done = doneCallback;
         view.req(options)
@@ -47,6 +49,8 @@ layui.define('view', function (exports) {
       , post: function (url, data, doneCallback, options) {
         options = options || {};
         options.method = 'POST';
+        options.headers = options.headers || {};
+        options.headers['Accept'] = 'application/json';
         options.data = data;
         options.url = url;
         options.done = doneCallback;
@@ -56,7 +60,8 @@ layui.define('view', function (exports) {
         options = options || {};
         options.method = 'POST';
         options.headers = options.headers || {};
-        options.headers['content-type'] = 'application/json';
+        options.headers['Content-type'] = 'application/json';
+        options.headers['Accept'] = 'application/json';
         options.data = JSON.stringify(data);
         options.url = url;
         options.done = doneCallback;
@@ -65,6 +70,8 @@ layui.define('view', function (exports) {
       , del: function (url, id, doneCallback, options) {
         options = options || {};
         options.method = 'DELETE';
+        options.headers = options.headers || {};
+        options.headers['Accept'] = 'application/json';
         options.url = url + "/" + id;
         options.done = doneCallback
         view.req(options)
