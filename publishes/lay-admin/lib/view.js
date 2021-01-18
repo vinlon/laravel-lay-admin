@@ -95,7 +95,6 @@ layui.define(['laytpl', 'layer'], function (exports) {
         typeof success === 'function' && success(res);
       }
       , error: function (e, code) {
-        console.log(e, code);
         // 如果http状态码为401,则退出登录
         if (e.status === 401) {
           view.exit();
@@ -105,8 +104,9 @@ layui.define(['laytpl', 'layer'], function (exports) {
           error(e);
         } else {
           // 如果未自定义error回调，统一处理error
+          let msg = e.responseJSON.message || code;
           var errorText = [
-            '请求异常，请重试<br><cite>错误信息：</cite>' + code
+            '请求异常，请重试<br><cite>错误信息：</cite>' + msg
             , debug()
           ].join('');
           view.error(errorText);
