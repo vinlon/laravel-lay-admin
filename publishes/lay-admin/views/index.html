@@ -8,7 +8,10 @@
           location.hash = '/' + subMenu.jump;
           return true;
         });
-        return true;
+        if (pMenu.jump != '') {
+          location.hash = '/' + pMenu.jump;
+          return true;
+        }
       })
     })
   });
