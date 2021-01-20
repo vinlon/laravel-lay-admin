@@ -102,6 +102,7 @@ class MenuController extends BaseController
             $subMenus = $groupMenus->get($pMenu->id) ?? [];
             $row = [
                 'title' => $pMenu->title,
+                'jump' => $pMenu->path,
                 'icon' => $pMenu->icon,
                 'list' => [],
             ];

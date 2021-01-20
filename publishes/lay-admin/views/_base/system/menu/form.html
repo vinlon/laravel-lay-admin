@@ -1,8 +1,9 @@
 <div class="layui-form" lay-filter="LAY-menu-form" style="padding: 20px 20px 0 0;">
   <script type="text/html" template>
+    <input name='pid' type="hidden" value="{{ d.params.pid || 0 }}">
+    {{# if(d.params.pid != 0) { }}
     <div class="layui-form-item">
       <label class="layui-form-label">父菜单</label>
-      <input name='pid' type="hidden" value="{{ d.params.pid || 0 }}">
       <div class="layui-form-mid layui-word-aux">
         {{ d.params.pid ? d.params.p_title : '-' }}
       </div>
@@ -10,6 +11,7 @@
         <i lay-tips="不支持修改父菜单，如果调整请删除当前菜单后重新添加" class="layui-icon layui-icon-about"></i>
       </div>
     </div>
+    {{# } }}
     <div class="layui-form-item">
       <label class="layui-form-label">菜单位置</label>
       <div class="layui-input-block">
@@ -44,6 +46,12 @@
         <a href="https://www.layui.com/doc/element/icon.html#table" target="_blank" lay-tips="点击查看可用图标">
           <i class="layui-icon layui-icon-about" style="font-size: 20px;"></i>
         </a>
+      </div>
+    </div>
+    <div class="layui-form-item">
+      <label class="layui-form-label">跳转地址</label>
+      <div class="layui-input-block">
+        <input type="text" name="path" value="{{ d.params.path || '' }}" placeholder="如果有二级菜单则无需配置此链接" autocomplete="off" class="layui-input">
       </div>
     </div>
     {{# } else { }}
