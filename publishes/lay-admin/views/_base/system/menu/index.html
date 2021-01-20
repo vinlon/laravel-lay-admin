@@ -34,6 +34,11 @@
       </div>
 
       <table id="LAY-menu-manage" lay-filter="LAY-menu-manage"></table>
+      <script type="text/html" id="iconTpl">
+        {{# if (d.icon != '') { }}
+        <i class="layui-icon {{d.icon}}" lay-tips="{{d.icon}}"></i>
+        {{# } }}
+      </script>
       <script type="text/html" id="LAY-menu-operate">
         <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit"><i class="layui-icon layui-icon-edit"></i>编辑</a>
         <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del"><i class="layui-icon layui-icon-delete"></i>删除</a>
@@ -64,9 +69,9 @@
       , cols: [[
         {field: 'title', title: '菜单名称', width: 100}
         , {title: '父菜单', align: 'center', width: 100, templet: '<span>{{ d.p_menu ? d.p_menu.title : "-" }}</span>'}
-        , {field: 'icon', title: '图标', width: 200}
-        , {field: 'path', title: '跳转地址', width: 150}
-        , {field: 'created_at', title: '添加时间', minWidth: 100}
+        , {title: '图标', field: 'icon', width: 100, align:"center", templet: '#iconTpl'}
+        , {title: '跳转地址', field: 'path', width: 150}
+        , {title: '添加时间', field: 'created_at', minWidth: 100}
         , {title: '操作', width: 300, align: 'left', fixed: 'right', toolbar: '#LAY-menu-operate'}
       ]]
     });
