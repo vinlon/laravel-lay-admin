@@ -2,6 +2,7 @@
 
 namespace Vinlon\Laravel\LayAdmin\Controllers;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Routing\Controller;
 
 class BaseController extends Controller
@@ -40,5 +41,21 @@ class BaseController extends Controller
         }
 
         return $result;
+    }
+
+    protected function paginateResponse(Builder $query)
+    {
+        $count = $query->count();
+        $page = request()->get('page', 0);
+        $limit = request()->get('limit', 10); //如果没有设置limit，则默认只查询10条记录
+        $items = $query
+            ->skip($limit * ($page - 1))
+            ->limit($limit)
+            ->get()
+        ;
+
+        return $this->successResponse($items->toArray(), [
+            'count' => $count,
+        ]);
     }
 }

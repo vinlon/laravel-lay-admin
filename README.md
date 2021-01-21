@@ -79,9 +79,11 @@ JWT_TTL=
     });
     ```
 
-#### 返回值格式
+#### BaseController
 
-    LayAdmin对数据返回的格式有统一要求，可通过继承 BaseController， 然后调用其中的 successResponse和errorResponse方法对返回结果进行封装
+    - LayAdmin对数据返回的格式有统一要求，可调用 successResponse 和 errorResponse 方法分别对成功和失败的返回结果进行封装
+
+    - 分页查询的结果可以调用 paginateResponse 返回，该方法接收一个 Eloquent Builder 作为参数
 
 #### 自定义请求方法
     
