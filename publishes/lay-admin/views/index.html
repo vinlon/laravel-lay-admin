@@ -1,7 +1,7 @@
 <script>
   layui.use(['admin'], function () {
     let admin = layui.admin;
-    admin.get('admin/sidebar', function (res) {
+    admin.get('lay-admin/sidebar', function (res) {
       // 没有默认首页，自动跳转到第一个菜单页
       res.data.some(function (pMenu) {
         pMenu.list.some(function (subMenu) {

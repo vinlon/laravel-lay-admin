@@ -43,7 +43,7 @@ class LayAdminServiceProvider extends ServiceProvider
             ->group(__DIR__ . '/routes/lay-admin-web.php')
         ;
         Route::namespace('Vinlon\Laravel\LayAdmin\Controllers')
-            ->prefix('admin')
+            ->prefix('lay-admin')
             ->group(__DIR__ . '/routes/lay-admin-api.php')
         ;
 

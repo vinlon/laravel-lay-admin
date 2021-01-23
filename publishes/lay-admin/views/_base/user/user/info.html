@@ -60,7 +60,7 @@
     let form = layui.form
         , admin = layui.admin;
     form.render(null, 'LAY-profile-form');
-    admin.get('admin/profile', function (res) {
+    admin.get('lay-admin/profile', function (res) {
       form.val('LAY-profile-form', res.data);
     });
     form.verify({
@@ -81,7 +81,7 @@
     });
     form.on('submit(LAY-profile-submit)', function (data) {
       let field = data.field;
-      admin.post('admin/profile', field, function (res) {
+      admin.post('lay-admin/profile', field, function (res) {
         layer.msg('更新成功')
       })
     })

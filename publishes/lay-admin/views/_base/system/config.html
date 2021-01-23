@@ -48,7 +48,7 @@
         , admin = layui.admin;
 
     form.render(null, 'LAY-config-form');
-    admin.get('admin/config', function (res) {
+    admin.get('lay-admin/config', function (res) {
       let data = res.data;
       if (data.page_tab_switch && data.page_tab_switch === 'off') {
         data.page_tab_switch = undefined;
@@ -57,7 +57,7 @@
     });
     form.on('submit(LAY-config-submit)', function (data) {
       let field = data.field;
-      admin.post('admin/config', field, function (res) {
+      admin.post('lay-admin/config', field, function (res) {
         layer.msg('保存成功, 刷新页面后改动才会生效');
       })
     })

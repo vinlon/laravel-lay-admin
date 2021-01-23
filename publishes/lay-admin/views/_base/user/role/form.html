@@ -56,9 +56,9 @@
         , router = layui.router()
 
     form.render(null, 'LAY-role-form');
-    let resourceUrl = 'admin/roles';
+    let resourceUrl = 'lay-admin/roles';
     let roleId = router.search.id;
-    admin.get('admin/menuTree', function (res) {
+    admin.get('lay-admin/menuTree', function (res) {
       //加载菜单树
       tree.render({
         elem: '#LAY-role-menu-tree'

@@ -36,7 +36,7 @@
       , view = layui.view
       , admin = layui.admin
       , form = layui.form
-    let resourceUrl = 'admin/users'
+    let resourceUrl = 'lay-admin/users'
     //用户管理
     table.render({
       elem: '#LAY-user-manage'
@@ -51,7 +51,7 @@
 
     //加载角色数据
     let loadRole = function (callback) {
-      admin.get('admin/roles', function (res) {
+      admin.get('lay-admin/roles', function (res) {
         callback(res.data);
       });
     }
