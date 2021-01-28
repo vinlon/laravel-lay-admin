@@ -199,13 +199,34 @@ layui.define(['laytpl', 'layer'], function (exports) {
         }
 
         that.parse(html);
-        view.removeLoad();
 
+        //自动处理form表单中的必填项
+        let requiredElems = $('*[lay-verify="required"]');
+        if (requiredElems.length > 0) {
+          requiredElems.each(function(){
+            let requiredElem = $(this)
+              , labelElem = requiredElem.parent().prev('label')
+            ;
+            if (labelElem) {
+              let defaultMessage = '请输入' + labelElem.text();
+              let placeHolder = requiredElem.attr('placeholder');
+              if (!placeHolder) {
+                placeHolder = defaultMessage;
+                requiredElem.attr('placeholder', placeHolder);
+              }
+              if (!requiredElem.attr('lay-reqtext')) {
+                requiredElem.attr('lay-reqtext', placeHolder)
+              }
+              labelElem.addClass('form-required');
+            }
+          });
+        }
+
+        view.removeLoad();
         if (that.done) {
           that.done(res);
           delete that.done;
         }
-
       }
       , error: function (e) {
         view.removeLoad();
@@ -213,7 +234,6 @@ layui.define(['laytpl', 'layer'], function (exports) {
         if (that.render.isError) {
           return view.error('请求视图文件异常，状态：' + e.status);
         }
-        ;
 
         if (e.status === 404) {
           that.render('_base/template/tips/404');

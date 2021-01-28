@@ -41,7 +41,7 @@ layui.define('view', function (exports) {
         options = options || {};
         options.method = 'GET';
         options.headers = options.headers || {};
-        options.headers['Accept'] = 'application/json'; 
+        options.headers['Accept'] = 'application/json';
         options.url = url;
         options.done = doneCallback;
         view.req(options)
@@ -420,39 +420,6 @@ layui.define('view', function (exports) {
       layui.index.render();
     }
 
-    //输入框搜索
-    , serach: function (othis) {
-      othis.off('keypress').on('keypress', function (e) {
-        if (!this.value.replace(/\s/g, '')) return;
-        //回车跳转
-        if (e.keyCode === 13) {
-          var href = othis.attr('lay-action')
-            , text = othis.attr('lay-text') || '搜索';
-
-          href = href + this.value;
-          text = text + ' <span style="color: #FF5722;">' + admin.escape(this.value) + '</span>';
-
-          //打开标签页
-          location.hash = admin.correctRouter(href)
-
-          //如果搜索关键词已经打开，则刷新页面即可
-          events.serach.keys || (events.serach.keys = {});
-          events.serach.keys[admin.tabsPage.index] = this.value;
-          if (this.value === events.serach.keys[admin.tabsPage.index]) {
-            events.refresh(othis);
-          }
-
-          //清空输入框
-          this.value = '';
-        }
-      });
-    }
-
-    //点击消息
-    , message: function (othis) {
-      othis.find('.layui-badge-dot').remove();
-    }
-
     //弹出主题面板
     , theme: function () {
       admin.popupRight({
@@ -461,37 +428,6 @@ layui.define('view', function (exports) {
           view(this.id).render('_base/system/theme')
         }
       });
-    }
-
-    //便签
-    , note: function (othis) {
-      var mobile = admin.screen() < 2
-        , note = layui.data(setter.tableName).note;
-
-      events.note.index = admin.popup({
-        title: '便签'
-        , shade: 0
-        , offset: [
-          '41px'
-          , (mobile ? null : (othis.offset().left - 250) + 'px')
-        ]
-        , anim: -1
-        , id: 'LAY_adminNote'
-        , skin: 'layadmin-note layui-anim layui-anim-upbit'
-        , content: '<textarea placeholder="内容"></textarea>'
-        , resize: false
-        , success: function (layero, index) {
-          var textarea = layero.find('textarea')
-            , value = note === undefined ? '便签中的内容会存储在本地，这样即便你关掉了浏览器，在下次打开时，依然会读取到上一次的记录。是个非常小巧实用的本地备忘录' : note;
-
-          textarea.val(value).focus().on('keyup', function () {
-            layui.data(setter.tableName, {
-              key: 'note'
-              , value: this.value
-            });
-          });
-        }
-      })
     }
 
     //全屏

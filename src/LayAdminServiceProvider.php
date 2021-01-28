@@ -38,6 +38,9 @@ class LayAdminServiceProvider extends ServiceProvider
     {
         // load routes
         $routePrefix = config(self::LAY_ADMIN . '.route_prefix');
+        if (empty($routePrefix)) {
+            $routePrefix = 'admin';
+        }
         Route::namespace('Vinlon\Laravel\LayAdmin\Controllers')
             ->prefix($routePrefix)
             ->group(__DIR__ . '/routes/lay-admin-web.php')

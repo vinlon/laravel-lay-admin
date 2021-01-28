@@ -1,11 +1,10 @@
-<div class="layui-form" lay-filter="LAY-user-form" style="padding: 20px 20px 0 0;">
+<div class="layui-form" wid100 lay-filter="LAY-user-form" style="padding: 20px 20px 0 0;">
   <script type="text/html" template>
     <div class="layui-form-item">
       <label class="layui-form-label">登录用户名</label>
       <div class="layui-input-block">
         <input type="hidden" name="id" value="{{ d.params.id || '' }}"/>
-        <input type="text" name="username" value="{{ d.params.username || '' }}" lay-verify="required"
-               lay-reqtext="请输入登录用户名" placeholder="请输入登录用户名" autocomplete="off" class="layui-input">
+        <input type="text" name="username" value="{{ d.params.username || '' }}" lay-verify="required" autocomplete="off" class="layui-input">
       </div>
     </div>
     <div class="layui-form-item">
@@ -23,15 +22,13 @@
     <div class="layui-form-item">
       <label class="layui-form-label">登录密码</label>
       <div class="layui-input-inline">
-        <input type="password" name="password" value=""
-               lay-verify="required" lay-reqtext="请输入密码" class="layui-input">
+        <input type="password" name="password" value="" lay-verify="required" class="layui-input">
       </div>
     </div>
     <div class="layui-form-item">
       <label class="layui-form-label">确认密码</label>
       <div class="layui-input-inline">
-        <input type="password" name="verify_password" value=""
-               lay-verify="required" lay-reqtext="请再次输入密码" class="layui-input"/>
+        <input type="password" name="verify_password" value="" lay-verify="required" class="layui-input"/>
       </div>
     </div>
     {{# } }}

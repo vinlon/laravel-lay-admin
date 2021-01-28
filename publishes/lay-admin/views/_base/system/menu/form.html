@@ -31,16 +31,14 @@
       <label class="layui-form-label">菜单名称</label>
       <div class="layui-input-block">
         <input type="hidden" name="id" value="{{ d.params.id || '' }}"/>
-        <input type="text" name="title" value="{{ d.params.title || '' }}" lay-verify="required"
-               lay-reqtext="请输入菜单名称" placeholder="请输入菜单名称" autocomplete="off" class="layui-input">
+        <input type="text" name="title" value="{{ d.params.title || '' }}" lay-verify="required" autocomplete="off" class="layui-input">
       </div>
     </div>
     {{# if(d.params.pid == 0) { }}
     <div class="layui-form-item">
       <label class="layui-form-label">菜单图标</label>
       <div class="layui-input-inline">
-        <input type="text" name="icon" value="{{ d.params.icon || '' }}" lay-verify="required"
-               lay-reqtext="请输入菜单图标对应的class" placeholder="请输入菜单图标对应的class" autocomplete="off" class="layui-input">
+        <input type="text" name="icon" value="{{ d.params.icon || '' }}" lay-verify="required" autocomplete="off" class="layui-input">
       </div>
       <div class="layui-form-mid layui-word-aux">
         <a href="https://www.layui.com/doc/element/icon.html#table" target="_blank" lay-tips="点击查看可用图标">
@@ -58,8 +56,7 @@
     <div class="layui-form-item">
       <label class="layui-form-label">跳转地址</label>
       <div class="layui-input-block">
-        <input type="text" name="path" value="{{ d.params.path || '' }}" lay-verify="required"
-               lay-reqtext="请输入菜单跳转地址" placeholder="请输入菜单跳转地址" autocomplete="off" class="layui-input">
+        <input type="text" name="path" value="{{ d.params.path || '' }}" lay-verify="required" autocomplete="off" class="layui-input">
       </div>
     </div>
     {{# } }}
