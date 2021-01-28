@@ -1,4 +1,4 @@
-/**
+G/**
 
  @Name：layuiAdmin
  @Author：贤心
@@ -504,7 +504,7 @@ html{background-color: #f2f2f2; color: #666;}
 .layadmin-tips .layui-text .layui-anim{display: inline-block;}
 
 /* 表单必填项星标 */
-.form-required:before {content: '*'; color: red; font-size: 15px; padding-right: 5px; vertical-align: middle}
+.form-required:before {content: '*'; color: red; font-size: 15px; padding-right: 3px;}
 
 /*
 

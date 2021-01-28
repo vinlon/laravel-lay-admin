@@ -201,15 +201,17 @@ layui.define(['laytpl', 'layer'], function (exports) {
         that.parse(html);
 
         //自动处理form表单中的必填项
-        let requiredElems = $('*[lay-verify="required"]');
+        let requiredElems = $('*[lay-verify]');
         if (requiredElems.length > 0) {
           requiredElems.each(function(){
             let requiredElem = $(this)
               , labelElem = requiredElem.parent().prev('label')
+              , labelText = labelElem.text().trim()
             ;
             requiredElem.attr('lay-verType', 'tips');
-            if (labelElem) {
-              let defaultMessage = '请输入' + labelElem.text();
+
+            if (labelElem && labelText) {
+              let defaultMessage = '请输入' + labelText;
               let placeHolder = requiredElem.attr('placeholder');
               if (!placeHolder) {
                 placeHolder = defaultMessage;
