@@ -103,7 +103,9 @@ Route::group(['middleware' => ['auth:lay-admin']], function () {
 
 1. 通过 .parent().pref('label') 找到对应的label, 在label的内容前添加必填项标记（ 红色的 * ） 
 
-2. 根据label的值(菜单名称)，为input元素定义默认的 placeholder 和 lay-reqtext (请输入菜单名称)
+2. 将 input 元素的 layType 设置为 tips， 将错误提示的样式改为 tips
+
+3. 根据label的值(菜单名称)，为input元素定义默认的 placeholder 和 lay-reqtext (请输入菜单名称)
 
 ```html
 <div class="layui-form-item">

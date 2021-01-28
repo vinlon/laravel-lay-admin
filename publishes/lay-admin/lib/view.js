@@ -207,6 +207,7 @@ layui.define(['laytpl', 'layer'], function (exports) {
             let requiredElem = $(this)
               , labelElem = requiredElem.parent().prev('label')
             ;
+            requiredElem.attr('lay-verType', 'tips');
             if (labelElem) {
               let defaultMessage = '请输入' + labelElem.text();
               let placeHolder = requiredElem.attr('placeholder');
