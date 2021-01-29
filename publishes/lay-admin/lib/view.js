@@ -200,27 +200,25 @@ layui.define(['laytpl', 'layer'], function (exports) {
 
         that.parse(html);
 
-        //自动处理form表单中的必填项
-        let requiredElems = $('*[lay-verify]');
-        if (requiredElems.length > 0) {
-          requiredElems.each(function(){
-            let requiredElem = $(this)
-              , labelElem = requiredElem.parent().prev('label')
-              , labelText = labelElem.text().trim()
+        //自动处理form表单验证
+        let verifyElems = $('*[lay-verify]');
+        if (verifyElems.length > 0) {
+          verifyElems.each(function(){
+            let verifyElem = $(this)
+              , labelElem = verifyElem.parent().prev('label')
             ;
-            requiredElem.attr('lay-verType', 'tips');
-
-            if (labelElem && labelText) {
-              let defaultMessage = '请输入' + labelText;
-              let placeHolder = requiredElem.attr('placeholder');
-              if (!placeHolder) {
-                placeHolder = defaultMessage;
-                requiredElem.attr('placeholder', placeHolder);
+            verifyElem.attr('lay-verType', 'tips');
+            if (labelElem) {
+              let defaultMessage = '请输入' + labelElem.text();
+              if (!verifyElem.attr('placeholder')) {
+                verifyElem.attr('placeholder', defaultMessage);
               }
-              if (!requiredElem.attr('lay-reqtext')) {
-                requiredElem.attr('lay-reqtext', placeHolder)
+              if (verifyElem.attr('lay-verify') === 'required') {
+                if (!verifyElem.attr('lay-reqtext')) {
+                  verifyElem.attr('lay-reqtext', verifyElem.attr('placeholder'));
+                }
+                labelElem.addClass('form-required');
               }
-              labelElem.addClass('form-required');
             }
           });
         }
