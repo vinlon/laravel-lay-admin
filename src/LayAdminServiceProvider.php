@@ -8,7 +8,6 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use Vinlon\Laravel\LayAdmin\Commands\CreateAdminUser;
 use Vinlon\Laravel\LayAdmin\Commands\ResetPassword;
-use Vinlon\Laravel\LayAdmin\Exceptions\LayAdminException;
 use Vinlon\Laravel\LayAdmin\Models\AdminUser;
 
 class LayAdminServiceProvider extends ServiceProvider
@@ -76,7 +75,6 @@ class LayAdminServiceProvider extends ServiceProvider
     }
 
     /**
-     * @throws LayAdminException
      * @throws BindingResolutionException
      */
     private function mergeAuthConfig()
@@ -94,12 +92,7 @@ class LayAdminServiceProvider extends ServiceProvider
         ];
         $config = $this->app->make('config');
         $authConfig = $config->get($authConfigKey, []);
-        if (array_key_exists($providerName, $authConfig['providers'])) {
-            throw new LayAdminException("the provider name {$providerName} is used");
-        }
-        if (array_key_exists($guardName, $authConfig['guards'])) {
-            throw new LayAdminException("the guard name {$guardName} is used");
-        }
+
         $authConfig['providers'][$providerName] = $adminUsersProvider;
         $authConfig['guards'][$guardName] = $layAdminGuard;
         $config->set($authConfigKey, $authConfig);
