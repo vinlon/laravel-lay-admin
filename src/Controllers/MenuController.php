@@ -89,7 +89,7 @@ class MenuController extends BaseController
             //超级管理员自动拥有所有权限
             $myMenus = AdminMenu::query()->orderBy('sequence')->get();
         } else {
-            $myMenus = AdminMenu::query()->find($role->menu_ids)->orderBy('sequence');
+            $myMenus = AdminMenu::query()->orderBy('sequence')->find($role->menu_ids);
         }
 
         $groupMenus = $myMenus->groupBy(function (AdminMenu $menu) {
