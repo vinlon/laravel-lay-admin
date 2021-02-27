@@ -29,13 +29,11 @@ class AuthController extends BaseController
     public function home()
     {
         $title = AdminConfig::get(self::OPT_ADMIN_PREFIX . 'title', '后台管理系统');
-        $pageTabSwitch = AdminConfig::get(self::OPT_ADMIN_PREFIX . 'page_tab_switch', 'off');
 
         return view('lay-admin::index', [
             'title' => $title,
             'view_path' => './lay-admin/',
             'debug' => config('app.debug') ? 1 : 0,
-            'page_tab_switch' => $pageTabSwitch,
             'static_version' => time(), //不缓存表态资源
         ]);
     }
@@ -44,10 +42,8 @@ class AuthController extends BaseController
     {
         $param = request()->validate([
             'title' => 'required',
-            'page_tab_switch' => 'nullable',
         ]);
         AdminConfig::set(self::OPT_ADMIN_PREFIX . 'title', $param['title']);
-        AdminConfig::set(self::OPT_ADMIN_PREFIX . 'page_tab_switch', $param['page_tab_switch'] ?? 'off');
 
         return $this->successResponse();
     }

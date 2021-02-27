@@ -17,7 +17,6 @@
     base: '{{ $view_path }}'
     , title: '{{ $title }}'
     , debug: '{{ $debug }}'
-    , page_tab_switch: '{{ $page_tab_switch }}'
     , version: '{{ $static_version  }}'
   }).use('index');
 </script>

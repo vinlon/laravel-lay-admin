@@ -23,12 +23,6 @@
               </div>
             </div>
             <div class="layui-form-item">
-              <label class="layui-form-label">页面选项卡</label>
-              <div class="layui-input-block">
-                <input type="checkbox" name="page_tab_switch" lay-skin="switch" lay-text="开启|关闭">
-              </div>
-            </div>
-            <div class="layui-form-item">
               <div class="layui-input-block">
                 <button class="layui-btn" lay-submit lay-filter="LAY-config-submit">确认保存</button>
               </div>
@@ -48,10 +42,6 @@
 
     form.render(null, 'LAY-config-form');
     admin.get('lay-admin/config', function (res) {
-      let data = res.data;
-      if (data.page_tab_switch && data.page_tab_switch === 'off') {
-        data.page_tab_switch = undefined;
-      }
       form.val('LAY-config-form', res.data);
     });
     form.on('submit(LAY-config-submit)', function (data) {
