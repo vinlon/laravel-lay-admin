@@ -2,6 +2,8 @@
 
 ## 更新日志
 
+v0.4.0: 更新layui版本到v2.6.4, [查看更新日志](https://www.layui.com/doc/base/changelog.html)
+
 v0.3.1: 添加表单必填项的自动处理功能
 
 v0.3.0: api路由前缀由admin改为lay-admin，以免和业务端代码产生冲突
@@ -16,11 +18,13 @@ v0.2.4: BaseController 增加 paginateResponse 方法，简化分页数据查询
 ```shell
 composer require vinlon/laravel-lay-admin
 ```
+
 2. #### 发布 public 文件
 
 ```shell
 php artisan vendor:publish --provider="Vinlon\Laravel\LayAdmin\LayAdminServiceProvider" --tag=public --force
 ```
+
 3. #### 发布 config 文件
 
 ```shell
