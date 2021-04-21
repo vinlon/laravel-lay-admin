@@ -11,7 +11,7 @@
         <h2>{{ layui.cache.title }}</h2>
       </script>
     </div>
-    <div class="layadmin-user-login-box layadmin-user-login-body layui-form">
+    <form class="layadmin-user-login-box layadmin-user-login-body layui-form">
       <div class="layui-form-item">
         <label class="layadmin-user-login-icon layui-icon layui-icon-username" for="input_username"></label>
         <input type="text" name="username" id="input_username" lay-verify="required" lay-reqtext="请输入用户名"
@@ -26,9 +26,9 @@
         <a lay-tips="请联系管理员重置密码" class="layadmin-user-jump-change layadmin-link" style="margin-top: 7px;">忘记密码？</a>
       </div>
       <div class="layui-form-item">
-        <button class="layui-btn layui-btn-fluid" lay-submit lay-filter="LAY-user-login-submit">登 入</button>
+        <button type="submit" class="layui-btn layui-btn-fluid" lay-submit lay-filter="LAY-user-login-submit">登 录</button>
       </div>
-    </div>
+    </form>
   </div>
 </div>
 
@@ -53,7 +53,7 @@
           , value: res.data.access_token
         });
         //登入成功的提示与跳转
-        layer.msg('登入成功', {
+        layer.msg('登录成功', {
           offset: '15px'
           , icon: 1
           , time: 1000
