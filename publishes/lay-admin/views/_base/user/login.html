@@ -11,7 +11,7 @@
         <h2>{{ layui.cache.title }}</h2>
       </script>
     </div>
-    <form class="layadmin-user-login-box layadmin-user-login-body layui-form">
+    <form class="layadmin-user-login-box layadmin-user-login-body layui-form" method="post">
       <div class="layui-form-item">
         <label class="layadmin-user-login-icon layui-icon layui-icon-username" for="input_username"></label>
         <input type="text" name="username" id="input_username" lay-verify="required" lay-reqtext="请输入用户名"
@@ -65,6 +65,7 @@
           layer.msg(res.msg);
         }
       });
+      return false;
     });
   });
 </script>
