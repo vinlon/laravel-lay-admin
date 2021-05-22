@@ -5,6 +5,7 @@ use Vinlon\Laravel\LayAdmin\SideBarCollection;
 
 $sidebars = new SideBarCollection([]);
 
+/* 在此处定义应用菜单 */
 //$sidebars->add(
 //    SideBar::create('test', '一极菜单')->iconClass('test')
 //        ->add(SideBar::create('test.sub', '二级菜单')->jumpTo('test'))

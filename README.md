@@ -52,6 +52,7 @@ php artisan jwt:secret
 ```
 # 默认值为admin, 管理后台访问地址为 ${APP_URL}/admin
 LAY_ADMIN_ROUTE_PREFIX=
+LAY_ADMIN_DISPLAY_NAME=
 
 # JWT Token 有效期，单位为‘分’，默认值为 60 分钟
 JWT_TTL=
