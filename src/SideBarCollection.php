@@ -10,7 +10,11 @@ class SideBarCollection extends Collection
     {
         $baseMenu = self::_base();
         /** @var SideBarCollection $appMenu */
-        $appMenu = config('lay-admin.sidebars');
+        $appMenuConfig = config('lay-admin.sidebars');
+        $appMenu = new SideBarCollection([]);
+        foreach ($appMenuConfig as $item) {
+            $appMenu->add(SideBar::fromArray($item));
+        }
 
         return $appMenu->merge($baseMenu);
     }

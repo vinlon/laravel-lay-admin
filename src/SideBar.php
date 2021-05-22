@@ -33,6 +33,27 @@ class SideBar implements Arrayable
         $this->children = new SideBarCollection([]);
     }
 
+    /** 从数组中加载菜单数据 */
+    public static function fromArray($arr)
+    {
+        $instance = self::create(
+            $arr['id'] ?: '',
+            $arr['title'] ?: '',
+            $arr['jump'] ?: '',
+            $arr['icon'] ?: ''
+        );
+        $list = $arr['list'] ?: null;
+        if (is_array($list) && count($list) > 0) {
+            $children = new SideBarCollection([]);
+            foreach ($list as $item) {
+                $children->add(self::fromArray($item));
+            }
+            $instance->children = $children;
+        }
+
+        return $instance;
+    }
+
     public function toArray()
     {
         return [
@@ -45,9 +66,9 @@ class SideBar implements Arrayable
     }
 
     /** 创建Sidebar实例 */
-    public static function create($uniqId, $name, $jump = '', $iconClass = '')
+    public static function create($uniqId, $title, $jump = '', $iconClass = '')
     {
-        return new self($uniqId, $name, $jump, $iconClass);
+        return new self($uniqId, $title, $jump, $iconClass);
     }
 
     /** 设置跳转链接 */

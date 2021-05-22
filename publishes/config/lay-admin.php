@@ -26,5 +26,5 @@ return [
     /*
      * 菜单定义
      */
-    'sidebars' => $sidebars,
+    'sidebars' => $sidebars->toArray(),
 ];
