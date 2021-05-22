@@ -5,7 +5,6 @@ namespace Vinlon\Laravel\LayAdmin\Controllers;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Tymon\JWTAuth\JWTGuard;
-use Vinlon\Laravel\LayAdmin\Models\AdminConfig;
 use Vinlon\Laravel\LayAdmin\Models\AdminUser;
 
 class AuthController extends BaseController
@@ -27,7 +26,7 @@ class AuthController extends BaseController
 
     public function home()
     {
-        $title = AdminConfig::get(self::OPT_ADMIN_PREFIX . 'title', '后台管理系统');
+        $title = config('lay-admin.display_name');
 
         return view('lay-admin::index', [
             'title' => $title,
