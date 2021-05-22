@@ -11,7 +11,7 @@
 </head>
 <body>
 <div id="LAY_app"></div>
-<script src="assets/layui-v2.6.4/layui.js"></script>
+<script src="assets/layui-v2.6.7/layui.js"></script>
 <script>
   layui.config({
     base: '{{ $view_path }}'
