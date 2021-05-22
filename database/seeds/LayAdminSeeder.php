@@ -9,7 +9,6 @@ class LayAdminSeeder extends Seeder
      */
     public function run()
     {
-        $this->call(InitMenuSeeder::class);
         $this->call(InitRoleSeeder::class);
     }
 }

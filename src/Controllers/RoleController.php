@@ -2,8 +2,9 @@
 
 namespace Vinlon\Laravel\LayAdmin\Controllers;
 
-use Vinlon\Laravel\LayAdmin\Models\AdminMenu;
 use Vinlon\Laravel\LayAdmin\Models\AdminRole;
+use Vinlon\Laravel\LayAdmin\SideBar;
+use Vinlon\Laravel\LayAdmin\SideBarCollection;
 
 class RoleController extends BaseController
 {
@@ -11,13 +12,14 @@ class RoleController extends BaseController
     {
         $role = AdminRole::query()->find($id);
         $menuIds = $role->menu_ids;
-        $menus = AdminMenu::query()->find($menuIds);
-        $subMenuIds = $menus->reject(function (AdminMenu $menu) {
-            return 0 == $menu->pid;
-        })->map(function (AdminMenu $menu) {
-            return $menu->id;
+        $topMenuIds = SideBarCollection::_all()->map(function (SideBar $sideBar) {
+            return $sideBar->uniqId;
         })->toArray();
+        $subMenuIds = array_filter($menuIds, function ($id) use ($topMenuIds) {
+            return !in_array($id, $topMenuIds);
+        });
         $result = $role->toArray();
+        //方便前端初始化
         $result['sub_menu_ids'] = $subMenuIds;
 
         return $this->successResponse($result);

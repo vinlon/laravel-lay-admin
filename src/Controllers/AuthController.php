@@ -4,7 +4,6 @@ namespace Vinlon\Laravel\LayAdmin\Controllers;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Str;
 use Tymon\JWTAuth\JWTGuard;
 use Vinlon\Laravel\LayAdmin\Models\AdminConfig;
 use Vinlon\Laravel\LayAdmin\Models\AdminUser;
@@ -36,31 +35,6 @@ class AuthController extends BaseController
             'debug' => config('app.debug') ? 1 : 0,
             'static_version' => time(), //不缓存表态资源
         ]);
-    }
-
-    public function setConfig()
-    {
-        $param = request()->validate([
-            'title' => 'required',
-        ]);
-        AdminConfig::set(self::OPT_ADMIN_PREFIX . 'title', $param['title']);
-
-        return $this->successResponse();
-    }
-
-    public function getConfig()
-    {
-        $configs = AdminConfig::query()
-            ->where('key', 'like', self::OPT_ADMIN_PREFIX . '%')
-            ->get()
-        ;
-        $values = $configs->mapWithKeys(function (AdminConfig $config) {
-            $title = Str::replaceFirst(self::OPT_ADMIN_PREFIX, '', $config->key);
-
-            return [$title => $config->value];
-        })->toArray();
-
-        return $this->successResponse($values);
     }
 
     public function passwordLogin()

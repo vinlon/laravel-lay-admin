@@ -3,147 +3,47 @@
 namespace Vinlon\Laravel\LayAdmin\Controllers;
 
 use Illuminate\Support\Facades\Auth;
-use Vinlon\Laravel\LayAdmin\Models\AdminMenu;
 use Vinlon\Laravel\LayAdmin\Models\AdminUser;
+use Vinlon\Laravel\LayAdmin\SideBar;
+use Vinlon\Laravel\LayAdmin\SideBarCollection;
 
 class MenuController extends BaseController
 {
-    public function saveMenu()
-    {
-        /** @var AdminMenu $menu */
-        $menu = $this->getEntity(AdminMenu::class);
-        $param = request()->validate([
-            'title' => 'required',
-            'pid' => 'integer',
-            'icon' => 'nullable',
-            'path' => 'nullable',
-            'insert_after' => 'integer',
-        ]);
-        $pid = $param['pid'];
-        $menu->title = $param['title'];
-        $menu->pid = $param['pid'];
-        $menu->icon = $param['icon'] ?? '';
-        $menu->path = $param['path'] ?? '';
-        $menu->save();
-
-        $insertAfter = $param['insert_after'];
-        if ($insertAfter != $menu->id) {
-            //重新排序
-            $siblings = AdminMenu::findOrderedListByPid($pid);
-            $sequences = $siblings->mapWithKeys(function (AdminMenu $menu) {
-                return [$menu->id => $menu->sequence];
-            })->toArray();
-            unset($sequences[$menu->id]);
-            $afterSequence = $sequences[$insertAfter] ?? 0;
-            $sequences[$menu->id] = $afterSequence + 0.5;
-            asort($sequences);
-            foreach ($siblings as $menu) {
-                $menu->sequence = array_search($menu->id, array_keys($sequences)) + 1;
-                $menu->save();
-            }
-        }
-
-        return $this->successResponse();
-    }
-
-    /**
-     * @param $id
-     *
-     * @throws \Exception
-     *
-     * @return array
-     */
-    public function deleteMenu($id)
-    {
-        $menu = AdminMenu::query()->find($id);
-        $menu->delete();
-
-        return $this->successResponse();
-    }
-
-    public function getMenuList()
-    {
-        $pid = request()->get('pid', 0);
-        $pMenu = AdminMenu::query()->find($pid);
-        $menus = AdminMenu::findOrderedListByPid($pid);
-        $result = $menus->map(function (AdminMenu $menu) use ($pMenu) {
-            $arr = $menu->toArray();
-            if ($pMenu) {
-                $arr['p_menu'] = $pMenu->toArray();
-            }
-
-            return $arr;
-        });
-
-        return $this->successResponse($result, [
-            'count' => AdminMenu::query()->where('pid', $pid)->count(),
-        ]);
-    }
-
     public function sidebar()
     {
+        $allMenu = SideBarCollection::_all();
         /** @var AdminUser $user */
         $user = Auth::user();
         $role = $user->role;
-        if ($role->is_root) {
-            //超级管理员自动拥有所有权限
-            $myMenus = AdminMenu::query()->orderBy('sequence')->get();
-        } else {
-            $myMenus = AdminMenu::query()->orderBy('sequence')->find($role->menu_ids);
+        if (!$role->is_root) {
+            $allMenu = $allMenu->filter(function (SideBar $sidebar) use ($role) {
+                return in_array($sidebar->uniqId, $role->menu_ids);
+            });
         }
 
-        $groupMenus = $myMenus->groupBy(function (AdminMenu $menu) {
-            return $menu->pid;
-        });
-        $result = [];
-
-        /** @var AdminMenu $pMenu */
-        foreach ($groupMenus->get(0) ?? [] as $pMenu) {
-            $subMenus = $groupMenus->get($pMenu->id) ?? [];
-            $row = [
-                'title' => $pMenu->title,
-                'jump' => $pMenu->path,
-                'icon' => $pMenu->icon,
-                'list' => [],
-            ];
-            /** @var AdminMenu $subMenu */
-            foreach ($subMenus as $subMenu) {
-                $row['list'][] = [
-                    'title' => $subMenu->title,
-                    'jump' => $subMenu->path,
-                ];
-            }
-            $result[] = $row;
-        }
-
-        return $this->successResponse($result);
+        return $this->successResponse($allMenu->toArray());
     }
 
     public function getMenuTree()
     {
-        $allMenus = AdminMenu::all();
-        $groupMenus = $allMenus->groupBy(function (AdminMenu $menu) {
-            return $menu->pid;
-        });
-        $result = [];
-        /** @var AdminMenu $pMenu */
-        foreach ($groupMenus->get(0) ?? [] as $pMenu) {
-            $subMenus = $groupMenus->get($pMenu->id) ?? [];
+        $allMenus = SideBarCollection::_all();
+        $result = $allMenus->map(function (SideBar $sideBar) {
             $row = [
-                'title' => $pMenu->title,
-                'id' => $pMenu->id,
+                'title' => $sideBar->title,
+                'id' => $sideBar->uniqId,
                 'spread' => true,
                 'children' => [],
             ];
-            /** @var AdminMenu $subMenu */
-            foreach ($subMenus as $subMenu) {
+            /** @var SideBar $sub */
+            foreach ($sideBar->children as $sub) {
                 $row['children'][] = [
-                    'title' => $subMenu->title,
-                    'id' => $subMenu->id,
+                    'title' => $sub->title,
+                    'id' => $sub->uniqId,
                 ];
             }
-            $result[] = $row;
-        }
+
+            return $row;
+        })->toArray();
 
         return $this->successResponse($result);
     }
