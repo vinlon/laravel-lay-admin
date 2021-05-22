@@ -2,6 +2,8 @@
 
 ## 更新日志
 
+v0.5.0: 将菜单的定义放在配置文件中(去掉admin_menus表及菜单管理页面)，免去上线时同步系统菜单的步骤
+
 v0.4.0: 更新layui版本到v2.6.4, [查看更新日志](https://www.layui.com/doc/base/changelog.html)
 
 v0.3.1: 添加表单必填项的自动处理功能
