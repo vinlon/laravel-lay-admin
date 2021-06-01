@@ -7,7 +7,7 @@ $sidebars = new SideBarCollection([]);
 
 /* 在此处定义应用菜单 */
 $sidebars->add(
-    SideBar::create('test', '自定义一级菜单')->iconClass('test')
+    SideBar::create('test', '自定义一级菜单')->iconClass('layui-icon-app')
         ->add(SideBar::create('test.sub', '自定义二级菜单')->jumpTo('test'))
 );
 
