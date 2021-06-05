@@ -23,7 +23,7 @@ class UserController extends BaseController
         ]);
         $user = $this->getEntity(AdminUser::class);
         if (!$user->id) {
-            $user->password = Hash::make($param['username']);
+            $user->password = Hash::make($param['password']);
         }
         $user->username = $param['username'];
         $user->role_id = $param['role_id'];
