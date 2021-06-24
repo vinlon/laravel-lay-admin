@@ -2,6 +2,8 @@
 
 ## 更新日志
 
+v0.6.0: 增加内容管理功能，需要手动执行db:seed初始化角色 
+
 v0.5.0: 将菜单的定义放在配置文件中(去掉admin_menus表及菜单管理页面)，免去上线时同步系统菜单的步骤
 
 v0.4.0: 更新layui版本到v2.6.4, [查看更新日志](https://www.layui.com/doc/base/changelog.html)
@@ -38,7 +40,6 @@ php artisan vendor:publish --provider="Vinlon\Laravel\LayAdmin\LayAdminServicePr
 ```shell
 # 如果数据库中已经存在对应的数据表，需要先将其 drop
 php artisan migrate
-php artisan db:seed --class=LayAdminSeeder
 ```
 
 5. #### 生成JWT_SECRET
