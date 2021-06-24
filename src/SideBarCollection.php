@@ -22,6 +22,8 @@ class SideBarCollection extends Collection
     private static function _base()
     {
         return new self([
+            SideBar::create('_system', '系统设置')->iconClass('layui-icon-set-sm')
+                ->add(SideBar::create('_system.content', '内容管理')->jumpTo('_base/system/content/')),
             SideBar::create('_user', '用户')->iconClass('layui-icon-user')
                 ->add(SideBar::create('_user.list', '后台管理员')->jumpTo('_base/user/user/'))
                 ->add(SideBar::create('_user.role', '角色管理')->jumpTo('_base/user/role/')),

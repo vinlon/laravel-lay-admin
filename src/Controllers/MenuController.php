@@ -9,6 +9,7 @@ use Vinlon\Laravel\LayAdmin\SideBarCollection;
 
 class MenuController extends BaseController
 {
+    /** 查询侧边栏菜单数据 */
     public function sidebar()
     {
         $allMenu = SideBarCollection::_all();
@@ -24,6 +25,7 @@ class MenuController extends BaseController
         return $this->successResponse($allMenu->toArray());
     }
 
+    /** 查询菜单列表（树形结构） */
     public function getMenuTree()
     {
         $allMenus = SideBarCollection::_all();

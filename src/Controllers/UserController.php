@@ -7,6 +7,7 @@ use Vinlon\Laravel\LayAdmin\Models\AdminUser;
 
 class UserController extends BaseController
 {
+    /** 查询用户列表 */
     public function getUserList()
     {
         $users = AdminUser::with('role')->get();
@@ -14,6 +15,7 @@ class UserController extends BaseController
         return $this->successResponse($users->toArray());
     }
 
+    /** 保存用户信息 */
     public function saveUser()
     {
         $param = request()->validate([
@@ -32,6 +34,7 @@ class UserController extends BaseController
         return $this->successResponse();
     }
 
+    /** 重置密码 */
     public function resetPassword()
     {
         $param = request()->validate([
@@ -45,6 +48,7 @@ class UserController extends BaseController
         return $this->successResponse();
     }
 
+    /** 删除用户 */
     public function deleteUser($id)
     {
         $user = AdminUser::query()->find($id);

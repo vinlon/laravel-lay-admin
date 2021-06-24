@@ -9,29 +9,29 @@
 
 layui.define(['laytpl', 'layer'], function (exports) {
   var $ = layui.jquery
-      , laytpl = layui.laytpl
-      , layer = layui.layer
-      , setter = layui.setter
-      , device = layui.device()
-      , hint = layui.hint()
+    , laytpl = layui.laytpl
+    , layer = layui.layer
+    , setter = layui.setter
+    , device = layui.device()
+    , hint = layui.hint()
 
-      //对外接口
-      , view = function (id) {
-        return new Class(id);
-      }
+    //对外接口
+    , view = function (id) {
+      return new Class(id);
+    }
 
-      , SHOW = 'layui-show', LAY_BODY = 'LAY_app_body'
+    , SHOW = 'layui-show', LAY_BODY = 'LAY_app_body'
 
-      //构造器
-      , Class = function (id) {
-        this.id = id;
-        this.container = $('#' + (id || LAY_BODY));
-      };
+    //构造器
+    , Class = function (id) {
+      this.id = id;
+      this.container = $('#' + (id || LAY_BODY));
+    };
 
   //加载中
   view.loading = function (elem) {
     elem.append(
-        this.elemLoad = $('<i class="layui-anim layui-anim-rotate layui-anim-loop layui-icon layui-icon-loading layadmin-loading"></i>')
+      this.elemLoad = $('<i class="layui-anim layui-anim-rotate layui-anim-loop layui-icon layui-icon-loading layadmin-loading"></i>')
     );
   };
 
@@ -55,13 +55,13 @@ layui.define(['laytpl', 'layer'], function (exports) {
   //Ajax请求
   view.req = function (options) {
     var success = options.success
-        , error = options.error
-        , request = setter.request
-        , response = setter.response
-        , debug = function () {
+      , error = options.error
+      , request = setter.request
+      , response = setter.response
+      , debug = function () {
       return setter.debug
-          ? '<br><cite>URL：</cite>' + options.url
-          : '';
+        ? '<br><cite>URL：</cite>' + options.url
+        : '';
     };
 
     options.data = options.data || {};
@@ -118,10 +118,24 @@ layui.define(['laytpl', 'layer'], function (exports) {
   //弹窗
   view.popup = function (options) {
     var success = options.success
-        , skin = options.skin;
+      , skin = options.skin;
 
     delete options.success;
     delete options.skin;
+
+    //适配弹出框的大小，不超过当前页面尺寸
+    if (options.area) {
+
+      var area = options.area || []
+        , windowWidth = $(window).width()
+        , windowHeight = $(window).height()
+        , areaWidth = area[0] ? area[0].replace('px', '') : windowWidth
+        , areaHeight = area[1] ? area[1].replace('px', '') : windowHeight
+      options.area = [
+        Math.min(windowWidth, areaWidth) + 'px',
+        Math.min(windowHeight, areaHeight) + 'px'
+      ];
+    }
 
     return layer.open($.extend({
       type: 1
@@ -154,12 +168,12 @@ layui.define(['laytpl', 'layer'], function (exports) {
   };
   // 通知弹出框
   view.notice = function (content, title) {
-      title = title || '提示信息';
-      layer.alert(content, {
-          icon: 0,
-          shadeClose: true,
-          title: title,
-      });
+    title = title || '提示信息';
+    layer.alert(content, {
+      icon: 0,
+      shadeClose: true,
+      title: title,
+    });
   }
 
 
@@ -183,7 +197,7 @@ layui.define(['laytpl', 'layer'], function (exports) {
         html = '<div>' + html + '</div>';
 
         var elemTitle = $(html).find('title')
-            , title = elemTitle.text() || (html.match(/\<title\>([\s\S]*)\<\/title>/) || [])[1];
+          , title = elemTitle.text() || (html.match(/\<title\>([\s\S]*)\<\/title>/) || [])[1];
 
         var res = {
           title: title
@@ -203,7 +217,7 @@ layui.define(['laytpl', 'layer'], function (exports) {
         //自动处理form表单验证
         let verifyElems = $('*[lay-verify]');
         if (verifyElems.length > 0) {
-          verifyElems.each(function(){
+          verifyElems.each(function () {
             let verifyElem = $(this)
               , labelElem = verifyElem.parent().prev('label')
             ;
@@ -251,12 +265,12 @@ layui.define(['laytpl', 'layer'], function (exports) {
   //解析模板
   Class.prototype.parse = function (html, refresh, callback) {
     var that = this
-        , isScriptTpl = typeof html === 'object' //是否模板元素
-        , elem = isScriptTpl ? html : $(html)
-        , elemTemp = isScriptTpl ? html : elem.find('*[template]')
-        , fn = function (options) {
+      , isScriptTpl = typeof html === 'object' //是否模板元素
+      , elem = isScriptTpl ? html : $(html)
+      , elemTemp = isScriptTpl ? html : elem.find('*[template]')
+      , fn = function (options) {
       var tpl = laytpl(options.dataElem.html())
-          , res = $.extend({
+        , res = $.extend({
         params: router.params
       }, options.res);
 
@@ -269,7 +283,7 @@ layui.define(['laytpl', 'layer'], function (exports) {
         console.error(options.dataElem[0], '\n存在错误回调脚本\n\n', e)
       }
     }
-        , router = layui.router();
+      , router = layui.router();
 
     elem.find('title').remove();
     that.container[refresh ? 'after' : 'html'](elem.children());
@@ -280,10 +294,10 @@ layui.define(['laytpl', 'layer'], function (exports) {
     for (var i = elemTemp.length; i > 0; i--) {
       (function () {
         var dataElem = elemTemp.eq(i - 1)
-            , layDone = dataElem.attr('lay-done') || dataElem.attr('lay-then') //获取回调
-            , url = laytpl(dataElem.attr('lay-url') || '').render(router) //接口 url
-            , data = laytpl(dataElem.attr('lay-data') || '').render(router) //接口参数
-            , headers = laytpl(dataElem.attr('lay-headers') || '').render(router); //接口请求的头信息
+          , layDone = dataElem.attr('lay-done') || dataElem.attr('lay-then') //获取回调
+          , url = laytpl(dataElem.attr('lay-url') || '').render(router) //接口 url
+          , data = laytpl(dataElem.attr('lay-data') || '').render(router) //接口参数
+          , headers = laytpl(dataElem.attr('lay-headers') || '').render(router); //接口请求的头信息
 
         try {
           data = new Function('return ' + data + ';')();
@@ -338,8 +352,8 @@ layui.define(['laytpl', 'layer'], function (exports) {
   //局部刷新模板
   Class.prototype.refresh = function (callback) {
     var that = this
-        , next = that.container.next()
-        , templateid = next.attr('lay-templateid');
+      , next = that.container.next()
+      , templateid = next.attr('lay-templateid');
 
     if (that.id != templateid) return that;
 

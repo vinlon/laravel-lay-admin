@@ -24,6 +24,7 @@ class AuthController extends BaseController
         $this->auth = Auth::guard('lay-admin');
     }
 
+    /** 管理后台入口  */
     public function home()
     {
         $title = config('lay-admin.display_name');
@@ -36,6 +37,7 @@ class AuthController extends BaseController
         ]);
     }
 
+    /** 用户名密码登录 */
     public function passwordLogin()
     {
         $param = request()->validate([
@@ -52,6 +54,7 @@ class AuthController extends BaseController
         return $this->errorResponse('login_faied', '用户名或密码错误');
     }
 
+    /** 查询个人信息 */
     public function profile()
     {
         /** @var AdminUser $user */
@@ -61,6 +64,7 @@ class AuthController extends BaseController
         return $this->successResponse($user->toArray());
     }
 
+    /** 更新个人信息 */
     public function updateProfile()
     {
         $param = request()->validate([
@@ -78,6 +82,7 @@ class AuthController extends BaseController
         return $this->successResponse();
     }
 
+    /** 修改密码 */
     public function changePassword()
     {
         $param = request()->validate([

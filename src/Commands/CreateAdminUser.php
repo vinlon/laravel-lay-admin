@@ -50,9 +50,10 @@ class CreateAdminUser extends Command
         }
         $role = AdminRole::query()->where('name', AdminRole::ROOT_ROLE_NAME)->first();
         if (!$role) {
-            $this->output->error('尚未初始化角色数据');
-
-            return 1;
+            $role = new AdminRole();
+            $role->name = AdminRole::ROOT_ROLE_NAME;
+            $role->description = '系统默认创建，不可修改';
+            $role->save();
         }
         $password = Str::random(8);
         $user = new AdminUser();

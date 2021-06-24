@@ -8,6 +8,7 @@ use Vinlon\Laravel\LayAdmin\SideBarCollection;
 
 class RoleController extends BaseController
 {
+    /** 查询角色详情 */
     public function getRole($id)
     {
         $role = AdminRole::query()->find($id);
@@ -25,6 +26,7 @@ class RoleController extends BaseController
         return $this->successResponse($result);
     }
 
+    /** 保存角色数据 */
     public function saveRole()
     {
         $param = request()->validate([
@@ -44,6 +46,7 @@ class RoleController extends BaseController
         return $this->successResponse();
     }
 
+    /** 删除角色 */
     public function deleteRole($id)
     {
         $role = AdminRole::query()->find($id);
@@ -52,6 +55,7 @@ class RoleController extends BaseController
         return $this->successResponse();
     }
 
+    /** 查询角色列表 */
     public function getRoleList()
     {
         $roles = AdminRole::all();

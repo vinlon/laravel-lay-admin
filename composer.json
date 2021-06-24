@@ -13,10 +13,7 @@
   "autoload": {
     "psr-4": {
       "Vinlon\\Laravel\\LayAdmin\\": "src/"
-    },
-    "classmap": [
-      "database/seeds"
-    ]
+    }
   },
   "extra": {
     "laravel": {
@@ -31,7 +28,7 @@
       "pre-commit": [
         "composer check-style"
       ]
-    } 
+    }
   },
   "scripts":{
     "post-install-cmd": [

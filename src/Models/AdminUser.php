@@ -2,6 +2,7 @@
 
 namespace Vinlon\Laravel\LayAdmin\Models;
 
+use DateTimeInterface;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User as AuthUser;
 use Tymon\JWTAuth\Contracts\JWTSubject;
@@ -27,16 +28,10 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
  */
 class AdminUser extends AuthUser implements JWTSubject
 {
-    protected $casts = [
-        'created_at' => 'datetime:Y-m-d H:i:s',
-        'updated_at' => 'datetime:Y-m-d H:i:s',
-    ];
+    // 除 id, created_at, updated_at 外的其它字段都是 fillable
+    protected $guarded = ['id', 'created_at', 'updated_at'];
 
     protected $hidden = ['password'];
-
-    protected $fillable = [
-        'username', 'password', 'role_id',
-    ];
 
     public function role()
     {
@@ -61,5 +56,10 @@ class AdminUser extends AuthUser implements JWTSubject
     public function getJWTCustomClaims()
     {
         return [];
+    }
+
+    protected function serializeDate(DateTimeInterface $date)
+    {
+        return $date->format('Y-m-d H:i:s');
     }
 }
