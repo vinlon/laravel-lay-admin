@@ -103,14 +103,16 @@
       data = data || {};
       admin.popup({
         title: title
-        , area: ['800px', '900px']
+        , area: ['800px', '800px']
         , id: 'popup_content'
         , success: function (layero, index) {
           view(this.id).render('_base/system/content/form', data).done(function () {
             editor.render({
               elem: "#content"
               , height: 500
-            }).setContent(data.content || '');
+            }, function(opt, edit){
+              edit.setContent(data.content || '');
+            });
 
             form.render(null, 'form_content');
             form.on('submit(submit_content)', function (d) {

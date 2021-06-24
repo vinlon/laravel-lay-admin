@@ -24,7 +24,8 @@ class ContentController extends BaseController
             'content' => 'required',
         ]);
 
-        if (RichContent::getContent(request()->content_key)) {
+        $exists = RichContent::query()->where('content_key', request()->content_key)->first();
+        if ($exists && $exists->id != request()->id) {
             return $this->errorResponse('', '关键字已存在,请不要重复添加');
         }
 

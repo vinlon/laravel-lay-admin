@@ -24,16 +24,6 @@ class RichContent extends Model
     // 除 id, created_at, updated_at 外的其它字段都是 fillable
     protected $guarded = ['id', 'created_at', 'updated_at'];
 
-    public static function getContent($key)
-    {
-        $content = self::query()->where('content_key', $key)->first();
-        if ($content) {
-            return $content->content;
-        }
-
-        return null;
-    }
-
     protected function serializeDate(DateTimeInterface $date)
     {
         return $date->format('Y-m-d H:i:s');
