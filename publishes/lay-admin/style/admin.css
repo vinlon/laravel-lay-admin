@@ -506,7 +506,7 @@ html{background-color: #f2f2f2; color: #666;}
 /* 表单必填项星标 */
 .form-required:before {content: '*'; color: red; font-size: 15px; padding-right: 3px;}
 
-.layadmin-table-search {padding: 10px 20px; margin-bottom: 10px; border-bottom: 1px solid #f6f6f6;}
+.layadmin-table-search {padding-top: 10px; margin-bottom: 10px; border-bottom: 1px solid #f6f6f6;}
 
 /*
 
