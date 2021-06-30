@@ -34,6 +34,11 @@ Route::middleware('auth:lay-admin')->group(function () {
     //内容管理
     Route::resource('contents', 'ContentController')->only(['index', 'store', 'destroy']);
 
-    //图片上传
+    //图片管理
+    Route::resource('images', 'ImageResourceController')->only(['index', 'store', 'destroy']);
+
+    //编辑器图片上传
     Route::post('upload/editor/image', 'UploadController@uploadEditorImage');
+    //资源图片上传
+    Route::post('upload/resource/image', 'UploadController@uploadResourceImage');
 });

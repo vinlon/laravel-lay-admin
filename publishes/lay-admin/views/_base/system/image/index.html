@@ -1,17 +1,33 @@
 <!--开启页面选项卡后，显示为选项卡标题-->
-<title>内容管理</title>
+<title>图片管理</title>
 
 <div class="layui-card layadmin-header">
   <div class="layui-breadcrumb" lay-filter="breadcrumb">
     <a><cite>资源管理</cite></a>
-    <a><cite>内容管理</cite></a>
+    <a><cite>图片管理</cite></a>
   </div>
 </div>
 
+<script>
+  layui.use([], function () {
+    layui.admin.events.imagePreview = function (othis) {
+      let src = othis.attr('src')
+      layer.photos({
+        photos: {
+          "title": "查看图片"
+          , "data": [{"src": src}]
+        }
+        , shade: 0.01
+        , closeBtn: 1
+        , anim: 5
+      });
+    };
+  })
+</script>
 <div class="layui-fluid">
   <div class="layui-card">
     <div class="layadmin-table-search">
-      <form class="layui-form" method="post" lay-filter="form_content_search">
+      <form class="layui-form" method="post" lay-filter="form_image_search">
         <div class="layui-form-item">
           <div class="layui-inline">
             <div class="layui-form-label">关键字搜索</div>
@@ -20,21 +36,24 @@
             </div>
           </div>
           <div class="layui-inline">
-            <button type="submit" lay-submit class="layui-btn layui-btn-sm" lay-filter="submit_content_search">
+            <button type="submit" lay-submit class="layui-btn layui-btn-sm" lay-filter="submit_image_search">
               <i class="layui-icon layui-icon-search"></i>查询
             </button>
           </div>
           <div class="layui-inline">
-            <button id="btn_add_content" class="layui-btn layui-btn-sm layui-btn-normal">
+            <button id="btn_add_image" class="layui-btn layui-btn-sm layui-btn-normal">
               <i class="layui-icon layui-icon-add-1"></i>
-              添加内容
+              添加图片
             </button>
           </div>
         </div>
       </form>
     </div>
     <div class="layui-card-body">
-      <table id="table_content" lay-filter="table_content"></table>
+      <table id="table_image" lay-filter="table_image"></table>
+      <script type="text/html" id="tpl_image">
+        <img src="{{d.image_url}}" layadmin-event="imagePreview" style="height: 20px"/>
+      </script>
       <script type="text/html" id="tpl_opersate">
         <a class="layui-btn layui-btn-xs" lay-event="edit">
           <i class="layui-icon layui-icon-edit"></i>编辑
@@ -48,25 +67,26 @@
 </div>
 
 <script>
-  layui.use(['table', 'form', 'tinymce'], function () {
+  layui.use(['table', 'form', 'upload'], function () {
     let $ = layui.$
       , table = layui.table
       , admin = layui.admin
       , form = layui.form
       , view = layui.view
-      , editor = layui.tinymce
+      , upload = layui.upload
 
-    let resourceUrl = 'lay-admin/contents'
+    let resourceUrl = 'lay-admin/images'
 
     // 列表查询
     table.render({
-      elem: '#table_content'
+      elem: '#table_image'
       , url: resourceUrl
       , page: true
-      , width: 870
+      , width: 970
       , cols: [[
-        {title: '关键字', field: 'content_key', width: 100, align: "center"}
-        , {title: '内容说明', field: 'intro', minWidth: 200}
+        {title: '关键字', field: 'image_key', width: 100, align: "center"}
+        , {title: '图片预览', templet: '#tpl_image', width: 100, align: "center"}
+        , {title: '图片说明', field: 'intro', minWidth: 200}
         , {title: '添加时间', field: 'created_at', width: 180, align: "center"}
         , {title: '修改时间', field: 'updated_at', width: 180, align: "center"}
         , {title: '操作', width: 200, align: 'center', fixed: 'right', toolbar: '#tpl_opersate'}
@@ -74,13 +94,13 @@
     });
 
     //监听工具条
-    table.on('tool(table_content)', function (obj) {
+    table.on('tool(table_image)', function (obj) {
       let data = obj.data;
       if (obj.event === 'del') {
         layer.confirm('确认删除该数据?', function (index) {
           admin.del(resourceUrl, data.id, function (res) {
             layer.close(index);
-            layui.table.reload('table_content'); //重载表格
+            layui.table.reload('table_image'); //重载表格
           })
         });
       } else if (obj.event === 'edit') {
@@ -88,43 +108,47 @@
       }
     });
 
-    form.on('submit(submit_content_search)', function (d) {
-      table.reload('table_content', {where: d.field, page: {curr: 1}})
+    form.on('submit(submit_image_search)', function (d) {
+      table.reload('table_image', {where: d.field, page: {curr: 1}})
       return false;
     });
 
-    $('#btn_add_content').click(function () {
+    $('#btn_add_image').click(function () {
       showForm();
       return false;
     })
 
     let showForm = function (data) {
-      let title = data ? '内容修改' : '内容添加'
+      let title = data ? '图片修改' : '图片添加'
       data = data || {};
       admin.popup({
         title: title
-        , area: ['800px', '800px']
-        , id: 'popup_content'
+        , area: ['500px', '400px']
+        , id: 'popup_image'
         , success: function (layero, index) {
-          view(this.id).render('_base/system/content/form', data).done(function () {
-            editor.render({
-              elem: "#content"
-              , height: 500
-            }, function(opt, edit){
-              edit.setContent(data.content || '');
+          view(this.id).render('_base/system/image/form', data).done(function () {
+            upload.render({
+              url: 'lay-admin/upload/resource/image'
+              , headers: {
+                Authorization: admin.getAccessToken('Bearer'),
+              }
+              , elem: '#btn_upload'
+              , exts: 'jpg|jpeg|png'
+              , done: function (res) {
+                $("input[name='image_url']").val(res.data.image_url);
+                $("#image_preview").attr('src', res.data.image_url);
+              }
             });
 
-            form.render(null, 'form_content');
-            form.on('submit(submit_content)', function (d) {
+            form.on('submit(submit_image)', function (d) {
               let field = d.field;
-              field.content = editor.get('#content').getContent();
-              if (!field.content) {
-                layer.tips('请输入内容详情', $('#labelContent'))
+              if (!field.image_url) {
+                layer.tips('请上传图片', $('#btn_upload'))
                 return;
               }
               admin.post(resourceUrl, field, function (res) {
                 layer.close(index);
-                table.reload('table_content');
+                table.reload('table_image');
               })
             })
           })
