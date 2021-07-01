@@ -8,22 +8,6 @@
   </div>
 </div>
 
-<script>
-  layui.use([], function () {
-    layui.admin.events.imagePreview = function (othis) {
-      let src = othis.attr('src')
-      layer.photos({
-        photos: {
-          "title": "查看图片"
-          , "data": [{"src": src}]
-        }
-        , shade: 0.01
-        , closeBtn: 1
-        , anim: 5
-      });
-    };
-  })
-</script>
 <div class="layui-fluid">
   <div class="layui-card">
     <div class="layadmin-table-search">

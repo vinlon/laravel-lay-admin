@@ -570,6 +570,21 @@ layui.define('view', function (exports) {
     , shade: function () {
       admin.sideFlexible();
     }
+
+
+    //图片预览
+    , imagePreview: function (othis) {
+      let src = othis.attr('src')
+      layer.photos({
+        photos: {
+          "title": "查看图片"
+          , "data": [{"src": src}]
+        }
+        , shade: 0.01
+        , closeBtn: 1
+        , anim: 5
+      })
+    }
   };
 
   //初始
