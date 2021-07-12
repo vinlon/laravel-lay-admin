@@ -17,9 +17,7 @@ class MenuController extends BaseController
         $user = Auth::user();
         $role = $user->role;
         if (!$role->is_root) {
-            $allMenu = $allMenu->filter(function (SideBar $sidebar) use ($role) {
-                return in_array($sidebar->uniqId, $role->menu_ids);
-            });
+            $allMenu = $this->filterRoleMenu($allMenu, $role);
         }
 
         return $this->successResponse($allMenu->toArray());
@@ -48,5 +46,22 @@ class MenuController extends BaseController
         })->toArray();
 
         return $this->successResponse($result);
+    }
+
+    private function filterRoleMenu($menus, $role)
+    {
+        $roleMenu = new SideBarCollection();
+        /** @var SideBar $menu */
+        foreach ($menus as $menu) {
+            if (!in_array($menu->uniqId, $role->menu_ids)) {
+                continue;
+            }
+            if ($menu->children->count() > 0) {
+                $menu->children = $this->filterRoleMenu($menu->children, $role);
+            }
+            $roleMenu->add($menu);
+        }
+
+        return $roleMenu;
     }
 }
