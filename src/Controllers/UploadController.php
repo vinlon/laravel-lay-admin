@@ -10,8 +10,8 @@ class UploadController extends BaseController
     public function uploadEditorImage()
     {
         $file = request()->file('file');
-        $publicStorage = Storage::disk('public');
-        $path = $publicStorage->putFile('image/editor', $file);
+        $publicStorage = Storage::disk();
+        $path = $publicStorage->putFile('resource/editor', $file);
 
         return $this->successResponse([
             'image_url' => $publicStorage->url($path),
@@ -23,8 +23,8 @@ class UploadController extends BaseController
     {
         $file = request()->file('file');
 
-        $publicStorage = Storage::disk('public');
-        $path = $publicStorage->putFile('image/resource', $file);
+        $publicStorage = Storage::disk();
+        $path = $publicStorage->putFile('resource/image', $file);
 
         return $this->successResponse([
             'image_url' => $publicStorage->url($path),
