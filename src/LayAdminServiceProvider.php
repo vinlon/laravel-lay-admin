@@ -6,7 +6,6 @@ use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
-use Vinlon\Laravel\LayAdmin\Commands\CreateAdminUser;
 use Vinlon\Laravel\LayAdmin\Commands\ResetPassword;
 use Vinlon\Laravel\LayAdmin\Models\AdminUser;
 
@@ -63,7 +62,6 @@ class LayAdminServiceProvider extends ServiceProvider
 
         if ($this->app->runningInConsole()) {
             $this->commands([
-                CreateAdminUser::class,
                 ResetPassword::class,
             ]);
         }

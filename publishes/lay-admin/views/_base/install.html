@@ -1,0 +1,75 @@
+<script type="text/html" template>
+  <link rel="stylesheet" href="{{ layui.setter.base }}style/login.css?v={{ layui.admin.v }}-1" media="all">
+</script>
+
+
+<div class="layadmin-user-login layadmin-user-display-show" id="LAY-user-login" style="display: none;">
+  <div class="layadmin-user-login-main">
+    <div class="layadmin-user-login-box layadmin-user-login-header">
+      <script type="text/html" template>
+        <h2>{{ layui.cache.title }}</h2>
+        <h3>首次使用需要注册超级管理员</h3>
+      </script>
+    </div>
+    <div class="layadmin-user-login-box layadmin-user-login-body layui-form">
+      <div class="layui-form-item">
+        <label class="layadmin-user-login-icon layui-icon layui-icon-username"></label>
+        <input type="text" name="username" lay-verify="required" placeholder="超级管理员登录用户名"
+               class="layui-input" autocomplete="off">
+      </div>
+      <div class="layui-form-item">
+        <label class="layadmin-user-login-icon layui-icon layui-icon-password"></label>
+        <input type="password" name="password" lay-verify="required" placeholder="登录密码"
+               class="layui-input">
+      </div>
+      <div class="layui-form-item">
+        <label class="layadmin-user-login-icon layui-icon layui-icon-password"></label>
+        <input type="password" name="repass" lay-verify="required" placeholder="确认密码"
+               class="layui-input">
+      </div>
+      <div class="layui-form-item">
+        <label class="layadmin-user-login-icon layui-icon layui-icon-email"></label>
+        <input type="text" name="email" placeholder="用户邮箱（用于找回密码）"
+               class="layui-input">
+      </div>
+      <div class="layui-form-item">
+        <label class="layadmin-user-login-icon layui-icon layui-icon-user"></label>
+        <input type="text" name="nickname" lay-verify="nickname" placeholder="展示姓名, 选填"
+               class="layui-input">
+      </div>
+      <div class="layui-form-item">
+        <button class="layui-btn layui-btn-fluid" lay-submit lay-filter="btn_init">添加超级管理员</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  layui.use(['admin', 'form'], function () {
+    var $ = layui.$
+      , admin = layui.admin
+      , form = layui.form
+
+    form.render();
+
+    //提交
+    form.on('submit(btn_init)', function (d) {
+      var field = d.field;
+      //确认密码
+      if (field.password !== field.repass) {
+        return layer.msg('两次密码输入不一致');
+      }
+      //请求接口
+      admin.post('/lay-admin/init', field, function (res) {
+        layer.msg('注册成功', {
+          offset: '15px'
+          , icon: 1
+          , time: 1000
+        }, function () {
+          layui.cache.install = false;
+          location.hash = '/_base/user/login'; //跳转到登入页
+        });
+      });
+    });
+  });
+</script>

@@ -5,6 +5,7 @@ namespace Vinlon\Laravel\LayAdmin\Controllers;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Tymon\JWTAuth\JWTGuard;
+use Vinlon\Laravel\LayAdmin\Models\AdminRole;
 use Vinlon\Laravel\LayAdmin\Models\AdminUser;
 
 class AuthController extends BaseController
@@ -27,6 +28,7 @@ class AuthController extends BaseController
     /** 管理后台入口  */
     public function home()
     {
+        $userCount = AdminUser::query()->count();
         $title = config('lay-admin.display_name');
 
         return view('lay-admin::index', [
@@ -34,7 +36,38 @@ class AuthController extends BaseController
             'view_path' => './lay-admin/',
             'debug' => config('app.debug') ? 1 : 0,
             'static_version' => time(), //不缓存表态资源
+            'install' => 0 == $userCount,
         ]);
+    }
+
+    /** 初始化管理员 */
+    public function initUser()
+    {
+        if (AdminUser::query()->count() > 0) {
+            return $this->errorResponse('', '已经存在管理员用户，无法重复初始化');
+        }
+        request()->validate([
+            'username' => 'required',
+            'password' => 'required',
+            'email' => 'required',
+            'real_name' => 'nullable',
+        ]);
+        $role = AdminRole::query()->where('name', AdminRole::ROOT_ROLE_NAME)->first();
+        if (!$role) {
+            $role = new AdminRole();
+            $role->name = AdminRole::ROOT_ROLE_NAME;
+            $role->description = '系统默认创建，不可修改';
+            $role->save();
+        }
+        $user = new AdminUser();
+        $user->username = request()->username;
+        $user->password = Hash::make(request()->password);
+        $user->real_name = request()->real_name ?: '';
+        $user->email = request()->email;
+        $user->role_id = $role->id;
+        $user->save();
+
+        return $this->successResponse();
     }
 
     /** 用户名密码登录 */

@@ -13,12 +13,13 @@
 <div id="LAY_app"></div>
 <script src="assets/layui-v2.6.7/layui.js"></script>
 <script>
-  layui.config({
-    base: '{{ $view_path }}'
-    , title: '{{ $title }}'
-    , debug: '{{ $debug }}'
-    , version: '{{ $static_version  }}'
-  }).use('index');
+    layui.config({
+        base: '{{ $view_path }}'
+        , title: '{{ $title }}'
+        , debug: '{{ $debug }}'
+        , version: '{{ $static_version  }}'
+        , install: '{{ $install  }}'
+    }).use('index');
 </script>
 </body>
 </html>

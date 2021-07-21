@@ -2,6 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 
+//用户初始化
+Route::post('init', 'AuthController@initUser');
+
 //用户名密码登录
 Route::post('password_login', 'AuthController@passwordLogin');
 
