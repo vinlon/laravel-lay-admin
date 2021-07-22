@@ -43,6 +43,7 @@ layui.define(['laytpl', 'layer', 'element', 'util'], function (exports) {
     //独立页面路由，可随意添加（无需写参数）
     , indPage: [
       '/_base/user/login' //登入页
+      , '/_base/user/reset_password'  //重置密码
       , '/_base/install'  //初始化页面
     ]
 

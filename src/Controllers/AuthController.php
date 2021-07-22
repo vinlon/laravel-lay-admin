@@ -3,15 +3,16 @@
 namespace Vinlon\Laravel\LayAdmin\Controllers;
 
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Tymon\JWTAuth\JWTGuard;
+use Vinlon\Laravel\LayAdmin\EmailCode;
 use Vinlon\Laravel\LayAdmin\Models\AdminRole;
 use Vinlon\Laravel\LayAdmin\Models\AdminUser;
 
 class AuthController extends BaseController
 {
-    const OPT_ADMIN_PREFIX = 'admin:config:';
-
     /**
      * @var JWTGuard
      */
@@ -85,6 +86,49 @@ class AuthController extends BaseController
         }
 
         return $this->errorResponse('login_faied', '用户名或密码错误');
+    }
+
+    /** 发送邮箱验证码 */
+    public function sendEmailCode()
+    {
+        request()->validate([
+            'email' => 'required',
+        ]);
+        $email = request()->email;
+        $user = AdminUser::query()->where('email', $email)->first();
+        if (!$user) {
+            return $this->errorResponse('', '该邮箱未关联任何账号');
+        }
+        $code = rand(100000, 999999);
+        $minutes = 15;
+        //发送邮件验证码
+        Mail::send(new EmailCode($code, 15));
+        Cache::put('email_code:' . $email, $code, now()->addMinutes($minutes));
+
+        return $this->successResponse();
+    }
+
+    /** 通过邮箱重置登录密码 */
+    public function resetPasswordByEmail()
+    {
+        request()->validate([
+            'email' => 'required',
+            'verify_code' => 'required',
+            'new_password' => 'required',
+        ]);
+
+        $email = request()->email;
+        $user = AdminUser::query()->where('email', $email)->first();
+        if (!$user) {
+            return $this->errorResponse('', '邮箱未找到');
+        }
+        if (Cache::get('email_code:' . $email, '') != request()->verify_code) {
+            return $this->errorResponse('', '验证码错误');
+        }
+        $user->password = Hash::make(request()->new_password);
+        $user->save();
+
+        return $this->successResponse();
     }
 
     /** 查询个人信息 */

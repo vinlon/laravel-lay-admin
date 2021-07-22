@@ -8,6 +8,11 @@ Route::post('init', 'AuthController@initUser');
 //用户名密码登录
 Route::post('password_login', 'AuthController@passwordLogin');
 
+//发送邮箱验证码
+Route::post('email_code', 'AuthController@sendEmailCode');
+//重置密码
+Route::post('reset_password', 'AuthController@resetPasswordByEmail');
+
 Route::middleware('auth:lay-admin')->group(function () {
     Route::get('profile', 'AuthController@profile');
     Route::post('profile', 'AuthController@updateProfile');
