@@ -102,7 +102,7 @@ class AuthController extends BaseController
         $code = rand(100000, 999999);
         $minutes = 15;
         //发送邮件验证码
-        Mail::send(new EmailCode($code, 15));
+        Mail::to($email)->send(new EmailCode($code, 15));
         Cache::put('email_code:' . $email, $code, now()->addMinutes($minutes));
 
         return $this->successResponse();

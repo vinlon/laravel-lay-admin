@@ -2,13 +2,11 @@
 
 namespace Vinlon\Laravel\LayAdmin;
 
-use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
 class EmailCode extends Mailable
 {
-    use Queueable;
     use SerializesModels;
 
     /** @var 验证码 */
@@ -31,9 +29,10 @@ class EmailCode extends Mailable
 
     public function build()
     {
-        return $this->view('lay-admin::email_code')->with([
-            'verify_code' => $this->code,
-            'minutes' => $this->minutes,
-        ]);
+        return $this->subject('管理后台密码找回验证码')
+            ->text('lay-admin::email_code')->with([
+                'verify_code' => $this->code,
+                'minutes' => $this->minutes,
+            ]);
     }
 }
