@@ -2,6 +2,8 @@
 
 ## 更新日志
 
+v0.7.1: 增加管理员密码找回功能
+
 v0.7.0: 后台用户不再通过命令行创建，第一次打开后会进入初始化页面
 
 v0.6.x: 增加资源管理功能，包括图片管理和内容管理，不需要手动执行db:seed初始化角色 
@@ -60,6 +62,15 @@ LAY_ADMIN_DISPLAY_NAME=
 # JWT Token 有效期，单位为‘分’，默认值为 60 分钟
 JWT_TTL=
 
+# 如果需要通过邮件找回密码，则需要添加邮箱相关的配置
+MAIL_MAILER=smtp
+MAIL_HOST={邮箱使用的smtp服务器}
+MAIL_PORT=465
+MAIL_USERNAME={邮箱用户名}
+MAIL_PASSWORD={邮箱密码}
+MAIL_ENCRYPTION=ssl
+MAIL_FROM_ADDRESS={邮箱用户名}
+MAIL_FROM_NAME={发件人名称}
 ```
 
 
@@ -111,6 +122,8 @@ Route::group(['middleware' => ['auth:lay-admin']], function () {
   </div>
 </div>
 ```
+
+#### 
 
 #### 自定义请求方法
     
