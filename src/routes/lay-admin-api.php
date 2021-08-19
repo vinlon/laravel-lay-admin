@@ -40,10 +40,14 @@ Route::middleware('auth:lay-admin')->group(function () {
     Route::post('users/resetPassword', 'UserController@resetPassword');
 
     //内容管理
-    Route::resource('contents', 'ContentController')->only(['index', 'store', 'destroy']);
+    Route::get('contents', 'ContentController@index');
+    Route::post('contents', 'ContentController@store');
+    Route::delete('contents/{id}', 'ContentController@destroy');
 
     //图片管理
-    Route::resource('images', 'ImageResourceController')->only(['index', 'store', 'destroy']);
+    Route::get('images', 'ImageResourceController@index');
+    Route::post('images', 'ImageResourceController@store');
+    Route::delete('images/{id}', 'ImageResourceController@destroy');
 
     //编辑器图片上传
     Route::post('upload/editor/image', 'UploadController@uploadEditorImage');

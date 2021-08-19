@@ -3,10 +3,16 @@
 namespace Vinlon\Laravel\LayAdmin\Controllers;
 
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Routing\Controller;
 
 class BaseController extends Controller
 {
+    /**
+     * @param $entityClass
+     *
+     * @return Model
+     */
     protected function getEntity($entityClass)
     {
         $id = request()->get('id');

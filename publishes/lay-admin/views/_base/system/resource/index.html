@@ -41,7 +41,7 @@
           </div>
           <div class="layui-card-body">
             <table id="table_content" lay-filter="table_content"></table>
-            <script type="text/html" id="tpl_opersate">
+            <script type="text/html" id="tpl_content_toolbar">
               <a class="layui-btn layui-btn-xs" lay-event="edit">
                 <i class="layui-icon layui-icon-edit"></i>编辑
               </a>
@@ -80,7 +80,7 @@
             <script type="text/html" id="tpl_image">
               <img src="{{d.image_url}}" layadmin-event="imagePreview" style="height: 20px"/>
             </script>
-            <script type="text/html" id="tpl_opersate">
+            <script type="text/html" id="tpl_image_toolbar">
               <a class="layui-btn layui-btn-xs" lay-event="edit">
                 <i class="layui-icon layui-icon-edit"></i>编辑
               </a>
@@ -111,13 +111,12 @@
       elem: '#table_content'
       , url: 'lay-admin/contents'
       , page: true
-      , width: 870
       , cols: [[
-        {title: '关键字', field: 'content_key', width: 100, align: "center"}
+        {title: '关键字', field: 'content_key', width: 200, align: "left"}
         , {title: '内容说明', field: 'intro', minWidth: 200}
         , {title: '添加时间', field: 'created_at', width: 180, align: "center"}
         , {title: '修改时间', field: 'updated_at', width: 180, align: "center"}
-        , {title: '操作', width: 200, align: 'center', fixed: 'right', toolbar: '#tpl_opersate'}
+        , {title: '操作', width: 200, align: 'center', fixed: 'right', toolbar: '#tpl_content_toolbar'}
       ]]
     });
 
@@ -126,7 +125,7 @@
       let data = obj.data;
       if (obj.event === 'del') {
         layer.confirm('确认删除该数据?', function (index) {
-          admin.del(resourceUrl, data.id, function (res) {
+          admin.del('lay-admin/contents', data.id, function (res) {
             layer.close(index);
             layui.table.reload('table_content'); //重载表格
           })
@@ -151,14 +150,13 @@
       elem: '#table_image'
       , url: 'lay-admin/images'
       , page: true
-      , width: 970
       , cols: [[
-        {title: '关键字', field: 'image_key', width: 100, align: "center"}
+        {title: '关键字', field: 'image_key', width: 200, align: "left"}
         , {title: '图片预览', templet: '#tpl_image', width: 100, align: "center"}
         , {title: '图片说明', field: 'intro', minWidth: 200}
         , {title: '添加时间', field: 'created_at', width: 180, align: "center"}
         , {title: '修改时间', field: 'updated_at', width: 180, align: "center"}
-        , {title: '操作', width: 200, align: 'center', fixed: 'right', toolbar: '#tpl_opersate'}
+        , {title: '操作', width: 200, align: 'center', fixed: 'right', toolbar: '#tpl_image_toolbar'}
       ]]
     });
 
@@ -167,7 +165,7 @@
       let data = obj.data;
       if (obj.event === 'del') {
         layer.confirm('确认删除该数据?', function (index) {
-          admin.del(resourceUrl, data.id, function (res) {
+          admin.del('lay-admin/images', data.id, function (res) {
             layer.close(index);
             layui.table.reload('table_image'); //重载表格
           })
