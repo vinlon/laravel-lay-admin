@@ -10,7 +10,7 @@ class UserController extends BaseController
     /** 查询用户列表 */
     public function getUserList()
     {
-        $users = AdminUser::with('role')->get();
+        $users = AdminUser::query()->get();
 
         return $this->successResponse($users->toArray());
     }

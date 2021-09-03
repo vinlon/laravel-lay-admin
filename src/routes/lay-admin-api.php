@@ -28,10 +28,7 @@ Route::middleware('auth:lay-admin')->group(function () {
     Route::delete('menus/{id}', 'MenuController@deleteMenu');
 
     //角色管理
-    Route::get('roles/{id}', 'RoleController@getRole');
     Route::get('roles', 'RoleController@getRoleList');
-    Route::post('roles', 'RoleController@saveRole');
-    Route::delete('roles/{id}', 'RoleController@deleteRole');
 
     //用户管理
     Route::get('users', 'UserController@getUserList');

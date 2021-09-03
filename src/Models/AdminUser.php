@@ -6,21 +6,22 @@ use DateTimeInterface;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User as AuthUser;
 use Tymon\JWTAuth\Contracts\JWTSubject;
+use Vinlon\Laravel\LayAdmin\AdminRole;
 
 /**
  * App\Models\AdminUser.
  *
- * @property int                                       $id
- * @property null|mixed                                $created_at
- * @property null|mixed                                $updated_at
- * @property string                                    $username   登录用户名
- * @property string                                    $password   密码
- * @property int                                       $role_id    角色对应ID
- * @property null|string                               $real_name  真实姓名
- * @property null|string                               $mobile     手机号
- * @property null|string                               $email      邮箱
- * @property int                                       $status     用户状态
- * @property \Vinlon\Laravel\LayAdmin\Models\AdminRole $role
+ * @property int                                $id
+ * @property null|mixed                         $created_at
+ * @property null|mixed                         $updated_at
+ * @property string                             $username   登录用户名
+ * @property string                             $password   密码
+ * @property int                                $role_id    角色对应ID
+ * @property null|string                        $real_name  真实姓名
+ * @property null|string                        $mobile     手机号
+ * @property null|string                        $email      邮箱
+ * @property int                                $status     用户状态
+ * @property \Vinlon\Laravel\LayAdmin\AdminRole $role
  *
  * @method static \Illuminate\Database\Eloquent\Builder|AdminUser newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|AdminUser newQuery()
@@ -33,9 +34,15 @@ class AdminUser extends AuthUser implements JWTSubject
 
     protected $hidden = ['password'];
 
-    public function role()
+    protected $appends = [
+        'role',
+    ];
+
+    public function getRoleAttribute()
     {
-        return $this->belongsTo(AdminRole::class);
+        $roleClass = config('lay-admin.role_class', AdminRole::class);
+
+        return $roleClass::fromKey($this->role_id);
     }
 
     /**

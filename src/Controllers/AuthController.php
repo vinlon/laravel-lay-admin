@@ -7,8 +7,8 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Tymon\JWTAuth\JWTGuard;
+use Vinlon\Laravel\LayAdmin\AdminRole;
 use Vinlon\Laravel\LayAdmin\EmailCode;
-use Vinlon\Laravel\LayAdmin\Models\AdminRole;
 use Vinlon\Laravel\LayAdmin\Models\AdminUser;
 
 class AuthController extends BaseController
@@ -53,19 +53,12 @@ class AuthController extends BaseController
             'email' => 'required',
             'real_name' => 'nullable',
         ]);
-        $role = AdminRole::query()->where('name', AdminRole::ROOT_ROLE_NAME)->first();
-        if (!$role) {
-            $role = new AdminRole();
-            $role->name = AdminRole::ROOT_ROLE_NAME;
-            $role->description = '系统默认创建，不可修改';
-            $role->save();
-        }
         $user = new AdminUser();
         $user->username = request()->username;
         $user->password = Hash::make(request()->password);
         $user->real_name = request()->real_name ?: '';
         $user->email = request()->email;
-        $user->role_id = $role->id;
+        $user->role_id = AdminRole::ROOT()->key;
         $user->save();
 
         return $this->successResponse();

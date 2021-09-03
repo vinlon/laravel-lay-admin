@@ -16,7 +16,7 @@ class CreateAdminUsersTable extends Migration
             $table->timestamps();
             $table->string('username', 64)->comment('登录用户名');
             $table->string('password', 64)->comment('密码');
-            $table->bigInteger('role_id')->comment('角色对应ID');
+            $table->string('role_id', 16)->comment('角色对应ID');
             $table->string('real_name', 64)->nullable()->comment('真实姓名');
             $table->string('mobile', 18)->nullable()->comment('手机号');
             $table->string('email', 64)->nullable()->comment('邮箱');

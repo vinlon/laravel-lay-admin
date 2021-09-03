@@ -11,7 +11,7 @@ use Vinlon\Laravel\LayAdmin\Models\AdminUser;
 
 class LayAdminServiceProvider extends ServiceProvider
 {
-    const LAY_ADMIN = 'lay-admin';
+    public const LAY_ADMIN = 'lay-admin';
 
     public function __construct(Application $app)
     {

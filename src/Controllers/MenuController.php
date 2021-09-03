@@ -3,6 +3,7 @@
 namespace Vinlon\Laravel\LayAdmin\Controllers;
 
 use Illuminate\Support\Facades\Auth;
+use Vinlon\Laravel\LayAdmin\AdminRole;
 use Vinlon\Laravel\LayAdmin\Models\AdminUser;
 use Vinlon\Laravel\LayAdmin\SideBar;
 use Vinlon\Laravel\LayAdmin\SideBarCollection;
@@ -16,7 +17,7 @@ class MenuController extends BaseController
         /** @var AdminUser $user */
         $user = Auth::user();
         $role = $user->role;
-        if (!$role->is_root) {
+        if (!$role->isRoot()) {
             $allMenu = $this->filterRoleMenu($allMenu, $role);
         }
 
@@ -48,18 +49,21 @@ class MenuController extends BaseController
         return $this->successResponse($result);
     }
 
-    private function filterRoleMenu($menus, $role)
+    private function filterRoleMenu($menus, AdminRole $role)
     {
         $roleMenu = new SideBarCollection();
         /** @var SideBar $menu */
         foreach ($menus as $menu) {
-            if (!in_array($menu->uniqId, $role->menu_ids)) {
-                continue;
-            }
             if ($menu->children->count() > 0) {
                 $menu->children = $this->filterRoleMenu($menu->children, $role);
+                if ($menu->children->count() > 0) {
+                    $roleMenu->add($menu);
+                }
+            } else {
+                if (in_array($menu->uniqId, $role->getMenuIds())) {
+                    $roleMenu->add($menu);
+                }
             }
-            $roleMenu->add($menu);
         }
 
         return $roleMenu;
