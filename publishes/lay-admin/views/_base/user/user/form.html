@@ -13,7 +13,7 @@
         <select name="role_id" lay-verify="required" lay-reqtext="请选择角色">
           <option value="">选择角色</option>
           {{# layui.each(d.params.roles, function(index, role){ }}
-          <option value="{{ role.id }}" {{ d.params.role_id === role.id ? 'selected':'' }} >{{ role.name }}</option>
+          <option value="{{ role.key }}" {{ d.params.role_id === role.key ? 'selected':'' }} >{{ role.value }}</option>
           {{# }) }}
         </select>
       </div>
