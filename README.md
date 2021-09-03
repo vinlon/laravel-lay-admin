@@ -2,6 +2,8 @@
 
 ## 更新日志
 
+v0.8.0: 将角色改为通过枚举类定义，不再写入数据库
+
 v0.7.1: 增加管理员密码找回功能
 
 v0.7.0: 后台用户不再通过命令行创建，第一次打开后会进入初始化页面
@@ -96,6 +98,48 @@ php artisan lay-admin:reset-password admin admin
 Route::group(['middleware' => ['auth:lay-admin']], function () {
     //这里放置你的需要登录Admin后台API路由
 });
+```
+
+#### 角色定义
+
+系统默认只添加了【超级管理员】这一个角色，如果需要更多角色，可以通过如下流程添加：
+
+1. 重新定义一个继承AdminRole的角色类
+
+2. 在getMenuIds方法中定义该角色的菜单
+
+3. 在getPrivileges方法返回该角色对应的权限
+
+```php
+class AdminRoleExtend extends AdminRole
+{
+    const TEST = '新角色测试';
+
+    /**
+     * @return string[]
+     */
+    public function getMenuIds()
+    {
+        $roleMenus = [
+            self::TEST => ['_my.profile', 'ops.setting', '_user'],
+        ];
+
+        return Arr::get($roleMenus, $this->value, []);
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getPrivileges()
+    {
+        $rolePrivileges = [
+            self::TEST => [1, 2, 3],
+        ];
+
+        return Arr::get($rolePrivileges, $this->value, []);
+    }
+}
+
 ```
 
 #### BaseController
