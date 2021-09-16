@@ -2,6 +2,6 @@
 
 namespace Vinlon\Laravel\LayAdmin\Exceptions;
 
-class LayAdminException extends \Exception
+class AdminException extends \Exception
 {
 }

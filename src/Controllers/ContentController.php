@@ -2,9 +2,11 @@
 
 namespace Vinlon\Laravel\LayAdmin\Controllers;
 
+use Illuminate\Routing\Controller;
+use Vinlon\Laravel\LayAdmin\Exceptions\AdminException;
 use Vinlon\Laravel\LayAdmin\Models\RichContent;
 
-class ContentController extends BaseController
+class ContentController extends Controller
 {
     public function index()
     {
@@ -13,7 +15,7 @@ class ContentController extends BaseController
                 return $q->where('content_key', 'like', '%' . request()->key . '%');
             })->orderByDesc('updated_at');
 
-        return $this->paginateResponse($query);
+        return paginate_result(request(), $query);
     }
 
     public function store()
@@ -26,21 +28,17 @@ class ContentController extends BaseController
 
         $exists = RichContent::query()->where('content_key', request()->content_key)->first();
         if ($exists && $exists->id != request()->id) {
-            return $this->errorResponse('', '关键字已存在,请不要重复添加');
+            throw new AdminException('关键字已存在,请不要重复添加');
         }
 
         /** @var RichContent $content */
-        $content = $this->getEntity(RichContent::class);
+        $content = get_entity(RichContent::class);
         $content->fill($params);
         $content->save();
-
-        return $this->successResponse();
     }
 
     public function destroy($id)
     {
         RichContent::destroy($id);
-
-        return $this->successResponse();
     }
 }

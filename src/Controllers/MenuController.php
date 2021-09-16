@@ -2,13 +2,14 @@
 
 namespace Vinlon\Laravel\LayAdmin\Controllers;
 
+use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 use Vinlon\Laravel\LayAdmin\AdminRole;
 use Vinlon\Laravel\LayAdmin\Models\AdminUser;
 use Vinlon\Laravel\LayAdmin\SideBar;
 use Vinlon\Laravel\LayAdmin\SideBarCollection;
 
-class MenuController extends BaseController
+class MenuController extends Controller
 {
     /** 查询侧边栏菜单数据 */
     public function sidebar()
@@ -21,14 +22,15 @@ class MenuController extends BaseController
             $allMenu = $this->filterRoleMenu($allMenu, $role);
         }
 
-        return $this->successResponse($allMenu->toArray());
+        return $allMenu->toArray();
     }
 
     /** 查询菜单列表（树形结构） */
     public function getMenuTree()
     {
         $allMenus = SideBarCollection::_all();
-        $result = $allMenus->map(function (SideBar $sideBar) {
+
+        return $allMenus->map(function (SideBar $sideBar) {
             $row = [
                 'title' => $sideBar->title,
                 'id' => $sideBar->uniqId,
@@ -45,8 +47,6 @@ class MenuController extends BaseController
 
             return $row;
         })->toArray();
-
-        return $this->successResponse($result);
     }
 
     private function filterRoleMenu($menus, AdminRole $role)

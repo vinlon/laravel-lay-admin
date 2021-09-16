@@ -1,0 +1,38 @@
+<?php
+
+namespace {{ namespace }};
+
+use {{ namespacedModel }};
+use {{ rootNamespace }}Http\Controllers\Controller;
+
+class {{ class }} extends Controller
+{
+    /** 列表查询 */
+    public function index()
+    {
+        $query = {{ model }}::query()
+            ->orderByDesc('id');
+        return paginate_result(request(), $query);
+    }
+
+    /** 添加或修改 */
+    public function store()
+    {
+        $params = request()->validate([
+            //field validation here
+        ]);
+
+        /** @var {{ model }} ${{ modelVariable }} */
+        ${{ modelVariable }} = get_entity({{ model }}::class);
+        ${{ modelVariable }}->fill($params);
+        ${{ modelVariable }}->save();
+    }
+
+    /** 删除 */
+    public function destroy($id)
+    {
+        ${{ modelVariable }} = {{ model }}::query()->find($id);
+        ${{ modelVariable }}->delete();
+    }
+}
+

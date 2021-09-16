@@ -14,7 +14,10 @@
   "autoload": {
     "psr-4": {
       "Vinlon\\Laravel\\LayAdmin\\": "src/"
-    }
+    },
+    "files": [
+        "src/helpers.php"
+    ]
   },
   "extra": {
     "laravel": {

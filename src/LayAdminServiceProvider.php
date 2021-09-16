@@ -6,6 +6,7 @@ use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
+use Vinlon\Laravel\LayAdmin\Commands\AdminControllerMakeCommand;
 use Vinlon\Laravel\LayAdmin\Commands\ResetPassword;
 use Vinlon\Laravel\LayAdmin\Models\AdminUser;
 
@@ -29,7 +30,13 @@ class LayAdminServiceProvider extends ServiceProvider
         // publish config
         $this->publishes([
             $this->getConfigPath() => config_path(self::LAY_ADMIN . '.php'),
+            __DIR__ . '/../publishes/stubs' => base_path('stubs'),
         ], 'config');
+
+        // publish stubs
+        $this->publishes([
+            __DIR__ . '/../publishes/stubs' => base_path('stubs'),
+        ], 'stub');
     }
 
     public function boot()
@@ -45,6 +52,7 @@ class LayAdminServiceProvider extends ServiceProvider
         ;
         Route::namespace('Vinlon\Laravel\LayAdmin\Controllers')
             ->prefix('lay-admin')
+            ->middleware(AdminResponse::class)
             ->group(__DIR__ . '/routes/lay-admin-api.php')
         ;
 
@@ -63,6 +71,7 @@ class LayAdminServiceProvider extends ServiceProvider
         if ($this->app->runningInConsole()) {
             $this->commands([
                 ResetPassword::class,
+                AdminControllerMakeCommand::class,
             ]);
         }
     }
