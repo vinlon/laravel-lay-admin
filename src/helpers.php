@@ -3,14 +3,12 @@
 use Vinlon\Laravel\LayAdmin\PaginateResponse;
 
 /**
- * @param \Illuminate\Http\Request              $request
  * @param \Illuminate\Database\Eloquent\Builder $query
  * @param callable                              $mapFunc
  *
  * @return PaginateResponse
  */
 function paginate_result(
-    Illuminate\Http\Request $request,
     Illuminate\Database\Eloquent\Builder $query,
     callable $mapFunc = null
 ) {

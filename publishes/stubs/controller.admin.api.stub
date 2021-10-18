@@ -12,7 +12,7 @@ class {{ class }} extends Controller
     {
         $query = {{ model }}::query()
             ->orderByDesc('id');
-        return paginate_result(request(), $query);
+        return paginate_result($query);
     }
 
     /** 添加或修改 */

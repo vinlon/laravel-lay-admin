@@ -15,7 +15,7 @@ class ContentController extends Controller
                 return $q->where('content_key', 'like', '%' . request()->key . '%');
             })->orderByDesc('updated_at');
 
-        return paginate_result(request(), $query);
+        return paginate_result($query);
     }
 
     public function store()
