@@ -261,8 +261,38 @@ html{background-color: #f2f2f2; color: #666;}
 */
 
 .layui-fluid{padding: 15px;}
-.layadmin-header{display: none; height: 50px; line-height: 50px; margin-bottom: 0; border-radius: 0;}
-.layadmin-header .layui-breadcrumb{padding: 0 15px;}
+.layadmin-header{
+    display: none;
+    height: 50px;
+    line-height: 50px;
+    margin-bottom: 0;
+    border-radius: 0;
+    padding-left: 10px;;
+}
+.layui-breadcrumb {
+    display: block;
+    height: 50px;
+    line-height: 50px;
+    font-size: 12px;
+    position: relative;
+    padding-left: 20px;
+    margin: 0;
+    border: none;
+    overflow: hidden;
+}
+.layui-breadcrumb:before {
+    content: " ";
+    position: absolute;
+    left: 4px;
+    top: 18px;
+    width: 2px;
+    height: 16px;
+    border-left: 2px solid #44abf7;
+    color: #44abf7;
+    -webkit-transform-origin: 0 0;
+    -ms-transform-origin: 0 0;
+    transform-origin: 0 0;
+}
 .layui-card-header{position: relative;}
 .layui-card-header .layui-icon{line-height: initial; position: absolute; right: 15px; top: 50%; margin-top: -7px;}
 .layadmin-iframe{position: absolute; width: 100%; height: 100%; left: 0; top: 0; right: 0; bottom: 0;}
@@ -506,7 +536,46 @@ html{background-color: #f2f2f2; color: #666;}
 /* 表单必填项星标 */
 .form-required:before {content: '*'; color: red; font-size: 15px; padding-right: 3px;}
 
-.layadmin-table-search {padding: 10px 20px; margin-bottom: 10px; border-bottom: 1px solid #f6f6f6;}
+/* 列表搜索区 */
+.layadmin-search {
+    padding: 10px 20px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #f6f6f6;
+}
+.layadmin-search .layui-form-label{
+	width: auto!important;
+    height: 36px;
+    padding: 0 12px;
+    line-height: 36px;
+    border-radius: 2px 0 0 2px;
+    text-align: center;
+    background-color: #FBFBFB;
+    border:1px solid #E9E9E9;
+	margin-right:-1px;
+	color:#666;
+}
+/* 表格 */
+.ant-divider {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    color: rgba(0,0,0,.65);
+    font-size: 14px;
+    font-variant: tabular-nums;
+    line-height: 1.5;
+    list-style: none;
+    font-feature-settings: "tnum";
+    background: #e8e8e8;
+}
+.ant-divider, .ant-divider-vertical {
+    position: relative;
+    top: -.06em;
+    display: inline-block;
+    width: 1px;
+    height: .9em;
+    margin: 0 8px;
+    vertical-align: middle;
+}
 
 /*
 
