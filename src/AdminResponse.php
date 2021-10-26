@@ -8,6 +8,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Validation\ValidationException;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Vinlon\Laravel\LayAdmin\Exceptions\AdminException;
 
 class AdminResponse
@@ -15,6 +16,11 @@ class AdminResponse
     public function handle(Request $request, Closure $next)
     {
         $response = $next($request);
+
+        if ($response instanceof BinaryFileResponse) {
+            return $response;
+        }
+
         $e = $response->exception;
 
         $code = 0;
