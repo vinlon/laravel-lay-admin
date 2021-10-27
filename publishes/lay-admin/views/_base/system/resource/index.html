@@ -16,7 +16,7 @@
       </ul>
       <div class="layui-tab-content">
         <div class="layui-tab-item layui-show">
-          <div class="layadmin-table-search">
+          <div class="layadmin-search">
             <form class="layui-form" method="post" lay-filter="form_content_search">
               <div class="layui-form-item">
                 <div class="layui-inline">
@@ -52,7 +52,7 @@
           </div>
         </div>
         <div class="layui-tab-item">
-          <div class="layadmin-table-search">
+          <div class="layadmin-search">
             <form class="layui-form" method="post" lay-filter="form_image_search">
               <div class="layui-form-item">
                 <div class="layui-inline">
@@ -194,23 +194,10 @@
         , id: 'popup_image'
         , success: function (layero, index) {
           view(this.id).render('_base/system/resource/image_form', data).done(function () {
-            upload.render({
-              url: 'lay-admin/upload/resource/image'
-              , headers: {
-                Authorization: admin.getAccessToken('Bearer'),
-              }
-              , elem: '#btn_upload'
-              , exts: 'jpg|jpeg|png'
-              , done: function (res) {
-                $("input[name='image_url']").val(res.data.image_url);
-                $("#image_preview").attr('src', res.data.image_url);
-              }
-            });
-
             form.on('submit(submit_image)', function (d) {
               let field = d.field;
               if (!field.image_url) {
-                layer.tips('请上传图片', $('#btn_upload'))
+                layer.tips('请上传图片', $('#resource_image'))
                 return;
               }
               admin.post('lay-admin/images', field, function (res) {

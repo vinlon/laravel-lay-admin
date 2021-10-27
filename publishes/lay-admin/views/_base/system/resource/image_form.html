@@ -1,4 +1,4 @@
-<script type="text/html" template>
+<script type="text/html" template lay-done="layui.data.done(d.params)">
   <div class="layui-fluid">
     <div class="layui-form" lay-filter="form_image">
       <div class="layui-form-item">
@@ -20,15 +20,7 @@
       <div class="layui-form-item">
         <label class="layui-form-label form-required">封面图片</label>
         <div class="layui-input-inline">
-          <button type="button" class="layui-btn layui-btn-primary" id="btn_upload">
-            <i class="layui-icon">&#xe67c;</i>选择图片
-          </button>
-          <div class="uploader-list">
-            <div class="file-item">
-              <img src="{{d.params.image_url || ''}}" id="image_preview" layadmin-event="imagePreview" style="height: 100px">
-              <input type="hidden" name="image_url" value="{{d.params.image_url || ''}}">
-            </div>
-          </div>
+          <div id="resource_image"></div>
         </div>
       </div>
       <div class="layui-form-item">
@@ -43,3 +35,25 @@
   </div>
 </script>
 
+<script>
+  layui.data.done = function (obj) {
+    layui.use(['fox_upload'], function () {
+      let admin = layui.admin
+        , fox_upload = layui.fox_upload
+
+      //设置当前页面的通用参数
+      fox_upload.set({
+        url: 'lay-admin/upload/resource/image'
+        , headers: {
+          Authorization: admin.getAccessToken('Bearer'),
+        }
+      })
+      //上传控件初始化
+      fox_upload.render({
+        elem: '#resource_image'
+        , name: 'image_url'
+        , value: obj.image_url
+      })
+    })
+  }
+</script>

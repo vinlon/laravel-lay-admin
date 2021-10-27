@@ -1,0 +1,98 @@
+<!--开启页面选项卡后，显示为选项卡标题-->
+<title>文件上传</title>
+
+<div class="layui-card layadmin-header">
+  <div class="layui-breadcrumb" lay-filter="breadcrumb">
+    <a><cite>示例</cite></a>
+    <a><cite>文件上传</cite></a>
+  </div>
+</div>
+
+<div class="layui-fluid">
+  <div class="layui-form" lay-filter="form_upload">
+    <div class="layui-card">
+      <div class="layui-card-header">
+        图片上传
+      </div>
+      <div class="layui-card-body">
+        <div class="layui-form-item">
+          <div class="layui-form-label">单图上传</div>
+          <div class="layui-input-inline">
+            <div id="upload1"></div>
+          </div>
+        </div>
+        <div class="layui-form-item">
+          <div class="layui-form-label">单图展示</div>
+          <div class="layui-input-inline">
+            <div id="upload2"></div>
+          </div>
+        </div>
+        <div class="layui-form-item">
+          <div class="layui-form-label">多图上传</div>
+          <div class="layui-input-block">
+            <div id="upload3"></div>
+          </div>
+        </div>
+        <div class="layui-form-item">
+          <div class="layui-form-label">多图展示</div>
+          <div class="layui-input-block">
+            <div id="upload4"></div>
+          </div>
+        </div>
+        <div class="layui-form-item">
+          <div class="layui-form-label"></div>
+          <div class="layui-input-block">
+            <button class="layui-btn" lay-submit lay-filter="submit_view_data">查看参数</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  layui.use(['upload', 'fox_upload'], function () {
+    let $ = layui.$
+      , fox_upload = layui.fox_upload
+      , admin = layui.admin
+      , form = layui.form
+
+    //设置当前页面的通用参数
+    fox_upload.set({
+      url: 'lay-admin/upload/resource/image'
+      , headers: {
+        Authorization: admin.getAccessToken('Bearer'),
+      }
+    })
+
+    //上传控件初始化
+    fox_upload.render({
+      elem: '#upload1'
+      , name: 'upload1_image_url'
+    })
+    fox_upload.render({
+      elem: '#upload2'
+      , name: 'upload2_image_url'
+      , value: 'https://inandan.com/storage/images/202012/BsxZEoH3I1N9qYmbCj7OUqda9CiMzxRGDrI2ELuO.jpg'
+    })
+    fox_upload.render({
+      elem: '#upload3'
+      , multi: true   //多图
+      , name: 'upload3_image_url[]'
+    })
+    fox_upload.render({
+      elem: '#upload4'
+      , multi: true
+      , name: 'upload4_image_url[]'
+      , value: [
+        'https://inandan.com/storage/images/202012/xSvCJIfCkC0eGLQfeDNY42Y86AbRfSdJ91AAWC2F.jpg',
+        'https://inandan.com/storage/images/202012/JTaay91tHZGwsJ38HHYynVH0ut7z0o3hodgqqfTX.jpg',
+        'https://inandan.com/storage/images/202012/HFCbS7oWUt15zwNily7U2SrhKLORNgQ5ITsQphNn.jpg',
+      ]
+    })
+
+    form.on('submit(submit_view_data)', function (d) {
+      console.log(d.field)
+      layer.msg('请在console控制台中查看')
+    })
+  })
+</script>

@@ -52,6 +52,7 @@ layui.define(['laytpl', 'layer', 'element', 'util'], function (exports) {
       'echarts' //echarts 核心包
       , 'echartsTheme' //echarts 主题
       , 'tinymce'
+      , 'fox_upload'
     ]
 
     //主题配置
