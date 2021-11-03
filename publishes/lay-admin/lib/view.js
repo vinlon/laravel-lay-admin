@@ -212,30 +212,30 @@ layui.define(['laytpl', 'layer'], function (exports) {
           delete that.then;
         }
 
-        that.parse(html);
-
-        //自动处理form表单验证
-        let verifyElems = $('*[lay-verify]');
-        if (verifyElems.length > 0) {
-          verifyElems.each(function () {
-            let verifyElem = $(this)
-              , labelElem = verifyElem.parent().prev('label')
-            ;
-            verifyElem.attr('lay-verType', 'tips');
-            if (labelElem) {
-              let defaultMessage = '请输入' + labelElem.text();
-              if (!verifyElem.attr('placeholder')) {
-                verifyElem.attr('placeholder', defaultMessage);
-              }
-              if (verifyElem.attr('lay-verify') === 'required') {
-                if (!verifyElem.attr('lay-reqtext')) {
-                  verifyElem.attr('lay-reqtext', verifyElem.attr('placeholder'));
+        that.parse(html, false, function () {
+          //自动处理form表单验证
+          let verifyElems = $('*[lay-verify]');
+          if (verifyElems.length > 0) {
+            verifyElems.each(function () {
+              let verifyElem = $(this)
+                , labelElem = verifyElem.parent().prev('label')
+              ;
+              verifyElem.attr('lay-verType', 'tips');
+              if (labelElem) {
+                let defaultMessage = '请输入' + labelElem.text();
+                if (!verifyElem.attr('placeholder')) {
+                  verifyElem.attr('placeholder', defaultMessage);
                 }
-                labelElem.addClass('form-required');
+                if (verifyElem.attr('lay-verify') === 'required') {
+                  if (!verifyElem.attr('lay-reqtext')) {
+                    verifyElem.attr('lay-reqtext', verifyElem.attr('placeholder'));
+                  }
+                  labelElem.addClass('form-required');
+                }
               }
-            }
-          });
-        }
+            });
+          }
+        });
 
         view.removeLoad();
         if (that.done) {
@@ -275,6 +275,7 @@ layui.define(['laytpl', 'layer'], function (exports) {
       }, options.res);
 
       options.dataElem.after(tpl.render(res));
+
       typeof callback === 'function' && callback();
 
       try {
