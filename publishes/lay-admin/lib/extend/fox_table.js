@@ -25,6 +25,7 @@ layui.define([], function (exports) {
   st.render = function (config) {
     st.config = config
     st.id = config.id
+    st.where = {}
     prepareSearchParams();
 
     //检查elem有效性
@@ -87,7 +88,10 @@ layui.define([], function (exports) {
         field: search.order_by_desc
       }
     }
-    st.where = search
+    layui.each(search, function (key, value) {
+      //查询参数decode
+      st.where[key] = decodeURIComponent(value)
+    })
     st.config.where = st.where
     st.config.page = st.page
   }
