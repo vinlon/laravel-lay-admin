@@ -139,11 +139,18 @@ layui.extend({
         , pathURL = admin.correctRouter(router.path.join('/'))
         , isIndPage;
 
-      // Table Header
+      //设置表格默认参数
+      var limits = [10, 20, 50]
+      if (setter.debug) {
+        limits = [1, 5, 10, 20, 50]
+      }
       layui.table.set({
         headers: {
           Authorization: admin.getAccessToken('Bearer')
-        }
+        },
+        skin: 'line',
+        size: 'lg',
+        limits: limits
       });
 
       //检查是否属于独立页面
@@ -213,6 +220,11 @@ layui.extend({
 
   //监听Hash改变
   window.onhashchange = function () {
+    if (admin.hash_not_reload) {
+      admin.hash_not_reload = false
+      return;
+    }
+
     entryPage();
     //执行 {setter.MOD_NAME}.hash 下的事件
     layui.event.call(this, setter.MOD_NAME, 'hash({*})', layui.router());

@@ -1,0 +1,98 @@
+<div class="layui-card layadmin-header">
+  <div class="layui-breadcrumb" lay-filter="breadcrumb">
+    <a><cite>上级菜单</cite></a>
+    <a><cite>简单列表</cite></a>
+  </div>
+</div>
+
+<div class="layui-fluid">
+  <div class="layui-card">
+    <div class="layadmin-search">
+      <form class="layui-form" method="post" lay-filter="form_xxxx_search">
+        <script type="text/html" template>
+          <div class="layui-inline">
+            <div class="layui-form-label">关键字搜索</div>
+            <div class="layui-input-inline">
+              <input type="text" name="keyword" value="{{layui.router().search.keyword || ''}}" class="layui-input"
+                     placeholder="请输入关键字">
+            </div>
+          </div>
+          <div class="layui-inline layui-btn-group">
+            <button type="submit" lay-submit class="layui-btn" lay-filter="submit_xxxx_search">
+              <i class="layui-icon layui-icon-search"></i>查询
+            </button>
+            <button type="submit" lay-submit class="layui-btn layui-btn-warm"
+                    lay-filter="reset_xxxx_search">
+              <i class="layui-icon layui-icon-close"></i>重置
+            </button>
+          </div>
+        </script>
+      </form>
+    </div>
+    <div class="layui-card-body">
+      <div id="table_xxxx"></div>
+      <script type="text/html" id="tpl_tool">
+        <a class="layui-table-link layui-font-green" lay-event="edit">
+          <i class="layui-icon layui-icon-edit"></i>编辑
+        </a>
+        <div class="ant-divider"></div>
+        <a class="layui-table-link layui-font-red" lay-event="del">
+          <i class="layui-icon layui-icon-delete"></i>删除
+        </a>
+      </script>
+    </div>
+  </div>
+</div>
+
+<script>
+  layui.use(['fox_table'], function () {
+    let $ = layui.$
+      , fox_table = layui.fox_table
+      , admin = layui.admin
+      , form = layui.form
+
+    let resourceUrl = 'admin/xxxxs'
+
+    // 列表查询
+    fox_table.render({
+      id: 'table_xxxx'
+      , url: resourceUrl
+      , cols: [[
+        {title: 'ID', field: 'id', width: 60, align: "center"}
+        , {title: '其它字段', field: 'field', minWidth: 200}
+        , {title: '添加时间', field: 'created_at', width: 180, align: "center"}
+        , {title: '修改时间', field: 'updated_at', width: 180, align: "center"}
+        , {title: '操作', width: 200, align: 'left', fixed: 'right', toolbar: '#tpl_tool'}
+      ]]
+    });
+
+    //监听操作栏
+    fox_table.toolbar(function (obj) {
+      let data = obj.data;
+      if (obj.event === 'edit') {
+        layer.msg('Working In Process')
+      }
+      if (obj.event === 'del') {
+        layer.confirm('确认删除该数据?', function (index) {
+          admin.del(resourceUrl, data.id, function (res) {
+            layer.close(index);
+            fox_table.reload(); //重载表格
+          })
+        });
+      }
+    });
+
+    //搜索
+    form.on('submit(submit_xxxx_search)', function (d) {
+      fox_table.reload(d.field);
+      return false;
+    });
+    //重置
+    form.on('submit(reset_xxxx_search)', function (d) {
+      $("input[name='keyword']").val('');
+      fox_table.reload({});
+      return false;
+    });
+  })
+</script>
+

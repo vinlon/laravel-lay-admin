@@ -1,0 +1,94 @@
+<div class="layui-card layadmin-header">
+  <div class="layui-breadcrumb" lay-filter="breadcrumb">
+    <a><cite>上级菜单</cite></a>
+    <a layadmin-event="back">返回列表</a>
+    <script type="text/html" template>
+      {{# if (layui.router().search.id) { }}
+      <a><cite>内容编辑</cite></a>
+      {{# } else { }}
+      <a><cite>内容添加</cite></a>
+      {{# } }}
+    </script>
+  </div>
+</div>
+
+<script type="text/html" template
+        lay-url="{{layui.router().search.id ? 'admin/xxxxs/' + layui.router().search.id : ''}}"
+        lay-done="layui.data.done(d.data)">
+  {{# var data = d.data || {} }}
+  <div class="layui-fluid">
+    <div class="layui-card">
+      <div class="layui-card-header">
+        {{# if (data.id) { }}
+        内容编辑
+        {{# } else { }}
+        内容添加
+        {{# } }}
+      </div>
+      <div class="layui-card-body">
+        <div class="layui-form" lay-filter="form_xxxxs">
+          <input type="hidden" name="id" value="{{data.id || ''}}"/>
+          <div class="layui-form-item">
+            <label class="layui-form-label">新闻标题</label>
+            <div class="layui-input-block">
+              <input type="text" name="title" value="{{data.title || ''}}" lay-verify="required"
+                     autocomplete="off" class="layui-input">
+            </div>
+          </div>
+          <div class="layui-form-item">
+            <label class="layui-form-label">新闻简介</label>
+            <div class="layui-input-inline" style="width: 600px">
+              <textarea class="layui-textarea" name="intro" lay-verify="required">{{data.intro || ''}}</textarea>
+            </div>
+          </div>
+          <div class="layui-form-item">
+            <div class="layui-footer">
+              <div class="layui-input-block">
+                <input type="button" lay-submit lay-filter="submit_xxxxs" value="保存" class="layui-btn">
+                <input type="button" layadmin-event="back" value="返回" class="layui-btn layui-btn-primary">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <div class="layui-card">
+      <div class="layui-card-header">
+        其它参考组件
+      </div>
+      <div class="layui-card-body">
+        <div class="layui-form-item">
+          <div class="layui-form-label">基础表单</div>
+          <div class="layui-form-mid">
+            <a class="layui-btn layui-btn-xs" lay-href="_base/template/form_base">点击查看</a>
+          </div>
+        </div>
+        <div class="layui-form-item">
+          <div class="layui-form-label">图片上传</div>
+          <div class="layui-form-mid">
+            <a class="layui-btn layui-btn-xs" lay-href="_base/template/upload">点击查看</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div style="margin-bottom: 60px"></div>
+</script>
+
+<script>
+  layui.data.done = function (obj) {
+    layui.use([], function () {
+      let $ = layui.$
+        , form = layui.form
+
+      //提交
+      form.on('submit(submit_news)', function (d) {
+        layer.alert(JSON.stringify(d.field), {
+          title: '最终的提交信息'
+        })
+        return false;
+      })
+    })
+  }
+</script>

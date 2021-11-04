@@ -1,0 +1,25 @@
+<script type="text/html" template lay-done="layui.data.sendParams(d.params)">
+  <div class="layui-form" lay-filter="form_xxxx">
+    <input type="hidden" name="id" value="{{d.params.id || ''}}"/>
+    <div class="layui-form-item">
+      <label class="layui-form-label">普通文本</label>
+      <div class="layui-input-inline">
+        <input type="text" name="field1" value="{{d.params.field1 || ''}}" lay-verify="required" autocomplete="off"
+               class="layui-input">
+      </div>
+    </div>
+    <div class="layui-form-item">
+      <div class="layui-footer">
+        <label class="layui-form-label"></label>
+        <div class="layui-input-inline">
+          <input type="button" lay-submit lay-filter="submit_xxxx" value="确认" class="layui-btn">
+        </div>
+      </div>
+    </div>
+  </div>
+</script>
+<script>
+  layui.data.sendParams = function (obj) {
+    console.log(obj)
+  }
+</script>
