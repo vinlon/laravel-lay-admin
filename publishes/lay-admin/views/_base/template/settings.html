@@ -1,0 +1,172 @@
+<div class="layui-card layadmin-header">
+  <div class="layui-breadcrumb" lay-filter="breadcrumb">
+    <a><cite>示例</cite></a>
+    <a><cite>设置</cite></a>
+  </div>
+</div>
+
+<script>
+  var settings_url = ''; //实际使用时将 lay-url 设置为设置查询和保存的地址
+</script>
+<script type="text/html" template lay-url="{{settings_url}}">
+  <div class="layui-fluid layui-form">
+    <div class="layui-form">
+      {{# var settings = {} }}
+      <div class="layui-card">
+        <div class="layui-card-header">
+          常规键值对设置
+        </div>
+        <div class="layui-card-body">
+          <div class="layui-form-item">
+            <label class="layui-form-label">四个文字</label>
+            <div class="layui-input-inline">
+              <input type="text" lay-verify="required" class="layui-input" autocomplete="off"
+                     name="val4" value="{{settings.val4 || ''}}">
+            </div>
+          </div>
+          <div class="layui-form-item">
+            <label class="layui-form-label">五个字正好</label>
+            <div class="layui-input-inline">
+              <input type="text" lay-verify="required" class="layui-input" autocomplete="off"
+                     name="val5" value="{{settings.val5 || ''}}">
+            </div>
+          </div>
+          <div class="layui-form-item">
+            <label class="layui-form-label">六个字就换行</label>
+            <div class="layui-input-inline">
+              <input type="text" lay-verify="required" class="layui-input" autocomplete="off"
+                     name="val5" value="{{settings.val6 || ''}}">
+            </div>
+            <div class="layui-inline layui-form-mid layui-word-aux">
+              如果标题超过5个字，可以手动设置 layui-form-label 的宽度
+            </div>
+          </div>
+          <div class="layui-form-item">
+            <label class="layui-form-label" style="width: 100px">六个字不换行</label>
+            <div class="layui-input-inline">
+              <input type="text" lay-verify="required" class="layui-input" autocomplete="off"
+                     name="val5" value="{{settings.val6 || ''}}">
+            </div>
+            <div class="layui-inline layui-form-mid layui-word-aux">
+              就像这样
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="layui-card">
+        <div class="layui-card-header">
+          INLINE设置
+        </div>
+        <div class="layui-card-body">
+          <div class="layui-form-item">
+            <div class="layui-form-label"></div>
+            <div class="layui-inline form-required">未支付订单超过</div>
+            <div class="layui-inline" style="width: 100px">
+              <input type="number" autocomplete="off" class="layui-input" lay-verify="required"
+                     name="val6" value="{{settings.val7 || 0}}">
+            </div>
+            <div class="layui-inline">分钟自自动取消</div>
+          </div>
+          <div class="layui-form-item">
+            <div class="layui-form-label"></div>
+            <div class="layui-inline form-required">已支付订单超过</div>
+            <div class="layui-inline" style="width: 100px">
+              <input type="number" autocomplete="off" class="layui-input" lay-verify="required"
+                     name="val7" value="{{settings.val8 || 0}}">
+            </div>
+            <div class="layui-inline">天不可退款</div>
+          </div>
+          <div class="layui-form-item">
+            <div class="layui-form-label"></div>
+            <div class="layui-inline form-required">未使用订单提前</div>
+            <div class="layui-inline" style="width: 100px">
+              <input type="number" autocomplete="off" class="layui-input" lay-verify="required"
+                     name="val8" value="{{settings.val9 || 0}}">
+            </div>
+            <div class="layui-inline">天提示即将到期</div>
+          </div>
+        </div>
+      </div>
+      <div class="layui-card">
+        <div class="layui-card-header">
+          表格设置
+        </div>
+        {{# var vip_settings = {}; }}
+        <div class="layui-card-body">
+          <table class="layui-table">
+            <thead>
+            <tr>
+              <th>会员级别</th>
+              <th>直卖收益百分比(%)</th>
+              <th>团队收益百分比(%)</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+              <td>金牌</td>
+              <td>
+                <input type="number" name="vip1_val1" class="layui-input"
+                       value="{{vip_settings.vip1_val1 || 40}}" style="width: 70px">
+              </td>
+              <td>
+                <input type="number" name="vip1_val2" class="layui-input"
+                       value="{{vip_settings.vip1_val2 || 10}}" style="width: 70px">
+              </td>
+            </tr>
+            <tr>
+              <td>银牌</td>
+              <td>
+                <input type="number" name="vip2_val1" class="layui-input"
+                       value="{{vip_settings.vip2_val1 || 30}}" style="width: 70px">
+              </td>
+              <td>
+                <input type="number" name="vip2_val2" class="layui-input"
+                       value="{{vip_settings.vip2_val2 || 10}}" style="width: 70px">
+              </td>
+            </tr>
+            <tr>
+              <td>铜牌</td>
+              <td>
+                <input type="number" name="vip3_val1" class="layui-input"
+                       value="{{vip_settings.vip3_val1 || 30}}" style="width: 70px">
+              </td>
+              <td>
+                <input type="number" name="vip3_val2" class="layui-input"
+                       value="{{vip_settings.vip3_val2 || 10}}" style="width: 70px">
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div style="margin-bottom: 60px"></div>
+        <div class="layui-form-item">
+          <div class="layui-footer">
+            <div class="layui-input-block">
+              <input type="button" lay-submit lay-filter="submit_settings" value="保存"
+                     class="layui-btn">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</script>
+<script>
+  layui.use([], function () {
+    let form = layui.form
+      , admin = layui.admin
+    // 提交
+    form.on('submit(submit_settings)', function (data) {
+      let field = data.field;
+      console.log(field)
+      // admin.post(settings_url, field, function () {
+      //   layer.msg('保存成功', {
+      //     offset: '15px'
+      //     , icon: 1
+      //     , time: 1000
+      //   });
+      // });
+    });
+  });
+</script>
