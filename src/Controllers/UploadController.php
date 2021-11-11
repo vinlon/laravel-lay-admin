@@ -12,20 +12,7 @@ class UploadController extends Controller
     {
         $file = request()->file('file');
         $publicStorage = Storage::disk();
-        $path = $publicStorage->putFile('resource/editor', $file);
-
-        return [
-            'image_url' => $publicStorage->url($path),
-        ];
-    }
-
-    /** 上传资源图片 */
-    public function uploadResourceImage()
-    {
-        $file = request()->file('file');
-
-        $publicStorage = Storage::disk();
-        $path = $publicStorage->putFile('resource/image', $file);
+        $path = $publicStorage->putFile('tinymce', $file);
 
         return [
             'image_url' => $publicStorage->url($path),
