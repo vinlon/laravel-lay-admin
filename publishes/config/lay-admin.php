@@ -13,7 +13,9 @@ $sidebars->add(
 
 // 默认菜单
 $sidebars->add(
-    SideBar::create('_resource', '资源管理')->iconClass('layui-icon-component')->jumpTo('_base/system/resource/')
+    SideBar::create('_resource', '资源管理')->iconClass('layui-icon-component')
+        ->add(SideBar::create('_resource.text', '富文本管理')->jumpTo('common/resource/text_resource'))
+        ->add(SideBar::create('_resource.image', '图片管理')->jumpTo('common/resource/image_resource'))
 );
 $sidebars->add(
     SideBar::create('_user', '系统管理员')->iconClass('layui-icon-key')->jumpTo('_base/user/user/')
