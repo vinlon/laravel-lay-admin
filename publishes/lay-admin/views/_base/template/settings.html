@@ -18,29 +18,26 @@
         </div>
         <div class="layui-card-body">
           <div class="layui-form-item">
-            <label class="layui-form-label">四个文字</label>
+            <label class="layui-form-label">四字标题</label>
             <div class="layui-input-inline">
               <input type="text" lay-verify="required" class="layui-input" autocomplete="off"
                      name="val4" value="{{settings.val4 || ''}}">
             </div>
           </div>
           <div class="layui-form-item">
-            <label class="layui-form-label">五个字正好</label>
+            <label class="layui-form-label">五个字标题</label>
             <div class="layui-input-inline">
               <input type="text" lay-verify="required" class="layui-input" autocomplete="off"
                      name="val5" value="{{settings.val5 || ''}}">
             </div>
           </div>
-          <div class="layui-form-item">
-            <label class="layui-form-label">六个字就换行</label>
-            <div class="layui-input-inline">
-              <input type="text" lay-verify="required" class="layui-input" autocomplete="off"
-                     name="val5" value="{{settings.val6 || ''}}">
-            </div>
-            <div class="layui-inline layui-form-mid layui-word-aux">
-              如果标题超过5个字，可以手动设置 layui-form-label 的宽度
-            </div>
-          </div>
+        </div>
+      </div>
+      <div class="layui-card">
+        <div class="layui-card-header">
+          标题超过五个字
+        </div>
+        <div class="layui-card-body">
           <div class="layui-form-item">
             <label class="layui-form-label" style="width: 100px">六个字不换行</label>
             <div class="layui-input-inline">
@@ -48,7 +45,7 @@
                      name="val5" value="{{settings.val6 || ''}}">
             </div>
             <div class="layui-inline layui-form-mid layui-word-aux">
-              就像这样
+              如果标题超过5个字，可以手动设置 layui-form-label 的宽度
             </div>
           </div>
         </div>

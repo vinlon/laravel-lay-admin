@@ -1,0 +1,234 @@
+<div class="layui-card layadmin-header">
+  <div class="layui-breadcrumb" lay-filter="breadcrumb">
+    <a><cite>示例</cite></a>
+    <a><cite>设置 - 二级选项</cite></a>
+  </div>
+</div>
+
+<script>
+  var data = [{
+    name: "父选项1",
+    sequence: "1",
+    remark: "父选项1",
+    children: [
+      {
+        name: "子选项1-1",
+        sequence: "1",
+        remark: "子选项1-1"
+      }
+      , {
+        name: "子选项1-2",
+        sequence: "2",
+        remark: "子选项1-2"
+      }
+    ]
+  }, {
+    name: "父选项2",
+    sequence: "2",
+    remark: "父选项2"
+  }]
+</script>
+<div class="layui-fluid layui-form">
+  <script type="text/html" id="tpl_parent_node">
+    <tr class="parent_node">
+      <td align="right" width="400">
+        <div class="layui-inline toggle_children">
+                  <span class="layui-tree-iconClick layui-tree-icon">
+                  <i
+                    class="layui-icon layui-icon-subtraction toggle_icon"></i>
+                  </span>
+        </div>
+        <div class="layui-inline">
+          <input type="hidden" name="is_parent[]" value="1"/>
+          <input type="text" name="name[]" class="layui-input" autocomplete="off"
+                 value="{{d.name || ''}}" style="width: 250px">
+        </div>
+      </td>
+      <td width="300">
+        <div class="layui-btn-group">
+          <button class="layui-btn layui-btn-sm parent_item_del">删除</button>
+          <button class="layui-btn layui-btn-sm parent_move_up">上移</button>
+          <button class="layui-btn layui-btn-sm parent_move_down">下移</button>
+          <button class="layui-btn layui-btn-sm btn_add_child"><i class="layui-icon layui-icon-add-1"></i>
+          </button>
+        </div>
+      </td>
+    </tr>
+    <tr class="child_node">
+      <td colspan="2" style="padding: 0">
+        <table class="layui-table" style="margin: 0">
+          <tbody>
+          {{# var children = d.children || [] }}
+          {{# layui.each(children, function(index, child){
+          let childNodeHtml = layui.laytpl(layui.$('#tpl_child_node').html()).render({parent: d.name, name: child.name})
+          }}
+          {{ childNodeHtml }}
+          {{# }) }}
+          </tbody>
+        </table>
+      </td>
+    </tr>
+  </script>
+  <script type="text/html" id="tpl_child_node">
+    <tr>
+      <td width="400" align="right">
+        <div class="layui-inline">
+          <input type="hidden" name="is_parent[]" value="0"/>
+          <input type="text" name="name[]" class="layui-input" autocomplete="off"
+                 value="{{d.name || ''}}" style="width: 200px">
+        </div>
+      </td>
+      <td width="300">
+        <div class="layui-btn-group">
+          <button class="layui-btn layui-btn-primary layui-btn-sm child_item_del">删除</button>
+          <button class="layui-btn layui-btn-primary layui-btn-sm child_move_up">上移</button>
+          <button class="layui-btn layui-btn-primary layui-btn-sm child_move_down">下移</button>
+        </div>
+      </td>
+    </tr>
+  </script>
+  <script type="text/html" template lay-done="layui.data.done()">
+    <div class="layui-form">
+      <div class="layui-card">
+        <div class="layui-card-header">
+          二级选项设置
+        </div>
+        {{# let vip_settings = data; }}
+        <div class="layui-card-body">
+          <table class="layui-table" style="width: 700px">
+            <thead>
+            <tr>
+              <th>类别名称</th>
+              <th>操作</th>
+            </tr>
+            </thead>
+            {{# layui.each(data, function(pIndex, row){
+            let parentNodeHtml = layui.laytpl(layui.$('#tpl_parent_node').html()).render(row)
+            }}
+            {{ parentNodeHtml }}
+            {{# }) }}
+            <tr>
+              <td colspan="2" style="padding: 0">
+                <button class="layui-btn layui-btn-primary" id="btn_add_parent"
+                        style="width: 100%; border-style:dashed">
+                  <i class="layui-icon layui-icon-add-1"></i>添加一行
+                </button>
+              </td>
+            </tr>
+          </table>
+        </div>
+        <div style="margin-bottom: 60px"></div>
+        <div class="layui-form-item">
+          <div class="layui-footer">
+            <div class="layui-input-block">
+              <input type="button" lay-submit lay-filter="submit_settings" value="保存"
+                     class="layui-btn">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </script>
+</div>
+
+<script>
+  layui.data.done = function () {
+    layui.use([], function () {
+      let $ = layui.$
+        , form = layui.form
+        , laytpl = layui.laytpl
+
+
+      //添加父元素
+      $('#btn_add_parent').click(function () {
+        let newParentNode = laytpl($('#tpl_parent_node').html()).render({})
+        $(this).parent().parent().before(newParentNode)
+        return false;
+      })
+
+      //上移
+      $('.layui-form').on('click', '.parent_move_up', function () {
+        let current = $(this).parent().parent().parent()
+          , child = current.next()
+          , prev = current.prev().prev()
+        if (prev.length > 0) {
+          current.insertBefore(prev)
+          child.insertBefore(prev)
+        }
+        return false;
+      })
+      $('.layui-form').on('click', '.child_move_up', function () {
+        let current = $(this).parent().parent().parent()
+          , prev = current.prev()
+        if (prev.length > 0) {
+          current.insertBefore(prev)
+        }
+        return false;
+      })
+      //下移
+      $('.layui-form').on('click', '.parent_move_down', function () {
+        let current = $(this).parent().parent().parent()
+          , child = current.next()
+          , next = current.next().next().next()
+        if (next.length > 0) {
+          child.insertAfter(next)
+          current.insertAfter(next)
+        }
+        return false;
+      })
+      $('.layui-form').on('click', '.child_move_down', function () {
+        let current = $(this).parent().parent().parent()
+          , next = current.next()
+        if (next.length > 0) {
+          current.insertAfter(next)
+        }
+        return false;
+      })
+      //二级展示/隐藏
+      $('.layui-form').on('click', '.toggle_children', function () {
+        let current = $(this).parent().parent()
+        current.next().toggle()
+        current.find('.toggle_icon').toggleClass('layui-icon-addition').toggleClass('layui-icon-subtraction')
+        return false;
+      })
+      //删除父元素
+      $('.layui-form').on('click', '.parent_item_del', function () {
+        let current = $(this).parent().parent().parent()
+        layer.confirm('确定删除该选项？', function (index) {
+          //同时删除所有子元素
+          let next = current.next()
+          if (next.hasClass('child_node')) {
+            next.remove()
+          }
+          current.remove()
+          layer.close(index)
+        })
+        return false;
+      })
+      //删除子元素
+      $('.layui-form').on('click', '.child_item_del', function () {
+        let current = $(this).parent().parent().parent()
+        layer.confirm('确定删除该选项？', function (index) {
+          current.remove()
+          layer.close(index)
+        })
+        return false;
+      })
+      //添加子元素
+      $('.layui-form').on('click', '.btn_add_child', function () {
+        let childRow = $(this).parent().parent().parent().next()
+          , childNodeHtml = laytpl($('#tpl_child_node').html()).render({})
+        childRow.find('tbody').append(childNodeHtml)
+        return false
+      })
+
+      // 提交
+      form.on('submit(submit_settings)', function (data) {
+        let field = data.field
+          , name_arr = field.name || []
+          , is_parent_arr = field.is_parent || []
+        console.log(field)
+      });
+    });
+  }
+</script>
