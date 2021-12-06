@@ -30,6 +30,7 @@ class LayAdminServiceProvider extends ServiceProvider
         // publish config
         $this->publishes([
             $this->getConfigPath() => config_path(self::LAY_ADMIN . '.php'),
+            $this->getConfigPath() => config_path('captcha.php'),
             __DIR__ . '/../publishes/stubs' => base_path('stubs'),
         ], 'config');
 
