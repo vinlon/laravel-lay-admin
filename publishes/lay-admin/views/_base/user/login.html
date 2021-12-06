@@ -22,8 +22,23 @@
         <input type="password" name="password" id="input_password" lay-verify="required" lay-reqtext="请输入密码"
                placeholder="密码" class="layui-input">
       </div>
+      <div class="layui-form-item">
+        <div class="layui-row">
+          <div class="layui-col-xs7">
+            <label class="layadmin-user-login-icon layui-icon layui-icon-vercode"></label>
+            <input type="hidden" name="key" value=""/>
+            <input type="text" name="captcha" lay-verify="required" placeholder="图形验证码" class="layui-input">
+          </div>
+          <div class="layui-col-xs5">
+            <div style="margin-left: 10px;">
+              <img id="captcha" src="" class="layadmin-user-login-codeimg">
+            </div>
+          </div>
+        </div>
+      </div>
       <div class="layui-form-item" style="margin-bottom: 20px;">
-        <a lay-href="/_base/user/reset_password" class="layadmin-user-jump-change layadmin-link" style="margin-top: 7px;">忘记密码？</a>
+        <a lay-href="/_base/user/reset_password" class="layadmin-user-jump-change layadmin-link"
+           style="margin-top: 7px;">忘记密码？</a>
       </div>
       <div class="layui-form-item">
         <button type="submit" class="layui-btn layui-btn-fluid" lay-submit lay-filter="LAY-user-login-submit">登 录
@@ -40,14 +55,27 @@
       , admin = layui.admin
       , form = layui.form
       , router = layui.router()
-      , search = router.search;
+      , search = router.search
 
     form.render();
+
+    loadCaptcha();
+    $('#captcha').click(function () {
+      loadCaptcha()
+    })
+
+    function loadCaptcha() {
+      //加载验证码
+      admin.get('lay-admin/captcha', function (res) {
+        $('input[name="key"]').val(res.data.key)
+        $('#captcha').attr('src', res.data.img)
+      })
+    }
 
     //提交
     form.on('submit(LAY-user-login-submit)', function (obj) {
       //请求登入接口
-      admin.post('lay-admin/password_login', obj.field, function (res) {
+      admin.post('lay-admin/password_login_captcha', obj.field, function (res) {
         //请求成功后，写入 access_token
         layui.data(setter.tableName, {
           key: setter.request.tokenName
@@ -63,6 +91,7 @@
         });
       }, {
         fail: function (res) {
+          loadCaptcha()
           layer.msg(res.msg);
         }
       });

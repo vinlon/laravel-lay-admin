@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
+use Mews\Captcha\Facades\Captcha;
 use Tymon\JWTAuth\JWTGuard;
 use Vinlon\Laravel\LayAdmin\AdminRole;
 use Vinlon\Laravel\LayAdmin\EmailCode;
@@ -71,6 +72,34 @@ class AuthController extends Controller
             'username' => 'required',
             'password' => 'required',
         ]);
+        $user = AdminUser::findByName($param['username']);
+        if ($user && Hash::check($param['password'], $user->password)) {
+            $token = $this->auth->login($user);
+
+            return ['access_token' => $token];
+        }
+
+        throw new AdminException('用户名或密码错误');
+    }
+
+    /** 获取图片验证码 */
+    public function captcha()
+    {
+        return Captcha::create('math', true);
+    }
+
+    /** 用户名密码登录（加验证码） */
+    public function passwordLoginWithCaptcha()
+    {
+        $param = request()->validate([
+            'captcha' => 'required',
+            'key' => 'required',
+            'username' => 'required',
+            'password' => 'required',
+        ]);
+        if (!captcha_api_check(request()->captcha, request()->key, 'math')) {
+            throw new AdminException('验证码错误');
+        }
         $user = AdminUser::findByName($param['username']);
         if ($user && Hash::check($param['password'], $user->password)) {
             $token = $this->auth->login($user);

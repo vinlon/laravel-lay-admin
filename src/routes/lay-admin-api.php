@@ -5,8 +5,12 @@ use Illuminate\Support\Facades\Route;
 //用户初始化
 Route::post('init', 'AuthController@initUser');
 
+//获取图片验证码
+Route::get('captcha', 'AuthController@captcha');
+
 //用户名密码登录
 Route::post('password_login', 'AuthController@passwordLogin');
+Route::post('password_login_captcha', 'AuthController@passwordLoginWithCaptcha');
 
 //发送邮箱验证码
 Route::post('email_code', 'AuthController@sendEmailCode');

@@ -4,7 +4,8 @@
   "license": "MIT",
   "require": {
     "bensampo/laravel-enum": "^3.0",
-    "tymon/jwt-auth": "^1.0"
+    "tymon/jwt-auth": "^1.0",
+    "mews/captcha": "^3.2"
   },
   "require-dev": {
     "laravel/framework": "8.*",
