@@ -8,7 +8,11 @@ use Illuminate\Support\Arr;
 
 class XssDefense
 {
-    protected $except = [];
+    protected $except = [
+        '/lay-admin/users/resetPassword' => ['password', 'verify_password'],
+        '/lay-admin/users' => ['password', 'verify_password'],
+        '/lay-admin/changePassword' => ['old_password', 'new_password', 'verify_password'],
+    ];
 
     /**
      * Handle an incoming request.
