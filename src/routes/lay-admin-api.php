@@ -17,7 +17,7 @@ Route::post('email_code', 'AuthController@sendEmailCode');
 //重置密码
 Route::post('reset_password', 'AuthController@resetPasswordByEmail');
 
-Route::middleware('auth:lay-admin')->group(function () {
+Route::middleware(['auth:lay-admin', \Vinlon\Laravel\LayAdmin\XssDefense::class])->group(function () {
     Route::get('profile', 'AuthController@profile');
     Route::post('profile', 'AuthController@updateProfile');
     Route::post('changePassword', 'AuthController@changePassword');
@@ -27,9 +27,6 @@ Route::middleware('auth:lay-admin')->group(function () {
     //菜单管理
     Route::get('sidebar', 'MenuController@sidebar');
     Route::get('menuTree', 'MenuController@getMenuTree');
-    Route::post('menus', 'MenuController@saveMenu');
-    Route::get('menus', 'MenuController@getMenuList');
-    Route::delete('menus/{id}', 'MenuController@deleteMenu');
 
     //角色管理
     Route::get('roles', 'RoleController@getRoleList');
