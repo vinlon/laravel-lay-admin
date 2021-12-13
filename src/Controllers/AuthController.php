@@ -114,8 +114,15 @@ class AuthController extends Controller
     public function sendEmailCode()
     {
         request()->validate([
+            'captcha' => 'required',
+            'key' => 'required',
             'email' => 'required',
         ]);
+
+        if (!captcha_api_check(request()->captcha, request()->key, 'math')) {
+            throw new AdminException('验证码错误');
+        }
+
         $email = request()->email;
         $user = AdminUser::query()->where('email', $email)->first();
         if (!$user) {
