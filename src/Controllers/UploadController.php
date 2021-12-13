@@ -10,6 +10,9 @@ class UploadController extends Controller
     /** 上传编辑器图片 */
     public function uploadEditorImage()
     {
+        request()->validate([
+            'file' => 'required | image',
+        ]);
         $file = request()->file('file');
         $publicStorage = Storage::disk();
         $path = $publicStorage->putFile('tinymce', $file);
