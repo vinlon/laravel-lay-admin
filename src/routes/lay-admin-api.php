@@ -3,10 +3,9 @@
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('lay-admin')
-    ->middleware([
+    ->middleware(array_merge([
         \Vinlon\Laravel\LayAdmin\AdminResponse::class,
-    ])
-    ->middleware(config('lay-admin.middleware'))
+    ], config('lay-admin.middleware', [])))
     ->group(function () {
         //用户初始化
         Route::post('init', 'AuthController@initUser');
