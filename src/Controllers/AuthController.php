@@ -65,23 +65,6 @@ class AuthController extends Controller
         $user->save();
     }
 
-    /** 用户名密码登录 */
-    public function passwordLogin()
-    {
-        $param = request()->validate([
-            'username' => 'required',
-            'password' => 'required',
-        ]);
-        $user = AdminUser::findByName($param['username']);
-        if ($user && Hash::check($param['password'], $user->password)) {
-            $token = $this->auth->login($user);
-
-            return ['access_token' => $token];
-        }
-
-        throw new AdminException('用户名或密码错误');
-    }
-
     /** 获取图片验证码 */
     public function captcha()
     {

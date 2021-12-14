@@ -29,7 +29,7 @@ $sidebars->add(
 return [
     /*
      * Admin页面Route Prefix
-     * 默认值： admin, 此时管理页面访问地址为 http://localhost:8000/admin
+     * 默认值： admin, 此时管理页面访问地址为 {{APP_URL}}/admin
      */
     'route_prefix' => env('LAY_ADMIN_ROUTE_PREFIX', 'admin'),
 
@@ -39,7 +39,18 @@ return [
     'display_name' => env('LAY_ADMIN_DISPLAY_NAME', '后台管理系统'),
 
     /*
+     * 自定义middleware
+     */
+    'middlewares' => [
+    ],
+
+    /*
      * 菜单定义
      */
     'sidebars' => $sidebars->toArray(),
+
+    /*
+     * 角色定义类
+     */
+    'role_class' => \Vinlon\Laravel\LayAdmin\AdminRole::class,
 ];
