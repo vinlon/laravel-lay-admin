@@ -41,7 +41,7 @@ return [
     /*
      * 自定义middleware
      */
-    'middlewares' => [
+    'middleware' => [
     ],
 
     /*
