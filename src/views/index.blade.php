@@ -16,7 +16,7 @@
     layui.config({
         base: '{{ $view_path }}'
         , title: '{{ $title }}'
-        , debug: '{{ $debug }}'
+        , debug: {{ $debug }}
         , version: '{{ $static_version  }}'
         , install: '{{ $install  }}'
     }).use('index');
