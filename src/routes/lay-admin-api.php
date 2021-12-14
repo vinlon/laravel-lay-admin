@@ -15,7 +15,6 @@ Route::prefix('lay-admin')
         Route::get('captcha', 'AuthController@captcha');
 
         //用户名密码登录
-        Route::post('password_login', 'AuthController@passwordLogin');
         Route::post('password_login_captcha', 'AuthController@passwordLoginWithCaptcha');
 
         //发送邮箱验证码
