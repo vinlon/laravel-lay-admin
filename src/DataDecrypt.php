@@ -18,8 +18,8 @@ class DataDecrypt
             return $next($request);
         }
         $request = request();
-        if ($request->lay_admin_encrypted_data) {
-            $data = json_decode(base64_decode($request->lay_admin_encrypted_data), true);
+        if ($request->_encrypted_data) {
+            $data = json_decode(base64_decode($request->_encrypted_data), true);
             $request->replace($data);
 
             return $next($request);
