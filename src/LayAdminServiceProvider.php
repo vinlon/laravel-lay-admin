@@ -29,8 +29,7 @@ class LayAdminServiceProvider extends ServiceProvider
 
         // publish config
         $this->publishes([
-            $this->getConfigPath() => config_path(self::LAY_ADMIN . '.php'),
-            $this->getConfigPath() => config_path('captcha.php'),
+            $this->getLayAdminConfigPath() => config_path(self::LAY_ADMIN . '.php'),
             __DIR__ . '/../publishes/stubs' => base_path('stubs'),
         ], 'config');
 
@@ -65,7 +64,7 @@ class LayAdminServiceProvider extends ServiceProvider
         $this->mergeAuthConfig();
 
         // merge lay-admin config
-        $this->mergeConfigFrom($this->getConfigPath(), self::LAY_ADMIN);
+        $this->mergeConfigFrom($this->getLayAdminConfigPath(), self::LAY_ADMIN);
 
         if ($this->app->runningInConsole()) {
             $this->commands([
@@ -75,7 +74,7 @@ class LayAdminServiceProvider extends ServiceProvider
         }
     }
 
-    private function getConfigPath()
+    private function getLayAdminConfigPath()
     {
         return __DIR__ . '/../publishes/config/' . self::LAY_ADMIN . '.php';
     }
