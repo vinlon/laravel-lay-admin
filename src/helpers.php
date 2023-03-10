@@ -14,7 +14,7 @@ function paginate_result(
 ) {
     $count = $query->count();
     $page = request()->get('page', 0);
-    $limit = request()->get('limit', 10); //如果没有设置limit，则默认只查询10条记录
+    $limit = request()->get('limit', 10); // 如果没有设置limit，则默认只查询10条记录
     $items = $query->offset($limit * ($page - 1))->limit($limit)->get();
     $result = $items->toArray();
     if ($mapFunc) {
@@ -25,7 +25,7 @@ function paginate_result(
 }
 
 /**
- * @param $entityClass
+ * @param mixed $entityClass
  *
  * @return \Illuminate\Database\Eloquent\Model
  */

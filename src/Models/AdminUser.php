@@ -2,7 +2,6 @@
 
 namespace Vinlon\Laravel\LayAdmin\Models;
 
-use DateTimeInterface;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User as AuthUser;
 use Tymon\JWTAuth\Contracts\JWTSubject;
@@ -46,7 +45,7 @@ class AdminUser extends AuthUser implements JWTSubject
     }
 
     /**
-     * @param $name
+     * @param mixed $name
      *
      * @return null|AdminUser|\Illuminate\Database\Eloquent\Builder|Model|object
      */
@@ -65,7 +64,7 @@ class AdminUser extends AuthUser implements JWTSubject
         return [];
     }
 
-    protected function serializeDate(DateTimeInterface $date)
+    protected function serializeDate(\DateTimeInterface $date)
     {
         return $date->format('Y-m-d H:i:s');
     }

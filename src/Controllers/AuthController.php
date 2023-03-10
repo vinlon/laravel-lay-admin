@@ -39,7 +39,7 @@ class AuthController extends Controller
             'title' => $title,
             'view_path' => './lay-admin/',
             'debug' => config('app.debug') ? 1 : 0,
-            'static_version' => time(), //不缓存表态资源
+            'static_version' => time(), // 不缓存表态资源
             'install' => 0 == $userCount,
         ]);
     }
@@ -113,7 +113,7 @@ class AuthController extends Controller
         }
         $code = rand(100000, 999999);
         $minutes = 15;
-        //发送邮件验证码
+        // 发送邮件验证码
         Mail::to($email)->send(new EmailCode($code, 15));
         Cache::put('email_code:' . $email, $code, now()->addMinutes($minutes));
     }
@@ -157,6 +157,7 @@ class AuthController extends Controller
             'mobile' => 'nullable',
             'email' => 'nullable',
         ]);
+
         /** @var AdminUser $user */
         $user = $this->auth->user();
         $user->real_name = $param['real_name'] ?? '';
@@ -172,6 +173,7 @@ class AuthController extends Controller
             'old_password' => 'required',
             'new_password' => 'required',
         ]);
+
         /** @var AdminUser $user */
         $user = Auth::user();
         if (!Hash::check($param['old_password'], $user->password)) {

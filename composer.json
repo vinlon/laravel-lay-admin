@@ -3,7 +3,7 @@
   "description": "LayUI Admin Starter for Laravel Project",
   "license": "MIT",
   "require": {
-    "bensampo/laravel-enum": "^3.0",
+    "bensampo/laravel-enum": "^4.2",
     "tymon/jwt-auth": "^1.0",
     "mews/captcha": "^3.2"
   },

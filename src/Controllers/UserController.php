@@ -24,6 +24,7 @@ class UserController extends Controller
             'role_id' => 'required',
             'password' => 'nullable',
         ]);
+
         /** @var AdminUser $user */
         $user = get_entity(AdminUser::class);
         if (!$user->id) {

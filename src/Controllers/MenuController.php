@@ -15,6 +15,7 @@ class MenuController extends Controller
     public function sidebar()
     {
         $allMenu = SideBarCollection::_all();
+
         /** @var AdminUser $user */
         $user = Auth::user();
         $role = $user->role;
@@ -37,6 +38,7 @@ class MenuController extends Controller
                 'spread' => true,
                 'children' => [],
             ];
+
             /** @var SideBar $sub */
             foreach ($sideBar->children as $sub) {
                 $row['children'][] = [
@@ -52,6 +54,7 @@ class MenuController extends Controller
     private function filterRoleMenu($menus, AdminRole $role)
     {
         $roleMenu = new SideBarCollection();
+
         /** @var SideBar $menu */
         foreach ($menus as $menu) {
             if ($menu->children->count() > 0) {

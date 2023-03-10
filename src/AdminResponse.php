@@ -2,7 +2,6 @@
 
 namespace Vinlon\Laravel\LayAdmin;
 
-use Closure;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -13,7 +12,7 @@ use Vinlon\Laravel\LayAdmin\Exceptions\AdminException;
 
 class AdminResponse
 {
-    public function handle(Request $request, Closure $next)
+    public function handle(Request $request, \Closure $next)
     {
         $response = $next($request);
 
@@ -35,7 +34,7 @@ class AdminResponse
                 $message = $e->getMessage();
             } else {
                 if ($e instanceof ValidationException) {
-                    //参数错误
+                    // 参数错误
                     $errors = $e->errors();
                     $message = Arr::first($errors)[0];
                     $data = $errors;
@@ -44,7 +43,7 @@ class AdminResponse
                     $code = 'unauthenticated';
                     $message = $e->getMessage();
                 } else {
-                    //未知错误
+                    // 未知错误
                     $code = 'unknown';
                     $httpStatus = 500;
                     if (config('app.debug', false)) {

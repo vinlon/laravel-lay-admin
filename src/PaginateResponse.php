@@ -12,8 +12,8 @@ class PaginateResponse extends JsonResponse
     /**
      * PaginateResponse constructor.
      *
-     * @param $count
      * @param array $list
+     * @param mixed $count
      */
     public function __construct($count, $list)
     {
